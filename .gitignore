@@ -1,0 +1,5 @@
+ts*
+/dist
+/.tscache
+/node_modules
+/.vscode
