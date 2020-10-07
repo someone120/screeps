@@ -5,12 +5,13 @@ import { builder } from './role.builder';
 import { harvester } from './role.harvester';
 import { Repairer } from './role.maintainer';
 import { Carrier } from './role.porter';
+import { checkQuantity, stateScanner } from './util';
 var creepsCount: { run: () => void } = require('creep.spawn');
-
-
 module.exports.loop = function() {
-    mount()
-    Memory['type'] = [0, 0, 0, 0, 0];
+    mount();
+    stateScanner()
+    checkQuantity(Game.creeps)
+    if (!Memory['type']) Memory['type'] = [0, 0, 0, 0, 0];
     for (let name in Game.creeps) {
         let creep = Game.creeps[name];
         let t: creep;
@@ -18,23 +19,18 @@ module.exports.loop = function() {
         switch (creep.memory['type']) {
             case 0:
                 t = new harvester(creep.id);
-                Memory['type'][0]++;
                 break;
             case 1:
                 t = new builder(creep.id);
-                Memory['type'][1]++;
                 break;
             case 2:
                 t = new Carrier(creep.id);
-                Memory['type'][2]++;
                 break;
             case 3:
                 t = new Upgrader(creep.id);
-                Memory['type'][3]++;
                 break;
             case 4:
                 t = new Repairer(creep.id);
-                Memory['type'][4]++;
                 break;
             case undefined:
             default:
@@ -47,7 +43,7 @@ module.exports.loop = function() {
     creepsCount.run();
     autoClean();
     Object.values(Game.structures).forEach((v) => {
-        if (v.work!=undefined) {
+        if (v.work != undefined) {
             v.work();
         }
     });

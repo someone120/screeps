@@ -56,5 +56,6 @@ export class builder extends Creep implements creep {
             Memory['type'][4]++;
             this.memory['type'] = 4;
         }
+        
     }
 }

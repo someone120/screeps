@@ -1,6 +1,6 @@
+import { move, transfer } from './task.manager';
 import { creep } from './base';
 
-let tasks = require('task.manager');
 
 /**
  * 从任务列表中提取一个任务
@@ -20,10 +20,11 @@ function parseTask(text: String, creep: Creep) {
     let nowTask;
     switch (split[0]) {
         case 'move': //移动任务
-            nowTask = new tasks.move();
+            nowTask = new move()
+
             break;
         case 'transfer': //转移资源任务 格式'transfer name'
-            nowTask = new tasks.transfer();
+            nowTask = new transfer()
             break;
         default:
             break;
@@ -70,12 +71,13 @@ export class Carrier extends Creep implements creep {
                 })[0]
                 if (
                     this.withdraw(source2, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE
-                ) {
-                    this.moveTo(source2);
+                    ) {
+                        this.moveTo(source2);
+                    }
                 }
+            } else {
+                parseTask(this.memory['task'], this);
             }
-        } else {
-            parseTask(this.memory['task'], this);
         }
     }
-}
+    

@@ -12,7 +12,7 @@ module.exports = function(grunt) {
                 options: {
                     sourceMap: false,
                     // 编译到的目标版本
-                    target: 'es6',
+                    target: 'es5',
                     rootDir: "src/"
                 },
                 // 要进行编译的目录及文件

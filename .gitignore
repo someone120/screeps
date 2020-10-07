@@ -3,3 +3,4 @@ ts*
 /.tscache
 /node_modules
 /.vscode
+.screeps.json

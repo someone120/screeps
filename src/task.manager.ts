@@ -1,9 +1,14 @@
-interface task {
-    run(creep: Creep, text: String);
+class task {
+    run(creep: Creep, text: String){
+        let split = text.split(' ');
+        let moveCreep = Game.creeps[split[1]];
+        moveCreep.memory['request']=-1
+    }
 }
 
-export class move implements task {
+export class move extends task {
     run(creep: Creep, text: String) {
+        super.run(creep,text)
         let split = text.split(' ');
         let moveCreep = Game.creeps[split[1]];
         if (moveCreep == null) {
