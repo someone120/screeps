@@ -1,7 +1,6 @@
 import { move, transfer } from './task.manager';
 import { creep } from './base';
 
-
 /**
  * 从任务列表中提取一个任务
  */
@@ -20,11 +19,11 @@ function parseTask(text: String, creep: Creep) {
     let nowTask;
     switch (split[0]) {
         case 'move': //移动任务
-            nowTask = new move()
+            nowTask = new move();
 
             break;
         case 'transfer': //转移资源任务 格式'transfer name'
-            nowTask = new transfer()
+            nowTask = new transfer();
             break;
         default:
             break;
@@ -61,23 +60,37 @@ export class Carrier extends Creep implements creep {
                     this.moveTo(targets[0]);
                 }
             } else {
-                let source2 = this.room.find(FIND_STRUCTURES, {
-                    filter: (structure) => {
-                        return (
-                            structure.structureType == STRUCTURE_CONTAINER &&
-                            structure.store.energy > 0
-                        );
-                    },
-                })[0]
-                if (
-                    this.withdraw(source2, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE
+                let source1 = this.room.find(FIND_DROPPED_RESOURCES)[0];
+                if (source1 == null) {
+                    let source2 = this.room.find(FIND_STRUCTURES, {
+                        filter: (structure) => {
+                            return (
+                                structure.structureType ==
+                                    STRUCTURE_CONTAINER &&
+                                structure.store.energy > 0
+                            );
+                        },
+                    });
+                    if (
+                        this.withdraw(
+                            source2[Memory['type'][1] % source2.length],
+                            RESOURCE_ENERGY
+                        ) == ERR_NOT_IN_RANGE
                     ) {
-                        this.moveTo(source2);
+                        this.moveTo(
+                            source2[Memory['type'][1] % source2.length]
+                        );
+                    }
+                } else {
+                    if (this.pickup(source1) == ERR_NOT_IN_RANGE) {
+                        this.moveTo(source1, {
+                            visualizePathStyle: { stroke: '#ffaa00' },
+                        });
                     }
                 }
-            } else {
-                parseTask(this.memory['task'], this);
             }
+        } else {
+            parseTask(this.memory['task'], this);
         }
     }
-    
+}

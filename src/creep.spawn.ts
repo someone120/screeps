@@ -8,10 +8,10 @@
  */
 const MinersNumber = 2;
 const PorterNumber = 5;
-const KeeperNumber = 8;
+const KeeperNumber = 5;
 const HealerNumber = 8;
 function spawnNewMiner(i: Number, spawn: StructureSpawn) {
-    if (spawn.room.energyAvailable >= 550 || Memory['type'][2] >= 0) {
+    if (spawn.room.energyAvailable >= 550 || Memory['type'][2] > 0) {
         spawn.spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY], `Worker@${i}`, {
             memory: { type: 0 },
         });
@@ -23,7 +23,7 @@ function spawnNewMiner(i: Number, spawn: StructureSpawn) {
 }
 
 function spawnNewBuilder(i: Number, spawn: StructureSpawn) {
-    if (spawn.room.energyAvailable >= 550 || Memory['type'][2] >= 0) {
+    if (spawn.room.energyAvailable >= 550 || Memory['type'][2] > 0) {
         spawn.spawnCreep(
             [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE],
             `Builder@${i}`,
@@ -37,7 +37,7 @@ function spawnNewBuilder(i: Number, spawn: StructureSpawn) {
 }
 
 function spawnNewPorter(i: Number, spawn: StructureSpawn) {
-    if (spawn.room.energyAvailable >= 550 || Memory['type'][2] >= 0) {
+    if (spawn.room.energyAvailable >= 550 || Memory['type'][2] > 0) {
         spawn.spawnCreep(
             [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE],
             `Porter@${i}`,
@@ -49,7 +49,7 @@ function spawnNewPorter(i: Number, spawn: StructureSpawn) {
 }
 
 function spawnNewKeeper(i: Number, spawn: StructureSpawn) {
-    if (spawn.room.energyAvailable >= 550 || Memory['type'][2] >= 0) {
+    if (spawn.room.energyAvailable >= 550 || Memory['type'][2] > 0) {
         spawn.spawnCreep(
             [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE],
             `Keeper@${i}`,

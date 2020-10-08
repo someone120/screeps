@@ -10,7 +10,7 @@ export class harvester extends Creep implements creep {
         if (this.memory['request']===undefined) {
             this.memory['request']=-1
         }
-        if (this.memory['request']<0) {
+        if (this.memory['request']>0) {
             this.memory['request']--
         }
         if (this.memory['request']==0) {
@@ -32,7 +32,7 @@ export class harvester extends Creep implements creep {
             Memory['porterTasker'].push(
                 'move ' + this.name + ' ' + target.pos.x + ' ' + target.pos.y
             );
-            this.memory['request']=10
+            this.memory['request']=30
         }
         if (this.memory['full'] === undefined) {
             this.memory['full'] = false;
@@ -40,7 +40,7 @@ export class harvester extends Creep implements creep {
         if (this.store.getFreeCapacity() == 0 && !this.memory['full']) {
             this.memory['full'] = true;
             Memory['porterTasker'].push('transfer ' + this.name);
-            this.memory['request']=10
+            this.memory['request']=30
         }
     }
 }
