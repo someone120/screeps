@@ -19,15 +19,8 @@ export class Upgrader extends Creep implements creep {
                 });
             }
         } else {
-            let source2 = this.room.find(FIND_STRUCTURES, {
-                filter: (structure) => {
-                    return (
-                        structure.structureType == STRUCTURE_CONTAINER &&
-                        structure.store.energy > 0
-                    );
-                },
-            });
-            if (!source2[0]) {
+            let source2 = this.room.storage
+            if (!source2) {
                 let s = this.room.find(FIND_DROPPED_RESOURCES);
                 if (
                     this.pickup(s[Memory['type'][3] % s.length]) ==
@@ -37,11 +30,11 @@ export class Upgrader extends Creep implements creep {
                 }
             } else if (
                 this.withdraw(
-                    source2[Memory['type'][3] % source2.length],
+                    source2,
                     RESOURCE_ENERGY
                 ) == ERR_NOT_IN_RANGE
             ) {
-                this.moveTo(source2[Memory['type'][3] % source2.length]);
+                this.moveTo(source2);
             }
         }
     }

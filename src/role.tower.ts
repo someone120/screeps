@@ -1,17 +1,18 @@
 const WHITE_LIST = [];
 
 import { structure } from './base';
-import { assignPrototype } from './util';
-export default class tower extends StructureTower implements structure {
+import { assignPrototype, requestEnergy } from './util';
+export default class towerExt extends StructureTower implements structure {
     public work(): void {
         this.check(this);
         switch (Memory['towerStat']) {
-            case 'attack':
+            case 'more':
                 this.less(this);
                 break;
             case 'less':
                 this.less(this);
                 break;
+            //falls through
             case 'normal':
             case undefined:
             default:
@@ -29,6 +30,9 @@ export default class tower extends StructureTower implements structure {
     }
 
     private check(tower: StructureTower) {
+        if (Game.time % 5 != 0) {
+            return;
+        }
         let creeps = this.find(tower);
         if (creeps.length == 0) {
             Memory['towerStat'] = 'normal';
@@ -36,6 +40,15 @@ export default class tower extends StructureTower implements structure {
             Memory['towerStat'] = 'attack';
         } else {
             Memory['towerStat'] = 'less';
+        }
+        if (Game.time % 50 == 0) {
+            global[`towerRequest${tower.id}`] = false;
+        }
+        if (tower.store.getFreeCapacity(RESOURCE_ENERGY) > 0) {
+            requestEnergy(
+                this.room.storage ? this.room.storage.id : '',
+                this.id
+            );
         }
     }
 
@@ -45,17 +58,32 @@ export default class tower extends StructureTower implements structure {
                 return creep.hitsMax - creep.hits > 0;
             },
         });
-
+        let hurtBuild = tower.room.find(FIND_STRUCTURES, {
+            filter: (structure) => {
+                return (
+                    structure.hitsMax - structure.hits &&
+                    structure.hits < 100000 &&
+                    structure.hitsMax - structure.hits > 0
+                );
+            },
+        }).sort((a,b)=>{
+            return a.hits-b.hits
+        });
         if (hurtCreep.length > 0) {
             tower.heal(hurtCreep[0]);
-        } 
+        } else if (hurtBuild.length > 0) {
+            tower.repair(hurtBuild[0]);
+        }
     }
 
     private less(tower: StructureTower) {
         let attack = this.find(tower);
         tower.attack(attack[0]);
     }
+    private more(tower: StructureTower) {
+        this.less(tower);
+    }
 }
 export function mountTower() {
-    assignPrototype(StructureTower, tower);
+    assignPrototype(StructureTower, towerExt);
 }

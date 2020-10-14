@@ -1,108 +1,146 @@
 class task {
-    run(creep: Creep, text: String){
+    run(creep: Creep, text: String): Boolean {
         let split = text.split(' ');
         let moveCreep = Game.creeps[split[1]];
-        moveCreep.memory['request']=-1
+        if (!moveCreep) {
+            creep.memory['task'] = null;
+            return false;
+        }
+        moveCreep.memory['request'] = -1;
+        return true;
     }
 }
+/**
+ * 向任务列表中推送任务
+ * @param task 任务
+ */
+export function pushCarrierTask(task: String) {
+    if (Memory['porterTasker'].includes(task)) {
+        return;
+    }
+    Memory['porterTasker'].push(task);
+}
 
-export class move extends task {
-    run(creep: Creep, text: String) {
-        super.run(creep,text)
+/**
+ * 向任务列表中推送任务
+ * @param task 任务
+ */
+export function pushSpawnTask(task: String) {
+    if (
+        Memory['spawnTask'].find((it) => {
+            return it == task;
+        })
+    ) {
+        return;
+    }
+    Memory['spawnTask'].push(task);
+}
+
+export class transfer extends task {
+    run(creep: Creep, text: String): Boolean {
         let split = text.split(' ');
         let moveCreep = Game.creeps[split[1]];
-        if (moveCreep == null) {
+        if (!super.run(creep, text)) {
             creep.memory['task'] = null;
+            return false;
         }
-        let result = creep.pull(moveCreep);
-        if (moveCreep.pos.isNearTo(parseInt(split[2]), parseInt(split[3]))) {
-            creep.memory['task'] = null;
-            moveCreep.memory['inPath'] = false;
-        } else if (result == ERR_NOT_IN_RANGE) {
+        if (
+            moveCreep.transfer(creep, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE &&
+            creep.store.getFreeCapacity() > 0
+        ) {
             creep.moveTo(moveCreep, {
                 visualizePathStyle: { stroke: '#ffaa00' },
             });
         } else {
-            moveCreep.move(creep);
-            if (creep.pos.isNearTo(parseInt(split[2]), parseInt(split[3]))) {
-                creep.move(
-                    creep.room
-                        .getPositionAt(parseInt(split[2]), parseInt(split[3]))
-                        .getDirectionTo(moveCreep)
-                );
-            } else {
-                creep.moveTo(
-                    creep.room.getPositionAt(
-                        parseInt(split[2]),
-                        parseInt(split[3])
-                    )
-                );
-            }
+            moveCreep.memory['full'] = false;
+            creep.memory['task'] = null;
         }
+
+        return true;
     }
 }
 
-export class transfer implements task {
-    run(creep: Creep, text: String) {
+export class carry extends task {
+    run(creep: Creep, text: String): Boolean {
         let split = text.split(' ');
-        let moveCreep = Game.creeps[split[1]];
-        if (moveCreep == null) {
-            //死亡了就当没发生过
+        let storage = Game.structures[split[1]];
+        if (!storage) {
             creep.memory['task'] = null;
+            return false;
         }
-        let spawn = Game.spawns['Spawn1'];
-
-        if (spawn.store.getFreeCapacity(RESOURCE_ENERGY) == 0) {
-            if (
-                moveCreep.transfer(creep, RESOURCE_ENERGY) ==
-                    ERR_NOT_IN_RANGE &&
-                creep.store.getUsedCapacity() <= 0
-            ) {
-                creep.say('1');
-                creep.moveTo(moveCreep, {
-                    visualizePathStyle: { stroke: '#ffaa00' },
-                });
+        if (!global[creep.name]) global[creep.name] = 0;
+        if (global[creep.name] == 0) creep.memory['getting'] = true;
+        global[creep.name]++;
+        if (creep.memory['getting']) {
+            if (creep.withdraw(storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(storage);
             } else {
-                let targets = creep.room.find(FIND_STRUCTURES, {
-                    filter: (structure) => {
-                        return (
-                            (structure.structureType == STRUCTURE_EXTENSION ||
-                                structure.structureType == STRUCTURE_TOWER ||
-                                structure.structureType == STRUCTURE_SPAWN) &&
-                            structure.energy < structure.energyCapacity
-                        );
-                    },
-                });
-                if (
-                    creep.transfer(targets[0], RESOURCE_ENERGY) ==
-                    ERR_NOT_IN_RANGE
-                ) {
+                creep.memory['getting'] = false;
+            }
+        } else {
+            let targets = creep.room.find(FIND_STRUCTURES, {
+                filter: (structure) => {
+                    return (
+                        (structure.structureType == STRUCTURE_EXTENSION ||
+                            structure.structureType == STRUCTURE_TOWER ||
+                            structure.structureType == STRUCTURE_SPAWN) &&
+                        structure.energy < structure.energyCapacity
+                    );
+                },
+            });
+
+            if (
+                creep.store.getUsedCapacity(RESOURCE_ENERGY) > 0 &&
+                targets.length > 0
+            ) {
+                let result = creep.transfer(targets[0], RESOURCE_ENERGY);
+
+                if (result == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targets[0]);
+                }
+            } else {
+                creep.memory['task'] = null;
+                Game.spawns[split[2]].memory['isSend'] = false;
+            }
+        }
+        return true;
+    }
+}
+
+export class request extends task {
+    run(creep: Creep, text: String): Boolean {
+        let split = text.split(' ');
+        let storage = Game.structures[split[1]];
+        if (!global[creep.name]) global[creep.name] = 0;
+        if (global[creep.name] == 0) creep.memory['getting'] = true;
+        global[creep.name]++;
+        if (creep.memory['getting']) {
+            if (!storage) {
+                creep.memory['getting'] = false;
+            } else {
+                if (
+                    creep.withdraw(storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE
+                ) {
+                    creep.moveTo(storage);
+                } else {
+                    creep.memory['getting'] = false;
                 }
             }
         } else {
-            if (
-                moveCreep.transfer(creep, RESOURCE_ENERGY) ==
-                    ERR_NOT_IN_RANGE &&
-                creep.store.getUsedCapacity() <= 0
-            ) {
-                creep.moveTo(moveCreep, {
-                    visualizePathStyle: { stroke: '#ffaa00' },
-                });
-            } else {
-                if (
-                    creep.transfer(spawn, RESOURCE_ENERGY) ==
-                        ERR_NOT_IN_RANGE &&
-                    creep.store.getUsedCapacity() > 0
-                ) {
-                    creep.moveTo(spawn, {
-                        visualizePathStyle: { stroke: '#ffaa00' },
-                    });
-                } else {
-                    moveCreep.memory['full'] = false;
+            let targets = Game.structures[split[2]];
+
+            if (creep.store[RESOURCE_ENERGY] > 0) {
+                let result = creep.transfer(targets, RESOURCE_ENERGY);
+
+                if (result == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(targets);
+                } else if (result == ERR_FULL) {
                     creep.memory['task'] = null;
                 }
+            }else{
+                creep.memory['task'] = null;
             }
         }
+        return true;
     }
 }

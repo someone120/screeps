@@ -15,39 +15,24 @@ export class builder extends Creep implements creep {
         let targets = this.room.find(FIND_CONSTRUCTION_SITES);
         if (this.memory['building']) {
             if (targets.length >= 0) {
-                if (
-                    this.build(targets[Memory['type'][1] % targets.length]) ==
-                    ERR_NOT_IN_RANGE
-                ) {
-                    this.moveTo(targets[Memory['type'][1] % targets.length], {
+                if (this.build(targets[0]) == ERR_NOT_IN_RANGE) {
+                    this.moveTo(targets[0], {
                         visualizePathStyle: { stroke: '#ffffff' },
                     });
                 }
             }
         } else {
-            let source1 = this.room.find(FIND_DROPPED_RESOURCES)[0];
-            if (source1 == null) {
-                let source2 = this.room.find(FIND_STRUCTURES, {
-                    filter: (structure) => {
-                        return (
-                            structure.structureType == STRUCTURE_CONTAINER &&
-                            structure.store.energy > 0
-                        );
-                    },
-                });
+            if (this.room.storage) {
                 if (
-                    this.withdraw(
-                        source2[Memory['type'][1] % source2.length],
-                        RESOURCE_ENERGY
-                    ) == ERR_NOT_IN_RANGE
+                    this.withdraw(this.room.storage, RESOURCE_ENERGY) ==
+                    ERR_NOT_IN_RANGE
                 ) {
-                    this.moveTo(source2[Memory['type'][1] % source2.length]);
+                    this.moveTo(this.room.storage);
                 }
             } else {
-                if (this.pickup(source1) == ERR_NOT_IN_RANGE) {
-                    this.moveTo(source1, {
-                        visualizePathStyle: { stroke: '#ffaa00' },
-                    });
+                let drop = this.room.find(FIND_DROPPED_RESOURCES);
+                if (this.pickup(drop[0]) == ERR_NOT_IN_RANGE) {
+                    this.moveTo(drop[0]);
                 }
             }
         }
@@ -56,6 +41,5 @@ export class builder extends Creep implements creep {
             Memory['type'][4]++;
             this.memory['type'] = 4;
         }
-        
     }
 }

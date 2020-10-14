@@ -5,12 +5,13 @@ import { builder } from './role.builder';
 import { harvester } from './role.harvester';
 import { Repairer } from './role.maintainer';
 import { Carrier } from './role.porter';
+import spawnTask from './spawn.task';
 import { checkQuantity, stateScanner } from './util';
-var creepsCount: { run: () => void } = require('creep.spawn');
 module.exports.loop = function() {
     mount();
-    stateScanner()
-    checkQuantity(Game.creeps)
+    stateScanner();
+    spawnTask();
+    checkQuantity(Game.creeps);
     if (!Memory['type']) Memory['type'] = [0, 0, 0, 0, 0];
     for (let name in Game.creeps) {
         let creep = Game.creeps[name];
@@ -32,21 +33,26 @@ module.exports.loop = function() {
             case 4:
                 t = new Repairer(creep.id);
                 break;
+            case -1:
+                break;
+            //falls through
             case undefined:
             default:
                 creep.say('我自裁吧');
                 creep.suicide();
                 break;
         }
-        t.work();
+        if (t) t.work();
     }
-    creepsCount.run();
     autoClean();
     Object.values(Game.structures).forEach((v) => {
-        if (v.work != undefined) {
+        if (v.work) {
             v.work();
         }
     });
+    if (Game.cpu.bucket >= 9000 && Memory['towerStat'] == 'normal') {
+        Game.cpu.generatePixel();
+    }
     // let path=PathFinder.search(RoomPosition(4,17, 'W33N42'),{pos:RoomPosition(21,26, 'W33N42'),range:1})
     // console.log(JSON.stringify(path));
 };
@@ -79,6 +85,9 @@ function drawType(creep: Creep) {
             break;
         case 4:
             text = 'Repairer';
+            break;
+        default:
+            text = '我也不懂';
             break;
     }
     creep.room.visual.text(text, creep.pos.x, creep.pos.y + 0.5, {

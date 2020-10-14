@@ -1,37 +1,35 @@
-import { base, creep } from './base';
+import { creep } from './base';
 export class Repairer extends Creep implements creep {
     task: String;
     type: Number = 4;
     work() {
         if (this.store.getUsedCapacity(RESOURCE_ENERGY) == 0) {
-            let source2 = this.pos.findClosestByPath(FIND_STRUCTURES, {
-                filter: (structure) => {
-                    return (
-                        structure.structureType == STRUCTURE_CONTAINER &&
-                        structure.store.energy > 0
-                    );
-                },
-            });
-            if (this.withdraw(source2, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                this.moveTo(source2, {
-                    visualizePathStyle: { stroke: '#ffff99' },
-                });
+            if (this.room.storage) {
+                if (
+                    this.withdraw(this.room.storage, RESOURCE_ENERGY) ==
+                    ERR_NOT_IN_RANGE
+                ) {
+                    this.moveTo(this.room.storage);
+                }
+            } else {
+                let drop = this.room.find(FIND_DROPPED_RESOURCES);
+                if (this.pickup(drop[0]) == ERR_NOT_IN_RANGE) {
+                    this.moveTo(drop[0]);
+                }
             }
         } else {
             let target = this.room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
                     return (
-                        (structure.hitsMax - structure.hits > 300 &&
-                            structure.structureType != STRUCTURE_WALL &&
-                            structure.hits < 50000) ||
-                        (structure.structureType == STRUCTURE_WALL &&
-                            structure.hits < 10000)
+                        structure.hitsMax - structure.hits &&
+                        structure.hits < 100000 &&
+                        structure.hitsMax - structure.hits > 0
                     );
                 },
-            });
-            let res = this.repair(target[0]);
+            })[0];
+            let res = this.repair(target);
             if (res == ERR_NOT_IN_RANGE) {
-                this.moveTo(target[0], {
+                this.moveTo(target, {
                     visualizePathStyle: { stroke: '#ffff99' },
                 });
             }
