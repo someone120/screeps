@@ -1,5 +1,6 @@
 import { mountExtension } from './role.ext';
 import { mountSpawn } from './role.spawn';
+import { mountStorage } from './role.storage';
 import { mountTower } from './role.tower';
 
 export default function() {
@@ -10,5 +11,6 @@ export default function() {
         mountTower();
         mountSpawn();
         mountExtension();
+        mountStorage();
     }
 }

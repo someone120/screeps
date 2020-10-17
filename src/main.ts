@@ -1,6 +1,8 @@
 import { creep } from './base';
 import { Upgrader } from './controller.keeper';
 import mount from './mount';
+import { remoteMiner } from './remoteMiner';
+import { reserve } from './reserver';
 import { builder } from './role.builder';
 import { harvester } from './role.harvester';
 import { Repairer } from './role.maintainer';
@@ -33,6 +35,10 @@ module.exports.loop = function() {
             case 4:
                 t = new Repairer(creep.id);
                 break;
+            case 5:
+                t = new remoteMiner(creep.id);
+            case 6:
+                t = new reserve(creep.id);
             case -1:
                 break;
             //falls through
@@ -85,6 +91,12 @@ function drawType(creep: Creep) {
             break;
         case 4:
             text = 'Repairer';
+            break;
+        case 5:
+            text = 'remoteMiner';
+            break;
+        case 6:
+            text = 'reserve';
             break;
         default:
             text = '我也不懂';

@@ -62,6 +62,38 @@ function spawnNewCarrier(i: Number, spawn: StructureSpawn): Number {
     }
     return result;
 }
+function spawnNewReserver(i: Number, spawn: StructureSpawn): Number {
+    let result = spawn.spawnCreep(
+        bodySet.reserver[i + ''],
+        `reserver@${Game.time}`,
+        {
+            memory: { type: 6 },
+        }
+    );
+    if (result == OK) {
+        spawn.memory['send'] = false;
+    }
+    if (result == ERR_NOT_ENOUGH_ENERGY) {
+        result = OK;
+    }
+    return result;
+}
+function spawnNewRemoteMiner(i: Number, spawn: StructureSpawn): Number {
+    let result = spawn.spawnCreep(
+        bodySet.remoteMiner[i + ''],
+        `RemoteMiner@${Game.time}`,
+        {
+            memory: { type: 5 },
+        }
+    );
+    if (result == OK) {
+        spawn.memory['send'] = false;
+    }
+    if (result == ERR_NOT_ENOUGH_ENERGY) {
+        result = OK;
+    }
+    return result;
+}
 function spawnNewUpgrader(i: Number, spawn: StructureSpawn): Number {
     let result = spawn.spawnCreep(
         bodySet.upgrader[i + ''],
@@ -101,6 +133,12 @@ function parseTask(tasks: String): Number {
                 break;
             case 'Repairer':
                 result = spawnNewBuilder(parseInt(split[2]), spawn);
+                break;
+            case 'RemoteMiner':
+                result = spawnNewRemoteMiner(parseInt(split[2]), spawn);
+                break;
+            case 'Reserver':
+                result = spawnNewReserver(parseInt(split[2]), spawn);
                 break;
         }
     } else {

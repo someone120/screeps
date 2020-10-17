@@ -1,13 +1,10 @@
-import { settings } from 'cluster';
 import { structure } from './base';
-import { mountTower } from './role.tower';
-import { bodySet } from './setting';
 import { pushCarrierTask, pushSpawnTask } from './task.manager';
-import { assignPrototype, encode } from './util';
+import { assignPrototype } from './util';
 const MinersNumber = 2;
-const PorterNumber = 8;
-const KeeperNumber = 5;
-const HealerNumber = 8;
+const PorterNumber = 6;
+const KeeperNumber = 4;
+const HealerNumber = 4;
 export default class spawnExt extends StructureSpawn implements structure {
     work() {
         if (Memory['spawnTask'].length <= 0) this.memory['send'] = false;
@@ -38,7 +35,8 @@ export default class spawnExt extends StructureSpawn implements structure {
             let Porter = Memory['type'][2];
             let Keeper = Memory['type'][3];
             let healer = Memory['type'][4];
-            let remote = Memory['remote'];
+            let remoteMiners = Memory['type'][5];
+            let Reserver = Memory['type'][6];
             if (Porter == 0) {
                 available = 300;
             }
@@ -54,18 +52,30 @@ export default class spawnExt extends StructureSpawn implements structure {
             } else if (Keeper < KeeperNumber) {
                 this.pushUpgrader(this, available);
                 this.memory['send'] = true;
+            } else if (
+                remoteMiners < 1 &&
+                Object.keys(Game.flags).find((v) => {
+                    return v.split(' ')[0] == 'RemoteSource';
+                })
+            ) {
+                this.pushRemoteMiner(this, available);
+                this.memory['send'] = true;
+            } else if (
+                Reserver < 1 &&
+                Object.keys(Game.flags).find((v) => {
+                    return v.split(' ')[0] == 'RemoteSource';
+                })
+            ) {
+                this.pushReserver(this, available);
+                this.memory['send'] = true;
             }
         }
-        if (
-            this.room.energyCapacityAvailable - this.room.energyAvailable > 0 &&
-            !this.memory['isSend']
-        ) {
+        if (this.room.energyCapacityAvailable - this.room.energyAvailable > 0) {
             pushCarrierTask(
                 `carry ${this.room.storage ? this.room.storage.id : ''} ${
                     this.name
                 }`
             );
-            this.memory['isSend'] = true;
         }
     }
 
@@ -80,6 +90,13 @@ export default class spawnExt extends StructureSpawn implements structure {
     }
     private pushUpgrader(spawn: StructureSpawn, i: Number) {
         pushSpawnTask(`Upgrader ${spawn.name} ${i}`);
+    }
+
+    private pushRemoteMiner(spawn: StructureSpawn, i: Number) {
+        pushSpawnTask(`RemoteMiner ${spawn.name} ${i}`);
+    }
+    private pushReserver(spawn: StructureSpawn, i: Number) {
+        pushSpawnTask(`Reserver ${spawn.name} ${i}`);
     }
 }
 export function mountSpawn() {

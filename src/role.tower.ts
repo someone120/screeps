@@ -44,11 +44,15 @@ export default class towerExt extends StructureTower implements structure {
         if (Game.time % 50 == 0) {
             global[`towerRequest${tower.id}`] = false;
         }
-        if (tower.store.getFreeCapacity(RESOURCE_ENERGY) > 0) {
-            requestEnergy(
-                this.room.storage ? this.room.storage.id : '',
-                this.id
-            );
+        if (tower.store.getFreeCapacity(RESOURCE_ENERGY) > 20) {
+            let task = `requestEneryge ${
+                this.room.storage ? this.room.storage.id : ''
+            } ${this.id}`;
+
+            if (Memory.porterTasker.includes(task)) {
+                return;
+            }
+            Memory.porterTasker.unshift(task);
         }
     }
 
@@ -58,17 +62,19 @@ export default class towerExt extends StructureTower implements structure {
                 return creep.hitsMax - creep.hits > 0;
             },
         });
-        let hurtBuild = tower.room.find(FIND_STRUCTURES, {
-            filter: (structure) => {
-                return (
-                    structure.hitsMax - structure.hits &&
-                    structure.hits < 100000 &&
-                    structure.hitsMax - structure.hits > 0
-                );
-            },
-        }).sort((a,b)=>{
-            return a.hits-b.hits
-        });
+        let hurtBuild = tower.room
+            .find(FIND_STRUCTURES, {
+                filter: (structure) => {
+                    return (
+                        structure.hitsMax - structure.hits &&
+                        structure.hits < 100000 &&
+                        structure.hitsMax - structure.hits > 0
+                    );
+                },
+            })
+            .sort((a, b) => {
+                return a.hits - b.hits;
+            });
         if (hurtCreep.length > 0) {
             tower.heal(hurtCreep[0]);
         } else if (hurtBuild.length > 0) {

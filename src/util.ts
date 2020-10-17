@@ -19,7 +19,7 @@ export function checkQuantity(creeps: { [creepName: string]: Creep }) {
     if (Game.time % 10 != 0) {
         return;
     }
-    Memory['type'] = [0, 0, 0, 0, 0];
+    Memory['type'] = [0, 0, 0, 0, 0, 0, 0];
     Object.values(creeps).forEach((creep) => {
         switch (creep.memory['type']) {
             case 0:
@@ -36,6 +36,12 @@ export function checkQuantity(creeps: { [creepName: string]: Creep }) {
                 break;
             case 4:
                 Memory['type'][4]++;
+                break;
+            case 5:
+                Memory['type'][5]++;
+                break;
+            case 6:
+                Memory['type'][6]++;
                 break;
             default:
                 break;
@@ -59,23 +65,30 @@ export function stateScanner() {
     Memory['stats'].bucket = Game.cpu.bucket;
 }
 
+export function requestEnergyPos(storageId: String, structureId: String,pos:RoomPosition) {
+    pushCarrierTask(`requestEneryge ${storageId} ${structureId} ${pos.x} ${pos.y}`);
+    // console.log(`requestEneryge ${storageId} ${structureId}`);
+}
 export function requestEnergy(storageId: String, structureId: String) {
     pushCarrierTask(`requestEneryge ${storageId} ${structureId}`);
     // console.log(`requestEneryge ${storageId} ${structureId}`);
-    
 }
 
 export function buildRoad(from: RoomPosition, to: RoomPosition) {
     let path = PathFinder.search(from, { pos: to, range: 1 });
-    for(let i of path.path){
-        i.createConstructionSite(STRUCTURE_ROAD)
+    for (let i of path.path) {
+        i.createConstructionSite(STRUCTURE_ROAD);
     }
 }
 
-export function encode(text:String):String{
-    return require('bs58').encode(text.split('')).toString()
+export function encode(text: String): String {
+    return require('bs58')
+        .encode(text.split(''))
+        .toString();
 }
 
-export function decode(text:String):String{
-    return require('bs58').decode(text).toString()
+export function decode(text: String): String {
+    return require('bs58')
+        .decode(text)
+        .toString();
 }

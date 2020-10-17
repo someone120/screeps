@@ -1,4 +1,4 @@
-import { base, creep } from './base';
+import { creep } from './base';
 export class builder extends Creep implements creep {
     task: String;
     type: Number = 1;
@@ -13,6 +13,15 @@ export class builder extends Creep implements creep {
             this.say('🚧 build');
         }
         let targets = this.room.find(FIND_CONSTRUCTION_SITES);
+        let flag =
+            Game.flags[
+                Object.keys(Game.flags).find((v) => {
+                    return v.split(' ')[0] == 'RemoteSource';
+                })
+            ];
+        if (flag.room) {
+            targets = targets.concat(flag.room.find(FIND_CONSTRUCTION_SITES));
+        }
         if (this.memory['building']) {
             if (targets.length >= 0) {
                 if (this.build(targets[0]) == ERR_NOT_IN_RANGE) {
@@ -30,9 +39,31 @@ export class builder extends Creep implements creep {
                     this.moveTo(this.room.storage);
                 }
             } else {
-                let drop = this.room.find(FIND_DROPPED_RESOURCES);
-                if (this.pickup(drop[0]) == ERR_NOT_IN_RANGE) {
-                    this.moveTo(drop[0]);
+                const source2 = this.room.find(FIND_STRUCTURES, {
+                    filter: (structure) => {
+                        return (
+                            structure.structureType == STRUCTURE_CONTAINER &&
+                            structure.store.energy > 0
+                        );
+                    },
+                }) as StructureContainer[];
+                source2.sort((a, b) => {
+                    return b.store.energy - a.store.energy;
+                });
+
+                if (source2.length != 0) {
+                    const result = this.withdraw(source2[0], RESOURCE_ENERGY);
+
+                    if (result == ERR_NOT_IN_RANGE) {
+                        this.moveTo(source2[0]);
+                    }
+                } else {
+                    const source1 = this.room.find(FIND_DROPPED_RESOURCES)[0];
+                    if (this.pickup(source1) == ERR_NOT_IN_RANGE) {
+                        this.moveTo(source1, {
+                            visualizePathStyle: { stroke: '#ffaa00' },
+                        });
+                    }
                 }
             }
         }

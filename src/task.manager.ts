@@ -15,10 +15,10 @@ class task {
  * @param task 任务
  */
 export function pushCarrierTask(task: String) {
-    if (Memory['porterTasker'].includes(task)) {
+    if (Memory.porterTasker.includes(task)) {
         return;
     }
-    Memory['porterTasker'].push(task);
+    Memory.porterTasker.push(task);
 }
 
 /**
@@ -64,43 +64,34 @@ export class carry extends task {
     run(creep: Creep, text: String): Boolean {
         let split = text.split(' ');
         let storage = Game.structures[split[1]];
-        if (!storage) {
-            creep.memory['task'] = null;
-            return false;
-        }
         if (!global[creep.name]) global[creep.name] = 0;
         if (global[creep.name] == 0) creep.memory['getting'] = true;
         global[creep.name]++;
         if (creep.memory['getting']) {
-            if (creep.withdraw(storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(storage);
-            } else {
+            if (!storage) {
                 creep.memory['getting'] = false;
+            } else {
+                if (
+                    creep.withdraw(storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE
+                ) {
+                    creep.moveTo(storage);
+                } else {
+                    creep.memory['getting'] = false;
+                }
             }
         } else {
-            let targets = creep.room.find(FIND_STRUCTURES, {
-                filter: (structure) => {
-                    return (
-                        (structure.structureType == STRUCTURE_EXTENSION ||
-                            structure.structureType == STRUCTURE_TOWER ||
-                            structure.structureType == STRUCTURE_SPAWN) &&
-                        structure.energy < structure.energyCapacity
-                    );
-                },
-            });
+            let targets = Game.spawns[split[2]];
 
-            if (
-                creep.store.getUsedCapacity(RESOURCE_ENERGY) > 0 &&
-                targets.length > 0
-            ) {
-                let result = creep.transfer(targets[0], RESOURCE_ENERGY);
+            if (creep.store[RESOURCE_ENERGY] > 0) {
+                let result = creep.transfer(targets, RESOURCE_ENERGY);
 
                 if (result == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0]);
+                    creep.moveTo(targets);
+                } else if (result == ERR_FULL) {
+                    creep.memory['task'] = null;
                 }
             } else {
                 creep.memory['task'] = null;
-                Game.spawns[split[2]].memory['isSend'] = false;
             }
         }
         return true;
@@ -114,7 +105,7 @@ export class request extends task {
         if (!global[creep.name]) global[creep.name] = 0;
         if (global[creep.name] == 0) creep.memory['getting'] = true;
         global[creep.name]++;
-        if (creep.memory['getting']) {
+        if (creep.memory['getting'] && creep.store[RESOURCE_ENERGY] <= 50) {
             if (!storage) {
                 creep.memory['getting'] = false;
             } else {
@@ -137,7 +128,7 @@ export class request extends task {
                 } else if (result == ERR_FULL) {
                     creep.memory['task'] = null;
                 }
-            }else{
+            } else {
                 creep.memory['task'] = null;
             }
         }

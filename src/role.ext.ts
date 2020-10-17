@@ -1,10 +1,10 @@
 import { structure } from './base';
-import { assignPrototype, requestEnergy } from './util';
+import { assignPrototype, requestEnergy, requestEnergyPos } from './util';
 
 export class extensionExt extends StructureExtension implements structure {
     work() {
         if (this.store.getFreeCapacity(RESOURCE_ENERGY) > 0) {
-            requestEnergy((this.room.storage)?this.room.storage.id : '', this.id);
+            requestEnergyPos((this.room.storage)?this.room.storage.id : '', this.id,this.pos);
         }
     }
 }

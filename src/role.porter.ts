@@ -10,7 +10,7 @@ import { creep, structure } from './base';
  * 从任务列表中提取一个任务
  */
 function getTask(): String {
-    return Memory['porterTasker'].shift();
+    return Memory.porterTasker.shift();
 }
 
 /**
@@ -59,7 +59,7 @@ export class Carrier extends Creep implements creep {
                     if (result == ERR_NOT_IN_RANGE) {
                         this.moveTo(targets);
                     }
-                } 
+                }
             } else {
                 const source2 = this.room.find(FIND_STRUCTURES, {
                     filter: (structure) => {
@@ -68,17 +68,16 @@ export class Carrier extends Creep implements creep {
                             structure.store.energy > 0
                         );
                     },
+                }) as StructureContainer[];
+                source2.sort((a, b) => {
+                    return b.store.energy - a.store.energy;
                 });
-                if (source2 == null) {
-                    if (
-                        this.withdraw(
-                            source2[Memory['type'][1] % source2.length],
-                            RESOURCE_ENERGY
-                        ) == ERR_NOT_IN_RANGE
-                    ) {
-                        this.moveTo(
-                            source2[Memory['type'][1] % source2.length]
-                        );
+
+                if (source2.length!=0) {
+                    const result = this.withdraw(source2[0], RESOURCE_ENERGY);
+
+                    if (result == ERR_NOT_IN_RANGE) {
+                        this.moveTo(source2[0]);
                     }
                 } else {
                     const source1 = this.room.find(FIND_DROPPED_RESOURCES)[0];
