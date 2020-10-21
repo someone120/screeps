@@ -1,3 +1,5 @@
+import { Visualizer } from './Visualizer';
+import { RemoteCarrier } from './remoteCarrier';
 import { creep } from './base';
 import { Upgrader } from './controller.keeper';
 import mount from './mount';
@@ -9,10 +11,11 @@ import { Repairer } from './role.maintainer';
 import { Carrier } from './role.porter';
 import spawnTask from './spawn.task';
 import { checkQuantity, stateScanner } from './util';
-module.exports.loop = function() {
+import { ErrorMapper } from './errorMapping';
+import roleSpawn from 'role.spawn';
+module.exports.loop = ErrorMapper.wrapLoop(() => {
     mount();
-    stateScanner();
-    spawnTask();
+    roleSpawn();
     checkQuantity(Game.creeps);
     if (!Memory['type']) Memory['type'] = [0, 0, 0, 0, 0];
     for (let name in Game.creeps) {
@@ -37,8 +40,13 @@ module.exports.loop = function() {
                 break;
             case 5:
                 t = new remoteMiner(creep.id);
+                break;
             case 6:
                 t = new reserve(creep.id);
+                break;
+            case 7:
+                t = new RemoteCarrier(creep.id);
+                break;
             case -1:
                 break;
             //falls through
@@ -61,7 +69,9 @@ module.exports.loop = function() {
     }
     // let path=PathFinder.search(RoomPosition(4,17, 'W33N42'),{pos:RoomPosition(21,26, 'W33N42'),range:1})
     // console.log(JSON.stringify(path));
-};
+    Visualizer.visuals();
+    stateScanner();
+});
 
 function autoClean() {
     if (Game.time % 20 != 0) {
@@ -97,6 +107,9 @@ function drawType(creep: Creep) {
             break;
         case 6:
             text = 'reserve';
+            break;
+        case 7:
+            text = 'RemoteCarrier';
             break;
         default:
             text = '我也不懂';

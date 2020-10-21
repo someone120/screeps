@@ -1,5 +1,7 @@
+import globalObj from 'globalObj';
+import _ from 'lodash';
+import { mountSpawn } from 'spawn.task';
 import { mountExtension } from './role.ext';
-import { mountSpawn } from './role.spawn';
 import { mountStorage } from './role.storage';
 import { mountTower } from './role.tower';
 
@@ -12,5 +14,6 @@ export default function() {
         mountSpawn();
         mountExtension();
         mountStorage();
+        _.assign(global, globalObj)
     }
 }

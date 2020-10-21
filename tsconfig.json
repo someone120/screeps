@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "moduleResolution": "Node", 
+        "outDir": "dist/",
+        "baseUrl": "src/",
+        "sourceMap": true,
+        "allowSyntheticDefaultImports": true
+    },
+    "include": [
+        "src/**/*.ts",
+        "index.d.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

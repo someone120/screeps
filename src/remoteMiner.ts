@@ -1,4 +1,5 @@
 import { creep } from './base';
+import { pushCarrierTask } from './task.manager';
 export class remoteMiner extends Creep implements creep {
     task: String;
     type: Number = 5;
@@ -29,5 +30,7 @@ export class remoteMiner extends Creep implements creep {
         } else {
             if (source) this.moveTo(source);
         }
+
+        this.drop(RESOURCE_ENERGY);
     }
 }

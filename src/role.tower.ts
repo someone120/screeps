@@ -52,7 +52,9 @@ export default class towerExt extends StructureTower implements structure {
             if (Memory.porterTasker.includes(task)) {
                 return;
             }
+            let a = Memory.porterTasker.shift();
             Memory.porterTasker.unshift(task);
+            Memory.porterTasker.unshift(a);
         }
     }
 

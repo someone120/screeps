@@ -26,8 +26,12 @@ export class reserve extends Creep implements creep {
                 visualizePathStyle: { stroke: '#ffaa00' },
             });
         }
-        if (this.ticksToLive <= 30) {
-            pushSpawnTask(`Reserver Spawn1 300`);
-        }
+        // if (this.ticksToLive <= 50) {
+        //     let task = `Reserver Spawn1 ${Game.spawns['Spawn1'].room.energyCapacityAvailable}`;
+        //     if (Memory['spawnTask'].includes(task)) {
+        //         return;
+        //     }
+        //     Memory['spawnTask'].unshift(task);
+        // }
     }
 }

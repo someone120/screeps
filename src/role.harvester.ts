@@ -22,7 +22,7 @@ export class harvester extends Creep implements creep {
             this.moveTo(target);
         }
         if (this.store.getFreeCapacity() <= 10) {
-            pushCarrierTask('transfer ' + this.name);
+            pushCarrierTask('transfer ' + this.name,this.name);
         }
     }
 }

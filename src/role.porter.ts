@@ -1,10 +1,10 @@
+import { creep } from './base';
 import {
     carry,
-    transfer,
-    request as requestEneryge,
-    pushCarrierTask,
+
+
+    pushCarrierTask, request as requestEneryge, transfer
 } from './task.manager';
-import { creep, structure } from './base';
 
 /**
  * 从任务列表中提取一个任务
@@ -50,6 +50,7 @@ export class Carrier extends Creep implements creep {
             if (this.memory['task'] != null) {
                 global[this.name] = 0;
                 console.log(`${this.name} 接下了 ${this.memory['task']}`);
+                this.say('呜呜呜去打工去打工', true);
                 return;
             }
             if (this.store.getUsedCapacity() > 0) {
@@ -69,11 +70,12 @@ export class Carrier extends Creep implements creep {
                         );
                     },
                 }) as StructureContainer[];
+
                 source2.sort((a, b) => {
                     return b.store.energy - a.store.energy;
                 });
 
-                if (source2.length!=0) {
+                if (source2.length != 0) {
                     const result = this.withdraw(source2[0], RESOURCE_ENERGY);
 
                     if (result == ERR_NOT_IN_RANGE) {
@@ -88,12 +90,11 @@ export class Carrier extends Creep implements creep {
                     }
                 }
             }
+        } else if (this.ticksToLive <= 10) {
+            pushCarrierTask(this.memory['task'], this.name);
+            this.say('呜呜呜要死了要死了', true);
         } else {
-            if (this.ticksToLive <= 10) {
-                pushCarrierTask(this.memory['task']);
-            } else {
-                parseTask(this.memory['task'], this);
-            }
+            parseTask(this.memory['task'], this);
         }
     }
 }

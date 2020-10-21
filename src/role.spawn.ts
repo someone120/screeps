@@ -1,104 +1,108 @@
-import { structure } from './base';
 import { pushCarrierTask, pushSpawnTask } from './task.manager';
-import { assignPrototype } from './util';
 const MinersNumber = 2;
 const PorterNumber = 6;
 const KeeperNumber = 4;
 const HealerNumber = 4;
-export default class spawnExt extends StructureSpawn implements structure {
-    work() {
-        if (Memory['spawnTask'].length <= 0) this.memory['send'] = false;
-        if (this.memory['send'] && Game.time % 100 == 0) {
-            this.memory['send'] = false;
+export default function() {
+    let spawn = Game.spawns['Spawn1'];
+    if (!spawn.spawning) {
+        let available = spawn.room.energyCapacityAvailable;
+        if (available >= 10000) {
+            available = 10000;
+        } else if (available >= 5600) {
+            available = 5600;
+        } else if (available >= 2300) {
+            available = 2300;
+        } else if (available >= 1800) {
+            available = 1800;
+        } else if (available >= 1300) {
+            available = 1300;
+        } else if (available >= 800) {
+            available = 800;
+        } else if (available >= 550) {
+            available = 550;
+        } else if (available >= 300) {
+            available = 300;
         }
-        if (!this.spawning && !this.memory['send']) {
-            let available = this.room.energyCapacityAvailable;
-            if (available >= 10000) {
-                available = 10000;
-            } else if (available >= 5600) {
-                available = 5600;
-            } else if (available >= 2300) {
-                available = 2300;
-            } else if (available >= 1800) {
-                available = 1800;
-            } else if (available >= 1300) {
-                available = 1300;
-            } else if (available >= 800) {
-                available = 800;
-            } else if (available >= 550) {
-                available = 550;
-            } else if (available >= 300) {
-                available = 300;
-            }
-            let miners = Memory['type'][0];
-            let builder = Memory['type'][1];
-            let Porter = Memory['type'][2];
-            let Keeper = Memory['type'][3];
-            let healer = Memory['type'][4];
-            let remoteMiners = Memory['type'][5];
-            let Reserver = Memory['type'][6];
-            if (Porter == 0) {
-                available = 300;
-            }
-            if (miners < MinersNumber) {
-                this.pushHarvester(this, available);
-                this.memory['send'] = true;
-            } else if (Porter < PorterNumber) {
-                this.pushCarrier(this, available);
-                this.memory['send'] = true;
-            } else if (builder + healer < HealerNumber) {
-                this.pushBuilder(this, available);
-                this.memory['send'] = true;
-            } else if (Keeper < KeeperNumber) {
-                this.pushUpgrader(this, available);
-                this.memory['send'] = true;
-            } else if (
-                remoteMiners < 1 &&
-                Object.keys(Game.flags).find((v) => {
-                    return v.split(' ')[0] == 'RemoteSource';
-                })
-            ) {
-                this.pushRemoteMiner(this, available);
-                this.memory['send'] = true;
-            } else if (
-                Reserver < 1 &&
-                Object.keys(Game.flags).find((v) => {
-                    return v.split(' ')[0] == 'RemoteSource';
-                })
-            ) {
-                this.pushReserver(this, available);
-                this.memory['send'] = true;
-            }
+        let miners = Memory['type'][0];
+        let builder = Memory['type'][1];
+        let Porter = Memory['type'][2];
+        let Keeper = Memory['type'][3];
+        let healer = Memory['type'][4];
+        let remoteMiners = Memory['type'][5];
+        let Reserver = Memory['type'][6];
+        let remoteCarrier = Memory['type'][7];
+        if (Porter == 0) {
+            available = 300;
         }
-        if (this.room.energyCapacityAvailable - this.room.energyAvailable > 0) {
-            pushCarrierTask(
-                `carry ${this.room.storage ? this.room.storage.id : ''} ${
-                    this.name
-                }`
-            );
+        if (miners < MinersNumber) {
+            pushHarvester(available, spawn);
+            spawn.memory['send'] = true;
+        } else if (Porter < PorterNumber) {
+            pushCarrier(available, spawn);
+            spawn.memory['send'] = true;
+        }
+        if (builder + healer < HealerNumber) {
+            pushBuilder(available, spawn);
+            spawn.memory['send'] = true;
+        }
+        if (Keeper < KeeperNumber) {
+            pushUpgrader(available, spawn);
+            spawn.memory['send'] = true;
+        }
+        if (
+            remoteMiners < 1 &&
+            Object.keys(Game.flags).find((v) => {
+                return v.split(' ')[0] == 'RemoteSource';
+            })
+        ) {
+            pushRemoteMiner(available, spawn);
+            spawn.memory['send'] = true;
+        }
+        if (
+            Reserver < 1 &&
+            Object.keys(Game.flags).find((v) => {
+                return v.split(' ')[0] == 'RemoteSource';
+            }) &&
+            spawn.room.energyAvailable >= 600
+        ) {
+            pushReserver(available, spawn);
+            spawn.memory['send'] = true;
+        }
+        if (remoteCarrier < 5 && spawn.room.storage) {
+            pushRemoteCarrier(available, spawn.room.storage.id, spawn);
+            spawn.memory['send'] = true;
         }
     }
-
-    private pushHarvester(spawn: StructureSpawn, i: Number) {
-        pushSpawnTask(`Harvester ${spawn.name} ${i}`);
-    }
-    private pushCarrier(spawn: StructureSpawn, i: Number) {
-        pushSpawnTask(`Carrier ${spawn.name} ${i}`);
-    }
-    private pushBuilder(spawn: StructureSpawn, i: Number) {
-        pushSpawnTask(`Builder ${spawn.name} ${i}`);
-    }
-    private pushUpgrader(spawn: StructureSpawn, i: Number) {
-        pushSpawnTask(`Upgrader ${spawn.name} ${i}`);
-    }
-
-    private pushRemoteMiner(spawn: StructureSpawn, i: Number) {
-        pushSpawnTask(`RemoteMiner ${spawn.name} ${i}`);
-    }
-    private pushReserver(spawn: StructureSpawn, i: Number) {
-        pushSpawnTask(`Reserver ${spawn.name} ${i}`);
+    if (spawn.room.energyCapacityAvailable - spawn.room.energyAvailable > 0) {
+        pushCarrierTask(
+            `carry ${spawn.room.storage ? spawn.room.storage.id : ''} ${
+                spawn.name
+            }`,
+            spawn.name
+        );
     }
 }
-export function mountSpawn() {
-    assignPrototype(StructureSpawn, spawnExt);
+function pushRemoteCarrier(i: Number, storage: String, spawn: StructureSpawn) {
+    pushSpawnTask(`RemoteCarrier ${i} ${storage}`, spawn.name);
+}
+
+function pushHarvester(i: Number, spawn: StructureSpawn) {
+    pushSpawnTask(`Harvester ${i}`, spawn.name);
+}
+function pushCarrier(i: Number, spawn: StructureSpawn) {
+    pushSpawnTask(`Carrier ${i}`, spawn.name);
+}
+function pushBuilder(i: Number, spawn: StructureSpawn) {
+    pushSpawnTask(`Builder ${i}`, spawn.name);
+}
+function pushUpgrader(i: Number, spawn: StructureSpawn) {
+    pushSpawnTask(`Upgrader ${i}`, spawn.name);
+}
+
+function pushRemoteMiner(i: Number, spawn: StructureSpawn) {
+    pushSpawnTask(`RemoteMiner ${i}`, spawn.name);
+}
+function pushReserver(i: Number, spawn: StructureSpawn) {
+    pushSpawnTask(`Reserver ${i}`, spawn.name);
 }

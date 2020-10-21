@@ -19,33 +19,9 @@ export function checkQuantity(creeps: { [creepName: string]: Creep }) {
     if (Game.time % 10 != 0) {
         return;
     }
-    Memory['type'] = [0, 0, 0, 0, 0, 0, 0];
+    Memory['type'] = [0, 0, 0, 0, 0, 0, 0, 0];
     Object.values(creeps).forEach((creep) => {
-        switch (creep.memory['type']) {
-            case 0:
-                Memory['type'][0]++;
-                break;
-            case 1:
-                Memory['type'][1]++;
-                break;
-            case 2:
-                Memory['type'][2]++;
-                break;
-            case 3:
-                Memory['type'][3]++;
-                break;
-            case 4:
-                Memory['type'][4]++;
-                break;
-            case 5:
-                Memory['type'][5]++;
-                break;
-            case 6:
-                Memory['type'][6]++;
-                break;
-            default:
-                break;
-        }
+        Memory['type'][creep.memory['type']]++;
     });
 }
 export function stateScanner() {
@@ -65,12 +41,19 @@ export function stateScanner() {
     Memory['stats'].bucket = Game.cpu.bucket;
 }
 
-export function requestEnergyPos(storageId: String, structureId: String,pos:RoomPosition) {
-    pushCarrierTask(`requestEneryge ${storageId} ${structureId} ${pos.x} ${pos.y}`);
+export function requestEnergyPos(
+    storageId: String,
+    structureId: String,
+    pos: RoomPosition
+) {
+    pushCarrierTask(
+        `requestEneryge ${storageId} ${structureId} ${pos.x} ${pos.y}`,
+        structureId
+    );
     // console.log(`requestEneryge ${storageId} ${structureId}`);
 }
 export function requestEnergy(storageId: String, structureId: String) {
-    pushCarrierTask(`requestEneryge ${storageId} ${structureId}`);
+    pushCarrierTask(`requestEneryge ${storageId} ${structureId}`, structureId);
     // console.log(`requestEneryge ${storageId} ${structureId}`);
 }
 
@@ -91,4 +74,27 @@ export function decode(text: String): String {
     return require('bs58')
         .decode(text)
         .toString();
+}
+export function getFlags(): Flag[] {
+    let result = [];
+    if (global['RemoteFlag']) {
+        global['RemoteFlag'].forEach((v) => {
+            result.push(Game.flags[v]);
+        });
+    } else {
+        global['RemoteFlag'] = [];
+        for (const key in Game.flags) {
+            if (Object.prototype.hasOwnProperty.call(Game.flags, key)) {
+                const element = Game.flags[key];
+                if (element.name.split(' ')[0] == 'RemoteSource') {
+                    global['RemoteFlag'].push(key);
+                    result.push(element);
+                }
+            }
+        }
+    }
+    return result;
+}
+export function cleanCache() {
+    global['RemoteFlag'] = undefined;
 }

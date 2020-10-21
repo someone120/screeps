@@ -12,7 +12,7 @@ export class builder extends Creep implements creep {
             this.memory['building'] = true;
             this.say('🚧 build');
         }
-        let targets = this.room.find(FIND_CONSTRUCTION_SITES);
+        let targets = Game.rooms[this.memory['roomID']].find(FIND_CONSTRUCTION_SITES);
         let flag =
             Game.flags[
                 Object.keys(Game.flags).find((v) => {
@@ -31,15 +31,15 @@ export class builder extends Creep implements creep {
                 }
             }
         } else {
-            if (this.room.storage) {
+            if (Game.rooms[this.memory['roomID']].storage) {
                 if (
-                    this.withdraw(this.room.storage, RESOURCE_ENERGY) ==
+                    this.withdraw(Game.rooms[this.memory['roomID']].storage, RESOURCE_ENERGY) ==
                     ERR_NOT_IN_RANGE
                 ) {
-                    this.moveTo(this.room.storage);
+                    this.moveTo(Game.rooms[this.memory['roomID']].storage);
                 }
             } else {
-                const source2 = this.room.find(FIND_STRUCTURES, {
+                const source2 = Game.rooms[this.memory['roomID']].find(FIND_STRUCTURES, {
                     filter: (structure) => {
                         return (
                             structure.structureType == STRUCTURE_CONTAINER &&
@@ -58,7 +58,7 @@ export class builder extends Creep implements creep {
                         this.moveTo(source2[0]);
                     }
                 } else {
-                    const source1 = this.room.find(FIND_DROPPED_RESOURCES)[0];
+                    const source1 = Game.rooms[this.memory['roomID']].find(FIND_DROPPED_RESOURCES)[0];
                     if (this.pickup(source1) == ERR_NOT_IN_RANGE) {
                         this.moveTo(source1, {
                             visualizePathStyle: { stroke: '#ffaa00' },
