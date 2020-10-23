@@ -107,7 +107,7 @@ export class Visualizer {
                         Game.rooms[room].controller.progressTotal;
                     const level = Game.rooms[room].controller.level;
                     this.text(`${Game.rooms[room].name}:`, { x: 1, y: i + 4 });
-                    this.barGraph(rclProgress / rclProgressTotal, {
+                    this.barGraph([rclProgress, rclProgressTotal], {
                         x: 4.5,
                         y: i + 4,
                     });

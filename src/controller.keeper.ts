@@ -1,4 +1,6 @@
+import { getQuote } from './util';
 import { creep } from './base';
+
 export class Upgrader extends Creep implements creep {
     task: String;
     type: Number = 3;
@@ -13,9 +15,17 @@ export class Upgrader extends Creep implements creep {
         }
         if (this.memory['building']) {
             let targets = this.room.controller;
+            const text = getQuote(this.room.name);
+            if (!(targets.sign && targets.sign.text == text)) {
+                if (this.signController(targets, text) == ERR_NOT_IN_RANGE) {
+                    this.moveTo(targets, {
+                        visualizePathStyle: { stroke: '#ffaa00' }
+                    });
+                }
+            }
             if (this.upgradeController(targets) == ERR_NOT_IN_RANGE) {
                 this.moveTo(targets, {
-                    visualizePathStyle: { stroke: '#ffffff' },
+                    visualizePathStyle: { stroke: '#ffffff' }
                 });
             }
         } else {
@@ -27,11 +37,13 @@ export class Upgrader extends Creep implements creep {
                             structure.structureType == STRUCTURE_CONTAINER &&
                             structure.store.energy > 0
                         );
-                    },
-                }) as StructureContainer[]
-                source2.sort((a,b)=>{return b.store.energy-a.store.energy});
+                    }
+                }) as StructureContainer[];
+                source2.sort((a, b) => {
+                    return b.store.energy - a.store.energy;
+                });
 
-                if (source2.length!=0) {
+                if (source2.length != 0) {
                     const result = this.withdraw(source2[0], RESOURCE_ENERGY);
 
                     if (result == ERR_NOT_IN_RANGE) {
@@ -41,7 +53,7 @@ export class Upgrader extends Creep implements creep {
                     const source1 = this.room.find(FIND_DROPPED_RESOURCES)[0];
                     if (this.pickup(source1) == ERR_NOT_IN_RANGE) {
                         this.moveTo(source1, {
-                            visualizePathStyle: { stroke: '#ffaa00' },
+                            visualizePathStyle: { stroke: '#ffaa00' }
                         });
                     }
                 }

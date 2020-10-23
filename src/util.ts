@@ -1,5 +1,13 @@
 import { pushCarrierTask } from './task.manager';
 
+const quote: string[] = [
+    '隐患险于明火，防范胜于救灾，责任重于泰山。',
+    '就在前一个时期，从国外的一些宣传报道，有若干是跟我们的事实真相不相符合的。我想这个丝毫不能去影响我们对于香港问题的解决方针——就是我们的一国可以两制。',
+    '那么因此，我曾经给香港的一些先生们讲过一句俗语叫：井水不犯河水。这个我认为是一种很恰当地可以表达我们一个国家两种制度是不变的方针。',
+    '但是我想也无可讳言，确实国际上有些人想要把香港成为一个颠覆我们社会主义国家，来攻击我们共产党的领导的这样一个基地。',
+    '所以后来我就念了两首诗，叫“苟利国家生死以，岂因祸福避趋之”，那麼所以我就到了北京。',
+    '这个 engineering drawing 呢，我们就有几年用鸭嘴的笔，旁边一个小盒子。最痛苦的，就是鸭嘴笔把这个水弄到里面，描图的时候一下子就⋯然后就用刀片刮，这个就是描图是最痛苦的，而且这个效率 efficiency⋯'
+];
 export const assignPrototype = function(
     obj1: { [key: string]: any },
     obj2: { [key: string]: any }
@@ -9,7 +17,7 @@ export const assignPrototype = function(
             Object.defineProperty(obj1.prototype, key.split('Getter')[0], {
                 get: obj2.prototype[key],
                 enumerable: false,
-                configurable: true,
+                configurable: true
             });
         } else obj1.prototype[key] = obj2.prototype[key];
     });
@@ -97,4 +105,12 @@ export function getFlags(): Flag[] {
 }
 export function cleanCache() {
     global['RemoteFlag'] = undefined;
+}
+
+export function getQuote(RoomName: String): string {
+    let index = 0;
+    RoomName.split('').forEach((it) => {
+        index = index ^ it.charCodeAt(0);
+    });
+    return quote[index % quote.length];
 }

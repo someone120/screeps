@@ -51,20 +51,26 @@ export default function() {
             spawn.memory['send'] = true;
         }
         if (
-            remoteMiners < 1 &&
             Object.keys(Game.flags).find((v) => {
                 return v.split(' ')[0] == 'RemoteSource';
-            })
+            }) &&
+            remoteMiners <
+                Object.keys(Game.flags).filter((v) => {
+                    return v.split(' ')[0] == 'RemoteSource';
+                }).length
         ) {
             pushRemoteMiner(available, spawn);
             spawn.memory['send'] = true;
         }
         if (
-            Reserver < 1 &&
             Object.keys(Game.flags).find((v) => {
                 return v.split(' ')[0] == 'RemoteSource';
             }) &&
-            spawn.room.energyAvailable >= 600
+            Reserver <
+                Object.keys(Game.flags).filter((v) => {
+                    return v.split(' ')[0] == 'RemoteSource';
+                }).length &&
+            spawn.room.energyAvailable > 300
         ) {
             pushReserver(available, spawn);
             spawn.memory['send'] = true;

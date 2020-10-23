@@ -1,3 +1,4 @@
-interface Memory{
-    porterTasker:String[]
+interface Memory {
+    porterTasker: String[];
+    spawnTasks: String[];
 }

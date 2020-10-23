@@ -1,3 +1,5 @@
+import { indexOf } from 'lodash';
+
 class task {
     run(creep: Creep, text: String): Boolean {
         let split = text.split(' ');
@@ -15,7 +17,10 @@ class task {
  * @param task 任务
  */
 export function pushCarrierTask(task: String, name: String) {
-    if (Memory.porterTasker.includes(task)) {
+    if (
+        Memory.porterTasker.includes(task) ||
+        global['porterTasksTaken'].includes(task)
+    ) {
         return;
     }
     console.log(`<p style="color: #8BC34A;">[${name}]发布了任务：${task}</p>`);
@@ -27,7 +32,7 @@ export function pushCarrierTask(task: String, name: String) {
  * @param task 任务
  */
 export function pushSpawnTask(task: String, name: String) {
-    if (Memory['spawnTask'].includes(task)) {
+    if (Memory['spawnTask'].includes(task) || global['spawnTask'] === task) {
         return;
     }
     console.log(`<p style="color: #8BC34A;">[${name}]发布了任务：${task}</p>`);
@@ -35,9 +40,11 @@ export function pushSpawnTask(task: String, name: String) {
 }
 
 function finishTask(creep: Creep) {
+    let index = global['porterTasksTaken'].indexOf(creep.memory['task']);
+    if (index != -1) global['porterTasksTaken'].splice(index, 1);
     creep.memory['task'] = null;
     global[creep.name] = -1;
-    creep.say(`好诶！赚到了${~~(100 + Math.random() * 200)}円`,true);
+    creep.say(`好诶！赚到了${~~(100 + Math.random() * 200)}円`, true);
 }
 
 export class transfer extends task {

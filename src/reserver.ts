@@ -1,5 +1,5 @@
+import { getQuote } from './util';
 import { creep } from './base';
-import { pushSpawnTask } from './task.manager';
 export class reserve extends Creep implements creep {
     task: String;
     type: Number = 6;
@@ -14,20 +14,34 @@ export class reserve extends Creep implements creep {
             let controller = source.room.controller;
             if (!controller) {
                 this.moveTo(source, {
-                    visualizePathStyle: { stroke: '#ffaa00' },
+                    visualizePathStyle: { stroke: '#ffaa00' }
                 });
-            } else if (this.reserveController(controller) == ERR_NOT_IN_RANGE) {
-                this.moveTo(controller, {
-                    visualizePathStyle: { stroke: '#ffaa00' },
-                });
+            } else {
+                const text = getQuote(this.room.name);
+
+                if (!(controller.sign && controller.sign.text == text)) {
+                    if (
+                        this.signController(controller, text) ==
+                        ERR_NOT_IN_RANGE
+                    ) {
+                        this.moveTo(controller, {
+                            visualizePathStyle: { stroke: '#ffaa00' }
+                        });
+                    }
+                }
+                if (this.reserveController(controller) == ERR_NOT_IN_RANGE) {
+                    this.moveTo(controller, {
+                        visualizePathStyle: { stroke: '#ffaa00' }
+                    });
+                }
             }
         } else {
             this.moveTo(source, {
-                visualizePathStyle: { stroke: '#ffaa00' },
+                visualizePathStyle: { stroke: '#ffaa00' }
             });
         }
         // if (this.ticksToLive <= 50) {
-        //     let task = `Reserver Spawn1 ${Game.spawns['Spawn1'].room.energyCapacityAvailable}`;
+        //     let task = `Reserver ${Game.spawns['Spawn1'].room.energyCapacityAvailable}`;
         //     if (Memory['spawnTask'].includes(task)) {
         //         return;
         //     }

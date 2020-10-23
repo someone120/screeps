@@ -1,23 +1,22 @@
-import { Visualizer } from './Visualizer';
-import { RemoteCarrier } from './remoteCarrier';
+import roleSpawn from 'role.spawn';
 import { creep } from './base';
 import { Upgrader } from './controller.keeper';
+import { ErrorMapper } from './errorMapping';
 import mount from './mount';
+import { RemoteCarrier } from './remoteCarrier';
 import { remoteMiner } from './remoteMiner';
 import { reserve } from './reserver';
 import { builder } from './role.builder';
 import { harvester } from './role.harvester';
 import { Repairer } from './role.maintainer';
 import { Carrier } from './role.porter';
-import spawnTask from './spawn.task';
 import { checkQuantity, stateScanner } from './util';
-import { ErrorMapper } from './errorMapping';
-import roleSpawn from 'role.spawn';
+import { Visualizer } from './Visualizer';
 module.exports.loop = ErrorMapper.wrapLoop(() => {
     mount();
-    roleSpawn();
     checkQuantity(Game.creeps);
     if (!Memory['type']) Memory['type'] = [0, 0, 0, 0, 0];
+    if (!global['porterTasksTaken']) global['porterTasksTaken'] = [];
     for (let name in Game.creeps) {
         let creep = Game.creeps[name];
         let t: creep;
@@ -71,6 +70,7 @@ module.exports.loop = ErrorMapper.wrapLoop(() => {
     // console.log(JSON.stringify(path));
     Visualizer.visuals();
     stateScanner();
+    roleSpawn();
 });
 
 function autoClean() {

@@ -1,16 +1,18 @@
 import { creep } from './base';
 import {
     carry,
-
-
-    pushCarrierTask, request as requestEneryge, transfer
+    pushCarrierTask,
+    request as requestEneryge,
+    transfer
 } from './task.manager';
 
 /**
  * 从任务列表中提取一个任务
  */
 function getTask(): String {
-    return Memory.porterTasker.shift();
+    let task = Memory.porterTasker.shift();
+    global['porterTasksTaken'].push(task);
+    return task;
 }
 
 /**
