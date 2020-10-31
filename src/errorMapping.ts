@@ -1,21 +1,16 @@
 import _ from 'lodash';
 import { SourceMapConsumer } from 'source-map';
-
 export class ErrorMapper {
     // Cache consumer
     private static _consumer?: SourceMapConsumer;
-
     public static get consumer(): SourceMapConsumer {
         if (this._consumer == null) {
             this._consumer = new SourceMapConsumer(require('main.js.map'));
         }
-
         return this._consumer;
     }
-
     // Cache previously mapped traces to improve performance
     public static cache: { [key: string]: string } = {};
-
     /**
      * Generates a stack trace using a source map generate original symbol names.
      *
@@ -31,19 +26,15 @@ export class ErrorMapper {
         if (Object.prototype.hasOwnProperty.call(this.cache, stack)) {
             return this.cache[stack];
         }
-
-        
         const re = /^\s+at\s+(.+?\s+)?\(?([0-z._\-\\\/]+):(\d+):(\d+)\)?$/gm;
         let match: RegExpExecArray | null;
         let outStack = error.toString();
-
         while ((match = re.exec(stack))) {
             if (match[2] === 'main') {
                 const pos = this.consumer.originalPositionFor({
                     column: parseInt(match[4], 10),
                     line: parseInt(match[3], 10),
                 });
-
                 if (pos.line != null) {
                     if (pos.name) {
                         outStack += `\n    at ${pos.name} (${pos.source}:${pos.line}:${pos.column})`;
@@ -65,11 +56,9 @@ export class ErrorMapper {
                 break;
             }
         }
-
         this.cache[stack] = outStack;
         return outStack;
     }
-
     public static wrapLoop(loop: () => void): () => void {
         return () => {
             try {

@@ -1,11 +1,9 @@
 import _ from 'lodash';
 import { rootCertificates } from 'tls';
-
 const TEXT_COLOR = '#c9c9c9';
 const TEXT_SIZE = 0.8;
 const CHAR_WIDTH = TEXT_SIZE * 0.4;
 const CHAR_HEIGHT = TEXT_SIZE * 0.9;
-
 /**
  * The Visualizer contains many static methods for drawing room visuals and displaying information through a GUI
  */
@@ -31,7 +29,6 @@ export class Visualizer {
             this.textStyle(size, style)
         );
     }
-
     static barGraph(
         progress: number | [number, number],
         pos: { x: number; y: number; roomName?: string },
@@ -86,7 +83,6 @@ export class Visualizer {
             );
         }
     }
-
     static drawGraphs(): void {
         this.text(`CPU`, { x: 1, y: 2 });
         this.barGraph(Game.cpu.getUsed() / Game.cpu.limit, { x: 4.5, y: 2 });
@@ -129,7 +125,6 @@ export class Visualizer {
             } catch (error) {}
         }
     }
-
     static summary(): void {
         this.text(
             `有视野房间数量: ${_.keys(Game.rooms).length} | 共有: ${

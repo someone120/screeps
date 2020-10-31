@@ -1,3 +1,4 @@
+import { energyTransfer } from './role.energyTransfer';
 import roleSpawn from 'role.spawn';
 import { creep } from './base';
 import { Upgrader } from './controller.keeper';
@@ -12,6 +13,7 @@ import { Repairer } from './role.maintainer';
 import { Carrier } from './role.porter';
 import { checkQuantity, stateScanner } from './util';
 import { Visualizer } from './Visualizer';
+import { Scort } from 'role.scout';
 module.exports.loop = ErrorMapper.wrapLoop(() => {
     mount();
     checkQuantity(Game.creeps);
@@ -46,6 +48,12 @@ module.exports.loop = ErrorMapper.wrapLoop(() => {
             case 7:
                 t = new RemoteCarrier(creep.id);
                 break;
+            case 8:
+                t = new energyTransfer(creep.id);
+                break;
+            case 9:
+                t = new Scort(creep.id);
+                break;
             case -1:
                 break;
             //falls through
@@ -71,8 +79,10 @@ module.exports.loop = ErrorMapper.wrapLoop(() => {
     Visualizer.visuals();
     stateScanner();
     roleSpawn();
+    if (Game.time % 1000 == 0) {
+        Game.cpu.halt();
+    }
 });
-
 function autoClean() {
     if (Game.time % 20 != 0) {
         return;
@@ -83,7 +93,6 @@ function autoClean() {
         }
     }
 }
-
 function drawType(creep: Creep) {
     let text = '';
     switch (creep.memory['type']) {
@@ -111,6 +120,9 @@ function drawType(creep: Creep) {
         case 7:
             text = 'RemoteCarrier';
             break;
+        case 8:
+            text = 'energyTransfer';
+            break;
         default:
             text = '我也不懂';
             break;
@@ -119,6 +131,6 @@ function drawType(creep: Creep) {
         color: '#2196F3',
         font: 0.3,
         stroke: '#000000',
-        strokeWidth: 0.05,
+        strokeWidth: 0.05
     });
 }

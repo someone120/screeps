@@ -89,26 +89,26 @@ declare const CREEP_CLAIM_LIFE_TIME: 600;
 declare const CREEP_CORPSE_RATE: 0.2;
 
 declare const OBSTACLE_OBJECT_TYPES: [
-    "spawn",
-    "creep",
-    "powerCreep",
-    "source",
-    "mineral",
-    "deposit",
-    "controller",
-    "constructedWall",
-    "extension",
-    "link",
-    "storage",
-    "tower",
-    "observer",
-    "powerSpawn",
-    "powerBank",
-    "lab",
-    "terminal",
-    "nuker",
-    "factory",
-    "invaderCore"
+    'spawn',
+    'creep',
+    'powerCreep',
+    'source',
+    'mineral',
+    'deposit',
+    'controller',
+    'constructedWall',
+    'extension',
+    'link',
+    'storage',
+    'tower',
+    'observer',
+    'powerSpawn',
+    'powerBank',
+    'lab',
+    'terminal',
+    'nuker',
+    'factory',
+    'invaderCore'
 ];
 
 declare const ENERGY_REGEN_TIME: 300;
@@ -329,7 +329,10 @@ declare const ACCESS_KEY: ACCESS_KEY;
 declare const PIXEL_CPU_COST: 5000;
 
 declare const CONTROLLER_LEVELS: { [level: number]: number };
-declare const CONTROLLER_STRUCTURES: Record<BuildableStructureConstant, { [level: number]: number }>;
+declare const CONTROLLER_STRUCTURES: Record<
+    BuildableStructureConstant,
+    { [level: number]: number }
+>;
 
 declare const CONTROLLER_DOWNGRADE: { [level: number]: number };
 declare const CONTROLLER_DOWNGRADE_RESTORE: number;
@@ -456,134 +459,134 @@ declare const NUKE_DAMAGE: {
 declare const REACTIONS: {
     [resource: string]: { [resource: string]: string };
     H: {
-        O: "OH";
-        L: "LH";
-        K: "KH";
-        U: "UH";
-        Z: "ZH";
-        G: "GH";
+        O: 'OH';
+        L: 'LH';
+        K: 'KH';
+        U: 'UH';
+        Z: 'ZH';
+        G: 'GH';
     };
     O: {
-        H: "OH";
-        L: "LO";
-        K: "KO";
-        U: "UO";
-        Z: "ZO";
-        G: "GO";
+        H: 'OH';
+        L: 'LO';
+        K: 'KO';
+        U: 'UO';
+        Z: 'ZO';
+        G: 'GO';
     };
     Z: {
-        K: "ZK";
-        H: "ZH";
-        O: "ZO";
+        K: 'ZK';
+        H: 'ZH';
+        O: 'ZO';
     };
     L: {
-        U: "UL";
-        H: "LH";
-        O: "LO";
+        U: 'UL';
+        H: 'LH';
+        O: 'LO';
     };
     K: {
-        Z: "ZK";
-        H: "KH";
-        O: "KO";
+        Z: 'ZK';
+        H: 'KH';
+        O: 'KO';
     };
     G: {
-        H: "GH";
-        O: "GO";
+        H: 'GH';
+        O: 'GO';
     };
     U: {
-        L: "UL";
-        H: "UH";
-        O: "UO";
+        L: 'UL';
+        H: 'UH';
+        O: 'UO';
     };
     OH: {
-        UH: "UH2O";
-        UO: "UHO2";
-        ZH: "ZH2O";
-        ZO: "ZHO2";
-        KH: "KH2O";
-        KO: "KHO2";
-        LH: "LH2O";
-        LO: "LHO2";
-        GH: "GH2O";
-        GO: "GHO2";
+        UH: 'UH2O';
+        UO: 'UHO2';
+        ZH: 'ZH2O';
+        ZO: 'ZHO2';
+        KH: 'KH2O';
+        KO: 'KHO2';
+        LH: 'LH2O';
+        LO: 'LHO2';
+        GH: 'GH2O';
+        GO: 'GHO2';
     };
     X: {
-        UH2O: "XUH2O";
-        UHO2: "XUHO2";
-        LH2O: "XLH2O";
-        LHO2: "XLHO2";
-        KH2O: "XKH2O";
-        KHO2: "XKHO2";
-        ZH2O: "XZH2O";
-        ZHO2: "XZHO2";
-        GH2O: "XGH2O";
-        GHO2: "XGHO2";
+        UH2O: 'XUH2O';
+        UHO2: 'XUHO2';
+        LH2O: 'XLH2O';
+        LHO2: 'XLHO2';
+        KH2O: 'XKH2O';
+        KHO2: 'XKHO2';
+        ZH2O: 'XZH2O';
+        ZHO2: 'XZHO2';
+        GH2O: 'XGH2O';
+        GHO2: 'XGHO2';
     };
     ZK: {
-        UL: "G";
+        UL: 'G';
     };
     UL: {
-        ZK: "G";
+        ZK: 'G';
     };
     LH: {
-        OH: "LH2O";
+        OH: 'LH2O';
     };
     ZH: {
-        OH: "ZH2O";
+        OH: 'ZH2O';
     };
     GH: {
-        OH: "GH2O";
+        OH: 'GH2O';
     };
     KH: {
-        OH: "KH2O";
+        OH: 'KH2O';
     };
     UH: {
-        OH: "UH2O";
+        OH: 'UH2O';
     };
     LO: {
-        OH: "LHO2";
+        OH: 'LHO2';
     };
     ZO: {
-        OH: "ZHO2";
+        OH: 'ZHO2';
     };
     KO: {
-        OH: "KHO2";
+        OH: 'KHO2';
     };
     UO: {
-        OH: "UHO2";
+        OH: 'UHO2';
     };
     GO: {
-        OH: "GHO2";
+        OH: 'GHO2';
     };
     LH2O: {
-        X: "XLH2O";
+        X: 'XLH2O';
     };
     KH2O: {
-        X: "XKH2O";
+        X: 'XKH2O';
     };
     ZH2O: {
-        X: "XZH2O";
+        X: 'XZH2O';
     };
     UH2O: {
-        X: "XUH2O";
+        X: 'XUH2O';
     };
     GH2O: {
-        X: "XGH2O";
+        X: 'XGH2O';
     };
     LHO2: {
-        X: "XLHO2";
+        X: 'XLHO2';
     };
     UHO2: {
-        X: "XUHO2";
+        X: 'XUHO2';
     };
     KHO2: {
-        X: "XKHO2";
+        X: 'XKHO2';
     };
     ZHO2: {
-        X: "XZHO2";
+        X: 'XZHO2';
     };
     GHO2: {
-        X: "XGHO2";
+        X: 'XGHO2';
     };
 };
 
@@ -749,7 +752,14 @@ declare const COMMODITIES: Record<
         level?: number;
         amount: number;
         cooldown: number;
-        components: Record<DepositConstant | CommodityConstant | MineralConstant | RESOURCE_ENERGY | RESOURCE_GHODIUM, number>;
+        components: Record<
+            | DepositConstant
+            | CommodityConstant
+            | MineralConstant
+            | RESOURCE_ENERGY
+            | RESOURCE_GHODIUM,
+            number
+        >;
     }
 >;
 
@@ -817,7 +827,7 @@ declare const POWER_CREEP_MAX_LEVEL: 25;
 declare const POWER_CREEP_LIFE_TIME: 5000;
 
 declare const POWER_CLASS: {
-    OPERATOR: "operator";
+    OPERATOR: 'operator';
 };
 
 declare const PWR_GENERATE_OPS: PWR_GENERATE_OPS;
@@ -855,7 +865,14 @@ declare const INVADER_CORE_CREEP_SPAWN_TIME: {
 declare const INVADER_CORE_EXPAND_TIME: 15000;
 declare const INVADER_CORE_CONTROLLER_POWER: 100;
 declare const INVADER_CORE_CONTROLLER_DOWNGRADE: 5000;
-declare const STRONGHOLD_RAMPART_HITS: { 0: 0; 1: 50000; 2: 200000; 3: 500000; 4: 1000000; 5: 2000000 };
+declare const STRONGHOLD_RAMPART_HITS: {
+    0: 0;
+    1: 50000;
+    2: 200000;
+    3: 500000;
+    4: 1000000;
+    5: 2000000;
+};
 declare const STRONGHOLD_DECAY_TICKS: 150000;
 
 declare const POWER_INFO: {
@@ -869,13 +886,13 @@ declare const POWER_INFO: {
         duration?: number | number[];
     };
     [PWR_GENERATE_OPS]: {
-        className: POWER_CLASS["OPERATOR"];
+        className: POWER_CLASS['OPERATOR'];
         level: [0, 2, 7, 14, 22];
         cooldown: 50;
         effect: [1, 2, 4, 6, 8];
     };
     [PWR_OPERATE_SPAWN]: {
-        className: POWER_CLASS["OPERATOR"];
+        className: POWER_CLASS['OPERATOR'];
         level: [0, 2, 7, 14, 22];
         cooldown: 300;
         duration: 1000;
@@ -884,7 +901,7 @@ declare const POWER_INFO: {
         effect: [0.9, 0.7, 0.5, 0.35, 0.2];
     };
     [PWR_OPERATE_TOWER]: {
-        className: POWER_CLASS["OPERATOR"];
+        className: POWER_CLASS['OPERATOR'];
         level: [0, 2, 7, 14, 22];
         cooldown: 10;
         duration: 100;
@@ -893,7 +910,7 @@ declare const POWER_INFO: {
         effect: [1.1, 1.2, 1.3, 1.4, 1.5];
     };
     [PWR_OPERATE_STORAGE]: {
-        className: POWER_CLASS["OPERATOR"];
+        className: POWER_CLASS['OPERATOR'];
         level: [0, 2, 7, 14, 22];
         cooldown: 800;
         duration: 1000;
@@ -902,7 +919,7 @@ declare const POWER_INFO: {
         effect: [500000, 1000000, 2000000, 4000000, 7000000];
     };
     [PWR_OPERATE_LAB]: {
-        className: POWER_CLASS["OPERATOR"];
+        className: POWER_CLASS['OPERATOR'];
         level: [0, 2, 7, 14, 22];
         cooldown: 50;
         duration: 1000;
@@ -911,7 +928,7 @@ declare const POWER_INFO: {
         effect: [2, 4, 6, 8, 10];
     };
     [PWR_OPERATE_EXTENSION]: {
-        className: POWER_CLASS["OPERATOR"];
+        className: POWER_CLASS['OPERATOR'];
         level: [0, 2, 7, 14, 22];
         cooldown: 50;
         range: 3;
@@ -919,7 +936,7 @@ declare const POWER_INFO: {
         effect: [0.2, 0.4, 0.6, 0.8, 1.0];
     };
     [PWR_OPERATE_OBSERVER]: {
-        className: POWER_CLASS["OPERATOR"];
+        className: POWER_CLASS['OPERATOR'];
         level: [0, 2, 7, 14, 22];
         cooldown: 400;
         duration: [200, 400, 600, 800, 1000];
@@ -927,7 +944,7 @@ declare const POWER_INFO: {
         ops: 10;
     };
     [PWR_OPERATE_TERMINAL]: {
-        className: POWER_CLASS["OPERATOR"];
+        className: POWER_CLASS['OPERATOR'];
         level: [0, 2, 7, 14, 22];
         cooldown: 500;
         duration: 1000;
@@ -936,7 +953,7 @@ declare const POWER_INFO: {
         effect: [0.9, 0.8, 0.7, 0.6, 0.5];
     };
     [PWR_DISRUPT_SPAWN]: {
-        className: POWER_CLASS["OPERATOR"];
+        className: POWER_CLASS['OPERATOR'];
         level: [0, 2, 7, 14, 22];
         cooldown: 5;
         range: 20;
@@ -944,7 +961,7 @@ declare const POWER_INFO: {
         duration: [1, 2, 3, 4, 5];
     };
     [PWR_DISRUPT_TOWER]: {
-        className: POWER_CLASS["OPERATOR"];
+        className: POWER_CLASS['OPERATOR'];
         level: [0, 2, 7, 14, 22];
         cooldown: 0;
         duration: 5;
@@ -953,7 +970,7 @@ declare const POWER_INFO: {
         effect: [0.9, 0.8, 0.7, 0.6, 0.5];
     };
     [PWR_DISRUPT_SOURCE]: {
-        className: POWER_CLASS["OPERATOR"];
+        className: POWER_CLASS['OPERATOR'];
         level: [0, 2, 7, 14, 22];
         cooldown: 100;
         range: 3;
@@ -961,7 +978,7 @@ declare const POWER_INFO: {
         duration: [100, 200, 300, 400, 500];
     };
     [PWR_SHIELD]: {
-        className: POWER_CLASS["OPERATOR"];
+        className: POWER_CLASS['OPERATOR'];
         level: [0, 2, 7, 14, 22];
         effect: [5000, 10000, 15000, 20000, 25000];
         duration: 50;
@@ -969,7 +986,7 @@ declare const POWER_INFO: {
         energy: 100;
     };
     [PWR_REGEN_SOURCE]: {
-        className: POWER_CLASS["OPERATOR"];
+        className: POWER_CLASS['OPERATOR'];
         level: [10, 11, 12, 14, 22];
         cooldown: 100;
         duration: 300;
@@ -978,7 +995,7 @@ declare const POWER_INFO: {
         period: 15;
     };
     [PWR_REGEN_MINERAL]: {
-        className: POWER_CLASS["OPERATOR"];
+        className: POWER_CLASS['OPERATOR'];
         level: [10, 11, 12, 14, 22];
         cooldown: 100;
         duration: 100;
@@ -987,7 +1004,7 @@ declare const POWER_INFO: {
         period: 10;
     };
     [PWR_DISRUPT_TERMINAL]: {
-        className: POWER_CLASS["OPERATOR"];
+        className: POWER_CLASS['OPERATOR'];
         level: [20, 21, 22, 23, 24];
         cooldown: 8;
         duration: 10;
@@ -995,7 +1012,7 @@ declare const POWER_INFO: {
         ops: [50, 40, 30, 20, 10];
     };
     [PWR_FORTIFY]: {
-        className: POWER_CLASS["OPERATOR"];
+        className: POWER_CLASS['OPERATOR'];
         level: [0, 2, 7, 14, 22];
         cooldown: 5;
         range: 3;
@@ -1003,7 +1020,7 @@ declare const POWER_INFO: {
         duration: [1, 2, 3, 4, 5];
     };
     [PWR_OPERATE_POWER]: {
-        className: POWER_CLASS["OPERATOR"];
+        className: POWER_CLASS['OPERATOR'];
         level: [10, 11, 12, 14, 22];
         cooldown: 800;
         range: 3;
@@ -1012,7 +1029,7 @@ declare const POWER_INFO: {
         effect: [1, 2, 3, 4, 5];
     };
     [PWR_OPERATE_CONTROLLER]: {
-        className: POWER_CLASS["OPERATOR"];
+        className: POWER_CLASS['OPERATOR'];
         level: [20, 21, 22, 23, 24];
         cooldown: 800;
         range: 3;
@@ -1021,7 +1038,7 @@ declare const POWER_INFO: {
         effect: [10, 20, 30, 40, 50];
     };
     [PWR_OPERATE_FACTORY]: {
-        className: POWER_CLASS["OPERATOR"];
+        className: POWER_CLASS['OPERATOR'];
         level: [0, 2, 7, 14, 22];
         cooldown: 1000;
         range: 3;
@@ -1032,7 +1049,9 @@ declare const POWER_INFO: {
 /**
  * A site of a structure which is currently under construction.
  */
-interface ConstructionSite<T extends BuildableStructureConstant = BuildableStructureConstant> extends RoomObject {
+interface ConstructionSite<
+    T extends BuildableStructureConstant = BuildableStructureConstant
+> extends RoomObject {
     readonly prototype: ConstructionSite;
     /**
      * A unique object identifier. You can use `Game.getObjectById` method to retrieve an object instance by its `id`.
@@ -1065,7 +1084,9 @@ interface ConstructionSite<T extends BuildableStructureConstant = BuildableStruc
     remove(): number;
 }
 
-interface ConstructionSiteConstructor extends _Constructor<ConstructionSite>, _ConstructorById<ConstructionSite> {}
+interface ConstructionSiteConstructor
+    extends _Constructor<ConstructionSite>,
+        _ConstructorById<ConstructionSite> {}
 
 declare const ConstructionSite: ConstructionSiteConstructor;
 /**
@@ -1175,7 +1196,9 @@ interface Creep extends RoomObject {
      * @param target The target object to be attacked.
      * @returns Result Code: OK, ERR_NOT_OWNER, ERR_BUSY, ERR_NOT_ENOUGH_RESOURCES, ERR_INVALID_TARGET, ERR_NOT_IN_RANGE, ERR_NO_BODYPART, ERR_RCL_NOT_ENOUGH
      */
-    build(target: ConstructionSite): CreepActionReturnCode | ERR_NOT_ENOUGH_RESOURCES | ERR_RCL_NOT_ENOUGH;
+    build(
+        target: ConstructionSite
+    ): CreepActionReturnCode | ERR_NOT_ENOUGH_RESOURCES | ERR_RCL_NOT_ENOUGH;
     /**
      * Cancel the order given during the current game tick.
      * @param methodName The name of a creep's method to be cancelled.
@@ -1192,7 +1215,9 @@ interface Creep extends RoomObject {
      * @param target The target controller object.
      * @returns Result Code: OK, ERR_NOT_OWNER, ERR_BUSY, ERR_INVALID_TARGET, ERR_FULL, ERR_NOT_IN_RANGE, ERR_NO_BODYPART, ERR_GCL_NOT_ENOUGH
      */
-    claimController(target: StructureController): CreepActionReturnCode | ERR_FULL | ERR_GCL_NOT_ENOUGH;
+    claimController(
+        target: StructureController
+    ): CreepActionReturnCode | ERR_FULL | ERR_GCL_NOT_ENOUGH;
     /**
      * Dismantles any (even hostile) structure returning 50% of the energy spent on its repair.
      *
@@ -1207,7 +1232,10 @@ interface Creep extends RoomObject {
      * @param resourceType One of the RESOURCE_* constants.
      * @param amount The amount of resource units to be dropped. If omitted, all the available carried amount is used.
      */
-    drop(resourceType: ResourceConstant, amount?: number): OK | ERR_NOT_OWNER | ERR_BUSY | ERR_NOT_ENOUGH_RESOURCES;
+    drop(
+        resourceType: ResourceConstant,
+        amount?: number
+    ): OK | ERR_NOT_OWNER | ERR_BUSY | ERR_NOT_ENOUGH_RESOURCES;
     /**
      * Add one more available safe mode activation to a room controller. The creep has to be at adjacent square to the target room controller and have 1000 ghodium resource.
      * @param target The target room controller.
@@ -1229,7 +1257,9 @@ interface Creep extends RoomObject {
      * The target has to be at an adjacent square to the creep.
      * @param target The source object to be harvested.
      */
-    harvest(target: Source | Mineral | Deposit): CreepActionReturnCode | ERR_NOT_FOUND | ERR_NOT_ENOUGH_RESOURCES;
+    harvest(
+        target: Source | Mineral | Deposit
+    ): CreepActionReturnCode | ERR_NOT_FOUND | ERR_NOT_ENOUGH_RESOURCES;
     /**
      * Heal self or another creep. It will restore the target creep’s damaged body parts function and increase the hits counter.
      *
@@ -1246,12 +1276,16 @@ interface Creep extends RoomObject {
      * @param direction The direction to move in (`TOP`, `TOP_LEFT`...)
      */
     move(direction: DirectionConstant): CreepMoveReturnCode;
-    move(target: Creep): OK | ERR_NOT_OWNER | ERR_BUSY | ERR_NOT_IN_RANGE | ERR_INVALID_ARGS;
+    move(
+        target: Creep
+    ): OK | ERR_NOT_OWNER | ERR_BUSY | ERR_NOT_IN_RANGE | ERR_INVALID_ARGS;
     /**
      * Move the creep using the specified predefined path. Needs the MOVE body part.
      * @param path A path value as returned from Room.findPath or RoomPosition.findPathTo methods. Both array form and serialized string form are accepted.
      */
-    moveByPath(path: PathStep[] | RoomPosition[] | string): CreepMoveReturnCode | ERR_NOT_FOUND | ERR_INVALID_ARGS;
+    moveByPath(
+        path: PathStep[] | RoomPosition[] | string
+    ): CreepMoveReturnCode | ERR_NOT_FOUND | ERR_INVALID_ARGS;
     /**
      * Find the optimal path to the target within the same room and move to it.
      * A shorthand to consequent calls of pos.findPathTo() and move() methods.
@@ -1262,7 +1296,11 @@ interface Creep extends RoomObject {
      * @param y Y position of the target in the room.
      * @param opts An object containing pathfinding options flags (see Room.findPath for more info) or one of the following: reusePath, serializeMemory, noPathFinding
      */
-    moveTo(x: number, y: number, opts?: MoveToOpts): CreepMoveReturnCode | ERR_NO_PATH | ERR_INVALID_TARGET;
+    moveTo(
+        x: number,
+        y: number,
+        opts?: MoveToOpts
+    ): CreepMoveReturnCode | ERR_NO_PATH | ERR_INVALID_TARGET;
     /**
      * Find the optimal path to the target within the same room and move to it.
      * A shorthand to consequent calls of pos.findPathTo() and move() methods.
@@ -1274,13 +1312,15 @@ interface Creep extends RoomObject {
      */
     moveTo(
         target: RoomPosition | { pos: RoomPosition },
-        opts?: MoveToOpts,
+        opts?: MoveToOpts
     ): CreepMoveReturnCode | ERR_NO_PATH | ERR_INVALID_TARGET | ERR_NOT_FOUND;
     /**
      * Toggle auto notification when the creep is under attack. The notification will be sent to your account email. Turned on by default.
      * @param enabled Whether to enable notification or disable.
      */
-    notifyWhenAttacked(enabled: boolean): OK | ERR_NOT_OWNER | ERR_BUSY | ERR_INVALID_ARGS;
+    notifyWhenAttacked(
+        enabled: boolean
+    ): OK | ERR_NOT_OWNER | ERR_BUSY | ERR_INVALID_ARGS;
     /**
      * Pick up an item (a dropped piece of energy). Needs the CARRY body part. The target has to be at adjacent square to the creep or at the same square.
      * @param target The target object to be picked up.
@@ -1292,7 +1332,15 @@ interface Creep extends RoomObject {
      * Requires the MOVE body part. The target must be adjacent to the creep. The creep must move elsewhere, and the target must move towards the creep.
      * @param target The target creep to be pulled.
      */
-    pull(target: Creep): OK | ERR_NOT_OWNER | ERR_BUSY | ERR_INVALID_TARGET | ERR_NOT_IN_RANGE | ERR_NO_BODYPART;
+    pull(
+        target: Creep
+    ):
+        | OK
+        | ERR_NOT_OWNER
+        | ERR_BUSY
+        | ERR_INVALID_TARGET
+        | ERR_NOT_IN_RANGE
+        | ERR_NO_BODYPART;
     /**
      * A ranged attack against another creep or structure.
      *
@@ -1353,7 +1401,10 @@ interface Creep extends RoomObject {
      * @param text The sign text. The maximum text length is 100 characters.
      * @returns Result Code: OK, ERR_BUSY, ERR_INVALID_TARGET, ERR_NOT_IN_RANGE
      */
-    signController(target: StructureController, text: string): OK | ERR_BUSY | ERR_INVALID_TARGET | ERR_NOT_IN_RANGE;
+    signController(
+        target: StructureController,
+        text: string
+    ): OK | ERR_BUSY | ERR_INVALID_TARGET | ERR_NOT_IN_RANGE;
     /**
      * Kill the creep immediately.
      */
@@ -1364,7 +1415,11 @@ interface Creep extends RoomObject {
      * @param resourceType One of the RESOURCE_* constants
      * @param amount The amount of resources to be transferred. If omitted, all the available carried amount is used.
      */
-    transfer(target: AnyCreep | Structure, resourceType: ResourceConstant, amount?: number): ScreepsReturnCode;
+    transfer(
+        target: AnyCreep | Structure,
+        resourceType: ResourceConstant,
+        amount?: number
+    ): ScreepsReturnCode;
     /**
      * Upgrade your controller to the next level using carried energy.
      *
@@ -1392,10 +1447,16 @@ interface Creep extends RoomObject {
      * @param resourceType The target One of the RESOURCE_* constants..
      * @param amount The amount of resources to be transferred. If omitted, all the available amount is used.
      */
-    withdraw(target: Structure | Tombstone | Ruin, resourceType: ResourceConstant, amount?: number): ScreepsReturnCode;
+    withdraw(
+        target: Structure | Tombstone | Ruin,
+        resourceType: ResourceConstant,
+        amount?: number
+    ): ScreepsReturnCode;
 }
 
-interface CreepConstructor extends _Constructor<Creep>, _ConstructorById<Creep> {}
+interface CreepConstructor
+    extends _Constructor<Creep>,
+        _ConstructorById<Creep> {}
 
 declare const Creep: CreepConstructor;
 /**
@@ -1427,7 +1488,9 @@ interface Deposit extends RoomObject {
     ticksToDecay: number;
 }
 
-interface DepositConstructor extends _Constructor<Deposit>, _ConstructorById<Deposit> {}
+interface DepositConstructor
+    extends _Constructor<Deposit>,
+        _ConstructorById<Deposit> {}
 
 declare const Deposit: DepositConstructor;
 /**
@@ -1467,7 +1530,10 @@ interface Flag extends RoomObject {
      * @parma secondaryColor Secondary color of the flag. One of the COLOR_* constants.
      * @returns Result Code: OK, ERR_INVALID_ARGS
      */
-    setColor(color: ColorConstant, secondaryColor?: ColorConstant): OK | ERR_INVALID_ARGS;
+    setColor(
+        color: ColorConstant,
+        secondaryColor?: ColorConstant
+    ): OK | ERR_INVALID_ARGS;
     /**
      * Set new position of the flag.
      * @param x The X position in the room.
@@ -1480,12 +1546,28 @@ interface Flag extends RoomObject {
      * @param pos Can be a RoomPosition object or any object containing RoomPosition.
      * @returns Result Code: OK, ERR_INVALID_TARGET
      */
-    setPosition(pos: RoomPosition | { pos: RoomPosition }): OK | ERR_INVALID_ARGS;
+    setPosition(
+        pos: RoomPosition | { pos: RoomPosition }
+    ): OK | ERR_INVALID_ARGS;
 }
 
 interface FlagConstructor extends _Constructor<Flag> {
-    new (name: string, color: ColorConstant, secondaryColor: ColorConstant, roomName: string, x: number, y: number): Flag;
-    (name: string, color: ColorConstant, secondaryColor: ColorConstant, roomName: string, x: number, y: number): Flag;
+    new (
+        name: string,
+        color: ColorConstant,
+        secondaryColor: ColorConstant,
+        roomName: string,
+        x: number,
+        y: number
+    ): Flag;
+    (
+        name: string,
+        color: ColorConstant,
+        secondaryColor: ColorConstant,
+        roomName: string,
+        x: number,
+        y: number
+    ): Flag;
 }
 
 declare const Flag: FlagConstructor;
@@ -1587,6 +1669,7 @@ interface Game {
     notify(message: string, groupInterval?: number): undefined;
 }
 
+// eslint-disable-next-line no-var
 declare var Game: Game;
 interface _HasId {
     id: Id<this>;
@@ -1634,7 +1717,7 @@ interface Shard {
     /**
      * Currently always equals to normal.
      */
-    type: "normal";
+    type: 'normal';
     /**
      * Whether this shard belongs to the PTR.
      */
@@ -1730,7 +1813,9 @@ interface HeapStatistics {
 /**
  * Describes one part of a creep’s body.
  */
-type BodyPartDefinition<T extends BodyPartConstant = BodyPartConstant> = T extends any
+type BodyPartDefinition<
+    T extends BodyPartConstant = BodyPartConstant
+> = T extends any
     ? {
           /**
            * One of the `RESOURCE_*` constants.
@@ -1803,9 +1888,14 @@ interface AllLookAtTypes {
 
 type LookAtTypes = Partial<AllLookAtTypes>;
 
-type LookAtResult<K extends LookConstant = LookConstant> = Pick<LookAtTypes, K> & { type: K };
+type LookAtResult<K extends LookConstant = LookConstant> = Pick<
+    LookAtTypes,
+    K
+> & { type: K };
 
-type LookAtResultWithPos<K extends LookConstant = LookConstant> = LookAtResult<K> & {
+type LookAtResultWithPos<K extends LookConstant = LookConstant> = LookAtResult<
+    K
+> & {
     x: number;
     y: number;
 };
@@ -1816,17 +1906,28 @@ interface LookAtResultMatrix<K extends LookConstant = LookConstant> {
     };
 }
 
-interface LookForAtAreaResultMatrix<T, K extends keyof LookAtTypes = keyof LookAtTypes> {
+interface LookForAtAreaResultMatrix<
+    T,
+    K extends keyof LookAtTypes = keyof LookAtTypes
+> {
     [y: number]: {
         [x: number]: Array<LookForAtAreaResult<T, K>>;
     };
 }
 
-type LookForAtAreaResult<T, K extends keyof LookAtTypes = keyof LookAtTypes> = { type: K } & { [P in K]: T };
+type LookForAtAreaResult<T, K extends keyof LookAtTypes = keyof LookAtTypes> = {
+    type: K;
+} & { [P in K]: T };
 
-type LookForAtAreaResultWithPos<T, K extends keyof LookAtTypes = keyof LookAtTypes> = LookForAtAreaResult<T, K> & { x: number; y: number };
+type LookForAtAreaResultWithPos<
+    T,
+    K extends keyof LookAtTypes = keyof LookAtTypes
+> = LookForAtAreaResult<T, K> & { x: number; y: number };
 
-type LookForAtAreaResultArray<T, K extends keyof LookAtTypes = keyof LookAtTypes> = Array<LookForAtAreaResultWithPos<T, K>>;
+type LookForAtAreaResultArray<
+    T,
+    K extends keyof LookAtTypes = keyof LookAtTypes
+> = Array<LookForAtAreaResultWithPos<T, K>>;
 
 interface FindTypes {
     [key: number]:
@@ -2060,13 +2161,13 @@ declare const InterShardMemory: InterShardMemory;
 
 // Extras
 
-type Terrain = "plain" | "swamp" | "wall";
+type Terrain = 'plain' | 'swamp' | 'wall';
 
-type ExitKey = "1" | "3" | "5" | "7";
+type ExitKey = '1' | '3' | '5' | '7';
 
 type AnyCreep = Creep | PowerCreep;
 
-type FindClosestByPathAlgorithm = "astar" | "dijkstra";
+type FindClosestByPathAlgorithm = 'astar' | 'dijkstra';
 
 // Return Codes
 
@@ -2107,13 +2208,29 @@ type ERR_NOT_ENOUGH_EXTENSIONS = -6;
 type ERR_RCL_NOT_ENOUGH = -14;
 type ERR_GCL_NOT_ENOUGH = -15;
 
-type CreepActionReturnCode = OK | ERR_NOT_OWNER | ERR_BUSY | ERR_INVALID_TARGET | ERR_NOT_IN_RANGE | ERR_NO_BODYPART | ERR_TIRED;
+type CreepActionReturnCode =
+    | OK
+    | ERR_NOT_OWNER
+    | ERR_BUSY
+    | ERR_INVALID_TARGET
+    | ERR_NOT_IN_RANGE
+    | ERR_NO_BODYPART
+    | ERR_TIRED;
 
-type CreepMoveReturnCode = OK | ERR_NOT_OWNER | ERR_BUSY | ERR_TIRED | ERR_NO_BODYPART;
+type CreepMoveReturnCode =
+    | OK
+    | ERR_NOT_OWNER
+    | ERR_BUSY
+    | ERR_TIRED
+    | ERR_NO_BODYPART;
 
 // Find Constants
 
-type ExitConstant = FIND_EXIT_TOP | FIND_EXIT_RIGHT | FIND_EXIT_BOTTOM | FIND_EXIT_LEFT;
+type ExitConstant =
+    | FIND_EXIT_TOP
+    | FIND_EXIT_RIGHT
+    | FIND_EXIT_BOTTOM
+    | FIND_EXIT_LEFT;
 
 type FindConstant =
     | FIND_EXIT_TOP
@@ -2186,16 +2303,24 @@ interface FilterObject {
 
 // Body Part Constants
 
-type BodyPartConstant = MOVE | WORK | CARRY | ATTACK | RANGED_ATTACK | TOUGH | HEAL | CLAIM;
+type BodyPartConstant =
+    | MOVE
+    | WORK
+    | CARRY
+    | ATTACK
+    | RANGED_ATTACK
+    | TOUGH
+    | HEAL
+    | CLAIM;
 
-type MOVE = "move";
-type WORK = "work";
-type CARRY = "carry";
-type ATTACK = "attack";
-type RANGED_ATTACK = "ranged_attack";
-type TOUGH = "tough";
-type HEAL = "heal";
-type CLAIM = "claim";
+type MOVE = 'move';
+type WORK = 'work';
+type CARRY = 'carry';
+type ATTACK = 'attack';
+type RANGED_ATTACK = 'ranged_attack';
+type TOUGH = 'tough';
+type HEAL = 'heal';
+type CLAIM = 'claim';
 
 // Look Constants
 
@@ -2215,27 +2340,35 @@ type LookConstant =
     | LOOK_POWER_CREEPS
     | LOOK_RUINS;
 
-type LOOK_CONSTRUCTION_SITES = "constructionSite";
-type LOOK_CREEPS = "creep";
-type LOOK_ENERGY = "energy";
-type LOOK_FLAGS = "flag";
-type LOOK_MINERALS = "mineral";
-type LOOK_DEPOSITS = "deposit";
-type LOOK_NUKES = "nuke";
-type LOOK_RESOURCES = "resource";
-type LOOK_SOURCES = "source";
-type LOOK_STRUCTURES = "structure";
-type LOOK_TERRAIN = "terrain";
-type LOOK_TOMBSTONES = "tombstone";
-type LOOK_POWER_CREEPS = "powerCreep";
-type LOOK_RUINS = "ruin";
+type LOOK_CONSTRUCTION_SITES = 'constructionSite';
+type LOOK_CREEPS = 'creep';
+type LOOK_ENERGY = 'energy';
+type LOOK_FLAGS = 'flag';
+type LOOK_MINERALS = 'mineral';
+type LOOK_DEPOSITS = 'deposit';
+type LOOK_NUKES = 'nuke';
+type LOOK_RESOURCES = 'resource';
+type LOOK_SOURCES = 'source';
+type LOOK_STRUCTURES = 'structure';
+type LOOK_TERRAIN = 'terrain';
+type LOOK_TOMBSTONES = 'tombstone';
+type LOOK_POWER_CREEPS = 'powerCreep';
+type LOOK_RUINS = 'ruin';
 
-type ORDER_SELL = "sell";
-type ORDER_BUY = "buy";
+type ORDER_SELL = 'sell';
+type ORDER_BUY = 'buy';
 
 // Direction Constants
 
-type DirectionConstant = TOP | TOP_RIGHT | RIGHT | BOTTOM_RIGHT | BOTTOM | BOTTOM_LEFT | LEFT | TOP_LEFT;
+type DirectionConstant =
+    | TOP
+    | TOP_RIGHT
+    | RIGHT
+    | BOTTOM_RIGHT
+    | BOTTOM
+    | BOTTOM_LEFT
+    | LEFT
+    | TOP_LEFT;
 
 type TOP = 1;
 type TOP_RIGHT = 2;
@@ -2299,27 +2432,27 @@ type StructureConstant =
     | STRUCTURE_PORTAL
     | STRUCTURE_INVADER_CORE;
 
-type STRUCTURE_EXTENSION = "extension";
-type STRUCTURE_RAMPART = "rampart";
-type STRUCTURE_ROAD = "road";
-type STRUCTURE_SPAWN = "spawn";
-type STRUCTURE_LINK = "link";
-type STRUCTURE_WALL = "constructedWall";
-type STRUCTURE_KEEPER_LAIR = "keeperLair";
-type STRUCTURE_CONTROLLER = "controller";
-type STRUCTURE_STORAGE = "storage";
-type STRUCTURE_TOWER = "tower";
-type STRUCTURE_OBSERVER = "observer";
-type STRUCTURE_POWER_BANK = "powerBank";
-type STRUCTURE_POWER_SPAWN = "powerSpawn";
-type STRUCTURE_EXTRACTOR = "extractor";
-type STRUCTURE_LAB = "lab";
-type STRUCTURE_TERMINAL = "terminal";
-type STRUCTURE_CONTAINER = "container";
-type STRUCTURE_NUKER = "nuker";
-type STRUCTURE_FACTORY = "factory";
-type STRUCTURE_INVADER_CORE = "invaderCore";
-type STRUCTURE_PORTAL = "portal";
+type STRUCTURE_EXTENSION = 'extension';
+type STRUCTURE_RAMPART = 'rampart';
+type STRUCTURE_ROAD = 'road';
+type STRUCTURE_SPAWN = 'spawn';
+type STRUCTURE_LINK = 'link';
+type STRUCTURE_WALL = 'constructedWall';
+type STRUCTURE_KEEPER_LAIR = 'keeperLair';
+type STRUCTURE_CONTROLLER = 'controller';
+type STRUCTURE_STORAGE = 'storage';
+type STRUCTURE_TOWER = 'tower';
+type STRUCTURE_OBSERVER = 'observer';
+type STRUCTURE_POWER_BANK = 'powerBank';
+type STRUCTURE_POWER_SPAWN = 'powerSpawn';
+type STRUCTURE_EXTRACTOR = 'extractor';
+type STRUCTURE_LAB = 'lab';
+type STRUCTURE_TERMINAL = 'terminal';
+type STRUCTURE_CONTAINER = 'container';
+type STRUCTURE_NUKER = 'nuker';
+type STRUCTURE_FACTORY = 'factory';
+type STRUCTURE_INVADER_CORE = 'invaderCore';
+type STRUCTURE_PORTAL = 'portal';
 
 // Terrain mask constants
 type TERRAIN_MASK_WALL = 1;
@@ -2350,7 +2483,11 @@ type MineralConstant =
     | RESOURCE_CATALYST;
 
 /** The compounds which can't boost */
-type MineralBaseCompoundsConstant = RESOURCE_HYDROXIDE | RESOURCE_ZYNTHIUM_KEANITE | RESOURCE_UTRIUM_LEMERGITE | RESOURCE_GHODIUM;
+type MineralBaseCompoundsConstant =
+    | RESOURCE_HYDROXIDE
+    | RESOURCE_ZYNTHIUM_KEANITE
+    | RESOURCE_UTRIUM_LEMERGITE
+    | RESOURCE_GHODIUM;
 
 /** The boosts (from tier 1 to tier 3) */
 type MineralBoostConstant =
@@ -2386,10 +2523,16 @@ type MineralBoostConstant =
     | RESOURCE_CATALYZED_GHODIUM_ALKALIDE;
 
 /** All the mineral compounds */
-type MineralCompoundConstant = MineralBaseCompoundsConstant | MineralBoostConstant;
+type MineralCompoundConstant =
+    | MineralBaseCompoundsConstant
+    | MineralBoostConstant;
 
 /** The raw deposits */
-type DepositConstant = RESOURCE_MIST | RESOURCE_BIOMASS | RESOURCE_METAL | RESOURCE_SILICON;
+type DepositConstant =
+    | RESOURCE_MIST
+    | RESOURCE_BIOMASS
+    | RESOURCE_METAL
+    | RESOURCE_SILICON;
 
 /** The commodities, produced by the Factory */
 type CommodityConstant =
@@ -2430,110 +2573,114 @@ type CommodityConstant =
     | RESOURCE_EMANATION
     | RESOURCE_ESSENCE;
 
-type InterShardResourceConstant = SUBSCRIPTION_TOKEN | CPU_UNLOCK | PIXEL | ACCESS_KEY;
+type InterShardResourceConstant =
+    | SUBSCRIPTION_TOKEN
+    | CPU_UNLOCK
+    | PIXEL
+    | ACCESS_KEY;
 type MarketResourceConstant = ResourceConstant | InterShardResourceConstant;
 
-type RESOURCE_ENERGY = "energy";
-type RESOURCE_POWER = "power";
-type RESOURCE_OPS = "ops";
+type RESOURCE_ENERGY = 'energy';
+type RESOURCE_POWER = 'power';
+type RESOURCE_OPS = 'ops';
 
-type RESOURCE_BIOMASS = "biomass";
-type RESOURCE_METAL = "metal";
-type RESOURCE_MIST = "mist";
-type RESOURCE_SILICON = "silicon";
+type RESOURCE_BIOMASS = 'biomass';
+type RESOURCE_METAL = 'metal';
+type RESOURCE_MIST = 'mist';
+type RESOURCE_SILICON = 'silicon';
 
-type RESOURCE_UTRIUM = "U";
-type RESOURCE_LEMERGIUM = "L";
-type RESOURCE_KEANIUM = "K";
-type RESOURCE_ZYNTHIUM = "Z";
-type RESOURCE_OXYGEN = "O";
-type RESOURCE_HYDROGEN = "H";
-type RESOURCE_CATALYST = "X";
+type RESOURCE_UTRIUM = 'U';
+type RESOURCE_LEMERGIUM = 'L';
+type RESOURCE_KEANIUM = 'K';
+type RESOURCE_ZYNTHIUM = 'Z';
+type RESOURCE_OXYGEN = 'O';
+type RESOURCE_HYDROGEN = 'H';
+type RESOURCE_CATALYST = 'X';
 
-type RESOURCE_HYDROXIDE = "OH";
-type RESOURCE_ZYNTHIUM_KEANITE = "ZK";
-type RESOURCE_UTRIUM_LEMERGITE = "UL";
-type RESOURCE_GHODIUM = "G";
+type RESOURCE_HYDROXIDE = 'OH';
+type RESOURCE_ZYNTHIUM_KEANITE = 'ZK';
+type RESOURCE_UTRIUM_LEMERGITE = 'UL';
+type RESOURCE_GHODIUM = 'G';
 
-type RESOURCE_UTRIUM_HYDRIDE = "UH";
-type RESOURCE_UTRIUM_OXIDE = "UO";
-type RESOURCE_KEANIUM_HYDRIDE = "KH";
-type RESOURCE_KEANIUM_OXIDE = "KO";
-type RESOURCE_LEMERGIUM_HYDRIDE = "LH";
-type RESOURCE_LEMERGIUM_OXIDE = "LO";
-type RESOURCE_ZYNTHIUM_HYDRIDE = "ZH";
-type RESOURCE_ZYNTHIUM_OXIDE = "ZO";
-type RESOURCE_GHODIUM_HYDRIDE = "GH";
-type RESOURCE_GHODIUM_OXIDE = "GO";
+type RESOURCE_UTRIUM_HYDRIDE = 'UH';
+type RESOURCE_UTRIUM_OXIDE = 'UO';
+type RESOURCE_KEANIUM_HYDRIDE = 'KH';
+type RESOURCE_KEANIUM_OXIDE = 'KO';
+type RESOURCE_LEMERGIUM_HYDRIDE = 'LH';
+type RESOURCE_LEMERGIUM_OXIDE = 'LO';
+type RESOURCE_ZYNTHIUM_HYDRIDE = 'ZH';
+type RESOURCE_ZYNTHIUM_OXIDE = 'ZO';
+type RESOURCE_GHODIUM_HYDRIDE = 'GH';
+type RESOURCE_GHODIUM_OXIDE = 'GO';
 
-type RESOURCE_UTRIUM_ACID = "UH2O";
-type RESOURCE_UTRIUM_ALKALIDE = "UHO2";
-type RESOURCE_KEANIUM_ACID = "KH2O";
-type RESOURCE_KEANIUM_ALKALIDE = "KHO2";
-type RESOURCE_LEMERGIUM_ACID = "LH2O";
-type RESOURCE_LEMERGIUM_ALKALIDE = "LHO2";
-type RESOURCE_ZYNTHIUM_ACID = "ZH2O";
-type RESOURCE_ZYNTHIUM_ALKALIDE = "ZHO2";
-type RESOURCE_GHODIUM_ACID = "GH2O";
-type RESOURCE_GHODIUM_ALKALIDE = "GHO2";
+type RESOURCE_UTRIUM_ACID = 'UH2O';
+type RESOURCE_UTRIUM_ALKALIDE = 'UHO2';
+type RESOURCE_KEANIUM_ACID = 'KH2O';
+type RESOURCE_KEANIUM_ALKALIDE = 'KHO2';
+type RESOURCE_LEMERGIUM_ACID = 'LH2O';
+type RESOURCE_LEMERGIUM_ALKALIDE = 'LHO2';
+type RESOURCE_ZYNTHIUM_ACID = 'ZH2O';
+type RESOURCE_ZYNTHIUM_ALKALIDE = 'ZHO2';
+type RESOURCE_GHODIUM_ACID = 'GH2O';
+type RESOURCE_GHODIUM_ALKALIDE = 'GHO2';
 
-type RESOURCE_CATALYZED_UTRIUM_ACID = "XUH2O";
-type RESOURCE_CATALYZED_UTRIUM_ALKALIDE = "XUHO2";
-type RESOURCE_CATALYZED_KEANIUM_ACID = "XKH2O";
-type RESOURCE_CATALYZED_KEANIUM_ALKALIDE = "XKHO2";
-type RESOURCE_CATALYZED_LEMERGIUM_ACID = "XLH2O";
-type RESOURCE_CATALYZED_LEMERGIUM_ALKALIDE = "XLHO2";
-type RESOURCE_CATALYZED_ZYNTHIUM_ACID = "XZH2O";
-type RESOURCE_CATALYZED_ZYNTHIUM_ALKALIDE = "XZHO2";
-type RESOURCE_CATALYZED_GHODIUM_ACID = "XGH2O";
-type RESOURCE_CATALYZED_GHODIUM_ALKALIDE = "XGHO2";
+type RESOURCE_CATALYZED_UTRIUM_ACID = 'XUH2O';
+type RESOURCE_CATALYZED_UTRIUM_ALKALIDE = 'XUHO2';
+type RESOURCE_CATALYZED_KEANIUM_ACID = 'XKH2O';
+type RESOURCE_CATALYZED_KEANIUM_ALKALIDE = 'XKHO2';
+type RESOURCE_CATALYZED_LEMERGIUM_ACID = 'XLH2O';
+type RESOURCE_CATALYZED_LEMERGIUM_ALKALIDE = 'XLHO2';
+type RESOURCE_CATALYZED_ZYNTHIUM_ACID = 'XZH2O';
+type RESOURCE_CATALYZED_ZYNTHIUM_ALKALIDE = 'XZHO2';
+type RESOURCE_CATALYZED_GHODIUM_ACID = 'XGH2O';
+type RESOURCE_CATALYZED_GHODIUM_ALKALIDE = 'XGHO2';
 
-type RESOURCE_UTRIUM_BAR = "utrium_bar";
-type RESOURCE_LEMERGIUM_BAR = "lemergium_bar";
-type RESOURCE_ZYNTHIUM_BAR = "zynthium_bar";
-type RESOURCE_KEANIUM_BAR = "keanium_bar";
-type RESOURCE_GHODIUM_MELT = "ghodium_melt";
-type RESOURCE_OXIDANT = "oxidant";
-type RESOURCE_REDUCTANT = "reductant";
-type RESOURCE_PURIFIER = "purifier";
-type RESOURCE_BATTERY = "battery";
+type RESOURCE_UTRIUM_BAR = 'utrium_bar';
+type RESOURCE_LEMERGIUM_BAR = 'lemergium_bar';
+type RESOURCE_ZYNTHIUM_BAR = 'zynthium_bar';
+type RESOURCE_KEANIUM_BAR = 'keanium_bar';
+type RESOURCE_GHODIUM_MELT = 'ghodium_melt';
+type RESOURCE_OXIDANT = 'oxidant';
+type RESOURCE_REDUCTANT = 'reductant';
+type RESOURCE_PURIFIER = 'purifier';
+type RESOURCE_BATTERY = 'battery';
 
-type RESOURCE_COMPOSITE = "composite";
-type RESOURCE_CRYSTAL = "crystal";
-type RESOURCE_LIQUID = "liquid";
+type RESOURCE_COMPOSITE = 'composite';
+type RESOURCE_CRYSTAL = 'crystal';
+type RESOURCE_LIQUID = 'liquid';
 
-type RESOURCE_WIRE = "wire";
-type RESOURCE_SWITCH = "switch";
-type RESOURCE_TRANSISTOR = "transistor";
-type RESOURCE_MICROCHIP = "microchip";
-type RESOURCE_CIRCUIT = "circuit";
-type RESOURCE_DEVICE = "device";
+type RESOURCE_WIRE = 'wire';
+type RESOURCE_SWITCH = 'switch';
+type RESOURCE_TRANSISTOR = 'transistor';
+type RESOURCE_MICROCHIP = 'microchip';
+type RESOURCE_CIRCUIT = 'circuit';
+type RESOURCE_DEVICE = 'device';
 
-type RESOURCE_CELL = "cell";
-type RESOURCE_PHLEGM = "phlegm";
-type RESOURCE_TISSUE = "tissue";
-type RESOURCE_MUSCLE = "muscle";
-type RESOURCE_ORGANOID = "organoid";
-type RESOURCE_ORGANISM = "organism";
+type RESOURCE_CELL = 'cell';
+type RESOURCE_PHLEGM = 'phlegm';
+type RESOURCE_TISSUE = 'tissue';
+type RESOURCE_MUSCLE = 'muscle';
+type RESOURCE_ORGANOID = 'organoid';
+type RESOURCE_ORGANISM = 'organism';
 
-type RESOURCE_ALLOY = "alloy";
-type RESOURCE_TUBE = "tube";
-type RESOURCE_FIXTURES = "fixtures";
-type RESOURCE_FRAME = "frame";
-type RESOURCE_HYDRAULICS = "hydraulics";
-type RESOURCE_MACHINE = "machine";
+type RESOURCE_ALLOY = 'alloy';
+type RESOURCE_TUBE = 'tube';
+type RESOURCE_FIXTURES = 'fixtures';
+type RESOURCE_FRAME = 'frame';
+type RESOURCE_HYDRAULICS = 'hydraulics';
+type RESOURCE_MACHINE = 'machine';
 
-type RESOURCE_CONDENSATE = "condensate";
-type RESOURCE_CONCENTRATE = "concentrate";
-type RESOURCE_EXTRACT = "extract";
-type RESOURCE_SPIRIT = "spirit";
-type RESOURCE_EMANATION = "emanation";
-type RESOURCE_ESSENCE = "essence";
+type RESOURCE_CONDENSATE = 'condensate';
+type RESOURCE_CONCENTRATE = 'concentrate';
+type RESOURCE_EXTRACT = 'extract';
+type RESOURCE_SPIRIT = 'spirit';
+type RESOURCE_EMANATION = 'emanation';
+type RESOURCE_ESSENCE = 'essence';
 
-type SUBSCRIPTION_TOKEN = "token";
-type CPU_UNLOCK = "cpuUnlock";
-type PIXEL = "pixel";
-type ACCESS_KEY = "accessKey";
+type SUBSCRIPTION_TOKEN = 'token';
+type CPU_UNLOCK = 'cpuUnlock';
+type PIXEL = 'pixel';
+type ACCESS_KEY = 'accessKey';
 
 type TOMBSTONE_DECAY_PER_PART = 5;
 
@@ -2584,7 +2731,7 @@ type EventHealType = EVENT_HEAL_TYPE_MELEE | EVENT_HEAL_TYPE_RANGED;
 type EVENT_HEAL_TYPE_MELEE = 1;
 type EVENT_HEAL_TYPE_RANGED = 2;
 
-type EventDestroyType = "creep" | StructureConstant;
+type EventDestroyType = 'creep' | StructureConstant;
 
 type EventItem =
     | {
@@ -2700,10 +2847,10 @@ interface EventData {
     };
 }
 
-type PowerClassConstant = POWER_CLASS["OPERATOR"];
+type PowerClassConstant = POWER_CLASS['OPERATOR'];
 
 interface POWER_CLASS {
-    OPERATOR: "operator";
+    OPERATOR: 'operator';
 }
 
 type PowerConstant =
@@ -2761,12 +2908,12 @@ interface RouteOptions {
 }
 
 interface RoomStatusPermanent {
-    status: "normal" | "closed";
+    status: 'normal' | 'closed';
     timestamp: null;
 }
 
 interface RoomStatusTemporary {
-    status: "novice" | "respawn";
+    status: 'novice' | 'respawn';
     timestamp: number;
 }
 
@@ -2792,7 +2939,11 @@ interface GameMap {
      * Or one of the following Result codes:
      * ERR_NO_PATH, ERR_INVALID_ARGS
      */
-    findExit(fromRoom: string | Room, toRoom: string | Room, opts?: RouteOptions): ExitConstant | ERR_NO_PATH | ERR_INVALID_ARGS;
+    findExit(
+        fromRoom: string | Room,
+        toRoom: string | Room,
+        opts?: RouteOptions
+    ): ExitConstant | ERR_NO_PATH | ERR_INVALID_ARGS;
     /**
      * Find route from the given room to another room.
      * @param fromRoom Start room name or room object.
@@ -2803,7 +2954,7 @@ interface GameMap {
     findRoute(
         fromRoom: string | Room,
         toRoom: string | Room,
-        opts?: RouteOptions,
+        opts?: RouteOptions
     ):
         | Array<{
               exit: ExitConstant;
@@ -2818,7 +2969,11 @@ interface GameMap {
      * @param continuous Whether to treat the world map continuous on borders. Set to true if you
      *                   want to calculate the trade or terminal send cost. Default is false.
      */
-    getRoomLinearDistance(roomName1: string, roomName2: string, continuous?: boolean): number;
+    getRoomLinearDistance(
+        roomName1: string,
+        roomName2: string,
+        continuous?: boolean
+    ): number;
     /**
      * Get terrain type at the specified room position. This method works for any room in the world even if you have no access to it.
      * @param x X position in the room.
@@ -2835,7 +2990,7 @@ interface GameMap {
     getTerrainAt(pos: RoomPosition): Terrain;
     /**
      * Get room terrain for the specified room. This method works for any room in the world even if you have no access to it.
-     * @param roomName String name of the room.
+     * @param roomName string name of the room.
      */
     getRoomTerrain(roomName: string): RoomTerrain;
     /**
@@ -2882,7 +3037,11 @@ interface MapVisual {
      * @param style The optional style
      * @returns The MapVisual object, for chaining.
      */
-    line(pos1: RoomPosition, pos2: RoomPosition, style?: MapLineStyle): MapVisual;
+    line(
+        pos1: RoomPosition,
+        pos2: RoomPosition,
+        style?: MapLineStyle
+    ): MapVisual;
 
     /**
      * Draw a circle.
@@ -2900,7 +3059,12 @@ interface MapVisual {
      * @param style The optional style
      * @returns The MapVisual object, for chaining.
      */
-    rect(topLeftPos: RoomPosition, width: number, height: number, style?: MapPolyStyle): MapVisual;
+    rect(
+        topLeftPos: RoomPosition,
+        width: number,
+        height: number,
+        style?: MapPolyStyle
+    ): MapVisual;
 
     /**
      * Draw a polyline.
@@ -2961,7 +3125,7 @@ interface MapLineStyle {
     /**
      * Either undefined (solid line), dashed, or dotted. Default is undefined.
      */
-    lineStyle?: "dashed" | "dotted" | "solid";
+    lineStyle?: 'dashed' | 'dotted' | 'solid';
 }
 
 interface MapPolyStyle {
@@ -2984,7 +3148,7 @@ interface MapPolyStyle {
     /**
      * Either undefined (solid line), dashed, or dotted. Default is undefined.
      */
-    lineStyle?: "dashed" | "dotted" | "solid";
+    lineStyle?: 'dashed' | 'dotted' | 'solid';
 }
 
 interface MapCircleStyle extends MapPolyStyle {
@@ -3034,7 +3198,7 @@ interface MapTextStyle {
     /**
      * Text align, either center, left, or right. Default is center.
      */
-    align?: "center" | "left" | "right";
+    align?: 'center' | 'left' | 'right';
     /**
      * Opacity value, default is 0.5.
      */
@@ -3073,7 +3237,11 @@ interface Market {
      * @param roomName2 The name of the second room.
      * @returns The amount of energy required to perform the transaction.
      */
-    calcTransactionCost(amount: number, roomName1: string, roomName2: string): number;
+    calcTransactionCost(
+        amount: number,
+        roomName1: string,
+        roomName2: string
+    ): number;
     /**
      * Cancel a previously created order. The 5% fee is not returned.
      * @param orderId The order ID as provided in Game.market.orders
@@ -3110,7 +3278,11 @@ interface Market {
      *
      * When multiple players try to execute the same deal, the one with the shortest distance takes precedence.
      */
-    deal(orderId: string, amount: number, targetRoomName?: string): ScreepsReturnCode;
+    deal(
+        orderId: string,
+        amount: number,
+        targetRoomName?: string
+    ): ScreepsReturnCode;
     /**
      * Add more capacity to an existing order. It will affect `remainingAmount` and `totalAmount` properties. You will be charged `price*addAmount*0.05` credits.
      * Extending the order doesn't update its expiration time.
@@ -3193,14 +3365,18 @@ interface PriceHistory {
     stddevPrice: number;
 }
 interface Memory {
-    creeps: {[name: string]: CreepMemory};
-    powerCreeps: {[name: string]: PowerCreepMemory};
-    flags: {[name: string]: FlagMemory};
-    rooms: {[name: string]: RoomMemory};
-    spawns: {[name: string]: SpawnMemory};
+    creeps: { [name: string]: CreepMemory };
+    powerCreeps: { [name: string]: PowerCreepMemory };
+    flags: { [name: string]: FlagMemory };
+    rooms: { [name: string]: RoomMemory };
+    spawns: { [name: string]: SpawnMemory };
 }
 
-interface CreepMemory {}
+interface CreepMemory {
+    flagName?: string;
+    type: number;
+    roomID: string;
+}
 interface FlagMemory {}
 interface PowerCreepMemory {}
 interface RoomMemory {}
@@ -3211,7 +3387,8 @@ declare const Memory: Memory;
  * A mineral deposit object. Can be harvested by creeps with a WORK body part using the extractor structure.
  * @see http://docs.screeps.com/api/#Mineral
  */
-interface Mineral<T extends MineralConstant = MineralConstant> extends RoomObject {
+interface Mineral<T extends MineralConstant = MineralConstant>
+    extends RoomObject {
     /**
      * The prototype is stored in the Mineral.prototype global object. You can use it to extend game objects behaviour globally.
      */
@@ -3238,7 +3415,9 @@ interface Mineral<T extends MineralConstant = MineralConstant> extends RoomObjec
     ticksToRegeneration: number;
 }
 
-interface MineralConstructor extends _Constructor<Mineral>, _ConstructorById<Mineral> {}
+interface MineralConstructor
+    extends _Constructor<Mineral>,
+        _ConstructorById<Mineral> {}
 
 declare const Mineral: MineralConstructor;
 /**
@@ -3283,8 +3462,11 @@ interface PathFinder {
      */
     search(
         origin: RoomPosition,
-        goal: RoomPosition | { pos: RoomPosition; range: number } | Array<RoomPosition | { pos: RoomPosition; range: number }>,
-        opts?: PathFinderOpts,
+        goal:
+            | RoomPosition
+            | { pos: RoomPosition; range: number }
+            | Array<RoomPosition | { pos: RoomPosition; range: number }>,
+        opts?: PathFinderOpts
     ): PathFinderPath;
     /**
      * Specify whether to use this new experimental pathfinder in game objects methods.
@@ -3383,7 +3565,7 @@ interface CostMatrix {
     /**
      * Creates a new CostMatrix containing 0's for all positions.
      */
-    new(): CostMatrix;
+    new (): CostMatrix;
     /**
      * Set the cost of a position in this CostMatrix.
      * @param x X position in the room.
@@ -3497,7 +3679,9 @@ interface PowerCreep extends RoomObject {
      *
      * @param methodName Cancel the order given during the current game tick.
      */
-    cancelOrder(methodName: string): OK | ERR_NOT_OWNER | ERR_BUSY | ERR_NOT_FOUND;
+    cancelOrder(
+        methodName: string
+    ): OK | ERR_NOT_OWNER | ERR_BUSY | ERR_NOT_FOUND;
     /**
      * Delete the power creep permanently from your account.
      * It should NOT be spawned in the world. The creep is not deleted immediately, but a 24-hour delete time is started (see `deleteTime`).
@@ -3509,12 +3693,17 @@ interface PowerCreep extends RoomObject {
      * @param resourceType One of the RESOURCE_* constants.
      * @param amount The amount of resource units to be dropped. If omitted, all the available carried amount is used.
      */
-    drop(resourceType: ResourceConstant, amount?: number): OK | ERR_NOT_OWNER | ERR_BUSY | ERR_NOT_ENOUGH_RESOURCES;
+    drop(
+        resourceType: ResourceConstant,
+        amount?: number
+    ): OK | ERR_NOT_OWNER | ERR_BUSY | ERR_NOT_ENOUGH_RESOURCES;
     /**
      * Enable power usage in this room. The room controller should be at adjacent tile.
      * @param controller The room controller
      */
-    enableRoom(controller: StructureController): OK | ERR_NOT_OWNER | ERR_INVALID_TARGET | ERR_NOT_IN_RANGE;
+    enableRoom(
+        controller: StructureController
+    ): OK | ERR_NOT_OWNER | ERR_INVALID_TARGET | ERR_NOT_IN_RANGE;
     /**
      * Move the creep one square in the specified direction or towards a creep that is pulling it.
      *
@@ -3522,12 +3711,16 @@ interface PowerCreep extends RoomObject {
      * @param direction The direction to move in (`TOP`, `TOP_LEFT`...)
      */
     move(direction: DirectionConstant): CreepMoveReturnCode;
-    move(target: Creep): OK | ERR_NOT_OWNER | ERR_BUSY | ERR_NOT_IN_RANGE | ERR_INVALID_ARGS;
+    move(
+        target: Creep
+    ): OK | ERR_NOT_OWNER | ERR_BUSY | ERR_NOT_IN_RANGE | ERR_INVALID_ARGS;
     /**
      * Move the creep using the specified predefined path. Needs the MOVE body part.
      * @param path A path value as returned from Room.findPath or RoomPosition.findPathTo methods. Both array form and serialized string form are accepted.
      */
-    moveByPath(path: PathStep[] | RoomPosition[] | string): CreepMoveReturnCode | ERR_NOT_FOUND | ERR_INVALID_ARGS;
+    moveByPath(
+        path: PathStep[] | RoomPosition[] | string
+    ): CreepMoveReturnCode | ERR_NOT_FOUND | ERR_INVALID_ARGS;
     /**
      * Find the optimal path to the target within the same room and move to it.
      * A shorthand to consequent calls of pos.findPathTo() and move() methods.
@@ -3538,7 +3731,11 @@ interface PowerCreep extends RoomObject {
      * @param y Y position of the target in the room.
      * @param opts An object containing pathfinding options flags (see Room.findPath for more info) or one of the following: reusePath, serializeMemory, noPathFinding
      */
-    moveTo(x: number, y: number, opts?: MoveToOpts): CreepMoveReturnCode | ERR_NO_PATH | ERR_INVALID_TARGET;
+    moveTo(
+        x: number,
+        y: number,
+        opts?: MoveToOpts
+    ): CreepMoveReturnCode | ERR_NO_PATH | ERR_INVALID_TARGET;
     /**
      * Find the optimal path to the target within the same room and move to it.
      * A shorthand to consequent calls of pos.findPathTo() and move() methods.
@@ -3550,13 +3747,15 @@ interface PowerCreep extends RoomObject {
      */
     moveTo(
         target: RoomPosition | { pos: RoomPosition },
-        opts?: MoveToOpts,
+        opts?: MoveToOpts
     ): CreepMoveReturnCode | ERR_NO_PATH | ERR_INVALID_TARGET | ERR_NOT_FOUND;
     /**
      * Toggle auto notification when the creep is under attack. The notification will be sent to your account email. Turned on by default.
      * @param enabled Whether to enable notification or disable.
      */
-    notifyWhenAttacked(enabled: boolean): OK | ERR_NOT_OWNER | ERR_BUSY | ERR_INVALID_ARGS;
+    notifyWhenAttacked(
+        enabled: boolean
+    ): OK | ERR_NOT_OWNER | ERR_BUSY | ERR_INVALID_ARGS;
     /**
      * Pick up an item (a dropped piece of energy). Needs the CARRY body part. The target has to be at adjacent square to the creep or at the same square.
      * @param target The target object to be picked up.
@@ -3570,7 +3769,9 @@ interface PowerCreep extends RoomObject {
      * Instantly restore time to live to the maximum using a Power Spawn or a Power Bank nearby. It has to be at adjacent tile.
      * @param target The target structure
      */
-    renew(target: StructurePowerBank | StructurePowerSpawn): OK | ERR_NOT_OWNER | ERR_BUSY | ERR_INVALID_TARGET | ERR_NOT_IN_RANGE;
+    renew(
+        target: StructurePowerBank | StructurePowerSpawn
+    ): OK | ERR_NOT_OWNER | ERR_BUSY | ERR_INVALID_TARGET | ERR_NOT_IN_RANGE;
     /**
      * Display a visual speech balloon above the creep with the specified message.
      *
@@ -3585,7 +3786,15 @@ interface PowerCreep extends RoomObject {
      * Spawn this power creep in the specified Power Spawn.
      * @param powerSpawn Your Power Spawn structure
      */
-    spawn(powerSpawn: StructurePowerSpawn): OK | ERR_NOT_OWNER | ERR_BUSY | ERR_INVALID_TARGET | ERR_TIRED | ERR_RCL_NOT_ENOUGH;
+    spawn(
+        powerSpawn: StructurePowerSpawn
+    ):
+        | OK
+        | ERR_NOT_OWNER
+        | ERR_BUSY
+        | ERR_INVALID_TARGET
+        | ERR_TIRED
+        | ERR_RCL_NOT_ENOUGH;
     /**
      * Kill the power creep immediately. It will not be destroyed permanently, but will become unspawned, so that you can `spawn` it again.
      */
@@ -3596,11 +3805,22 @@ interface PowerCreep extends RoomObject {
      * @param resourceType One of the RESOURCE_* constants
      * @param amount The amount of resources to be transferred. If omitted, all the available carried amount is used.
      */
-    transfer(target: AnyCreep | Structure, resourceType: ResourceConstant, amount?: number): ScreepsReturnCode;
+    transfer(
+        target: AnyCreep | Structure,
+        resourceType: ResourceConstant,
+        amount?: number
+    ): ScreepsReturnCode;
     /**
      * Upgrade the creep, adding a new power ability to it or increasing the level of the existing power. You need one free Power Level in your account to perform this action.
      */
-    upgrade(power: PowerConstant): OK | ERR_NOT_OWNER | ERR_NOT_ENOUGH_RESOURCES | ERR_FULL | ERR_INVALID_ARGS;
+    upgrade(
+        power: PowerConstant
+    ):
+        | OK
+        | ERR_NOT_OWNER
+        | ERR_NOT_ENOUGH_RESOURCES
+        | ERR_FULL
+        | ERR_INVALID_ARGS;
     /**
      * Apply one of the creep's powers on the specified target.
      */
@@ -3617,10 +3837,16 @@ interface PowerCreep extends RoomObject {
      * @param resourceType The target One of the RESOURCE_* constants..
      * @param amount The amount of resources to be transferred. If omitted, all the available amount is used.
      */
-    withdraw(target: Structure | Tombstone | Ruin, resourceType: ResourceConstant, amount?: number): ScreepsReturnCode;
+    withdraw(
+        target: Structure | Tombstone | Ruin,
+        resourceType: ResourceConstant,
+        amount?: number
+    ): ScreepsReturnCode;
 }
 
-interface PowerCreepConstructor extends _Constructor<PowerCreep>, _ConstructorById<PowerCreep> {
+interface PowerCreepConstructor
+    extends _Constructor<PowerCreep>,
+        _ConstructorById<PowerCreep> {
     /**
      * A static method to create new Power Creep instance in your account. It will be added in an unspawned state,
      * use spawn method to spawn it in the world.
@@ -3630,7 +3856,10 @@ interface PowerCreepConstructor extends _Constructor<PowerCreep>, _ConstructorBy
      * @param name The name of the power creep.
      * @param className The class of the new power creep, one of the `POWER_CLASS` constants
      */
-    create(name: string, className: PowerClassConstant): OK | ERR_NAME_EXISTS | ERR_NOT_ENOUGH_RESOURCES;
+    create(
+        name: string,
+        className: PowerClassConstant
+    ): OK | ERR_NAME_EXISTS | ERR_NOT_ENOUGH_RESOURCES;
 }
 
 declare const PowerCreep: PowerCreepConstructor;
@@ -3728,7 +3957,8 @@ declare const RawMemory: RawMemory;
  * A dropped piece of resource. It will decay after a while if not picked up. Dropped resource pile decays for ceil(amount/1000) units per tick.
  */
 
-interface Resource<T extends ResourceConstant = ResourceConstant> extends RoomObject {
+interface Resource<T extends ResourceConstant = ResourceConstant>
+    extends RoomObject {
     readonly prototype: Resource;
 
     /**
@@ -3745,7 +3975,9 @@ interface Resource<T extends ResourceConstant = ResourceConstant> extends RoomOb
     resourceType: T;
 }
 
-interface ResourceConstructor extends _Constructor<Resource>, _ConstructorById<Resource> {}
+interface ResourceConstructor
+    extends _Constructor<Resource>,
+        _ConstructorById<Resource> {}
 
 declare const Resource: ResourceConstructor;
 /**
@@ -3850,7 +4082,9 @@ interface RoomPosition {
      *  * STRUCTURE_WALL
      *  * STRUCTURE_LINK
      */
-    createConstructionSite(structureType: BuildableStructureConstant): ScreepsReturnCode;
+    createConstructionSite(
+        structureType: BuildableStructureConstant
+    ): ScreepsReturnCode;
     /**
      * Create new ConstructionSite at the specified location.
      * @param structureType One of the following constants:
@@ -3862,7 +4096,10 @@ interface RoomPosition {
      *  * STRUCTURE_LINK
      * @param name The name of the structure, for structures that support it (currently only spawns).
      */
-    createConstructionSite(structureType: STRUCTURE_SPAWN, name?: string): ScreepsReturnCode;
+    createConstructionSite(
+        structureType: STRUCTURE_SPAWN,
+        name?: string
+    ): ScreepsReturnCode;
     /**
      * Create new Flag at the specified location.
      * @param name The name of a new flag.
@@ -3872,7 +4109,11 @@ interface RoomPosition {
      * @param secondaryColor The secondary color of a new flag. Should be one of the COLOR_* constants. The default value is equal to color.
      * @returns The name of the flag if created, or one of the following error codes: ERR_NAME_EXISTS, ERR_INVALID_ARGS
      */
-    createFlag(name?: string, color?: ColorConstant, secondaryColor?: ColorConstant): ERR_NAME_EXISTS | ERR_INVALID_ARGS | string;
+    createFlag(
+        name?: string,
+        color?: ColorConstant,
+        secondaryColor?: ColorConstant
+    ): ERR_NAME_EXISTS | ERR_INVALID_ARGS | string;
     /**
      * Find the object with the shortest path from the given position. Uses A* search algorithm and Dijkstra's algorithm.
      * @param type Any of the FIND_* constants.
@@ -3881,11 +4122,17 @@ interface RoomPosition {
      */
     findClosestByPath<K extends FindConstant>(
         type: K,
-        opts?: FindPathOpts & Partial<FilterOptions<K>> & { algorithm?: FindClosestByPathAlgorithm },
+        opts?: FindPathOpts &
+            Partial<FilterOptions<K>> & {
+                algorithm?: FindClosestByPathAlgorithm;
+            }
     ): FindTypes[K] | null;
     findClosestByPath<T extends Structure>(
         type: FIND_STRUCTURES | FIND_MY_STRUCTURES | FIND_HOSTILE_STRUCTURES,
-        opts?: FindPathOpts & Partial<FilterOptions<FIND_STRUCTURES>> & { algorithm?: FindClosestByPathAlgorithm },
+        opts?: FindPathOpts &
+            Partial<FilterOptions<FIND_STRUCTURES>> & {
+                algorithm?: FindClosestByPathAlgorithm;
+            }
     ): T | null;
     /**
      * Find the object with the shortest path from the given position. Uses A* search algorithm and Dijkstra's algorithm.
@@ -3895,35 +4142,48 @@ interface RoomPosition {
      */
     findClosestByPath<T extends _HasRoomPosition | RoomPosition>(
         objects: T[],
-        opts?: FindPathOpts & { filter?: ((object: T) => boolean) | FilterObject | string; algorithm?: FindClosestByPathAlgorithm },
+        opts?: FindPathOpts & {
+            filter?: ((object: T) => boolean) | FilterObject | string;
+            algorithm?: FindClosestByPathAlgorithm;
+        }
     ): T | null;
     /**
      * Find the object with the shortest linear distance from the given position.
      * @param type Any of the FIND_* constants.
      * @param opts An object containing pathfinding options (see Room.findPath), or one of the following: filter, algorithm
      */
-    findClosestByRange<K extends FindConstant>(type: K, opts?: FilterOptions<K>): FindTypes[K] | null;
+    findClosestByRange<K extends FindConstant>(
+        type: K,
+        opts?: FilterOptions<K>
+    ): FindTypes[K] | null;
     findClosestByRange<T extends Structure>(
         type: FIND_STRUCTURES | FIND_MY_STRUCTURES | FIND_HOSTILE_STRUCTURES,
-        opts?: FilterOptions<FIND_STRUCTURES>,
+        opts?: FilterOptions<FIND_STRUCTURES>
     ): T | null;
     /**
      * Find the object with the shortest linear distance from the given position.
      * @param objects An array of RoomPositions or objects with a RoomPosition.
      * @param opts An object containing pathfinding options (see Room.findPath), or one of the following: filter, algorithm
      */
-    findClosestByRange<T extends _HasRoomPosition | RoomPosition>(objects: T[], opts?: { filter: any | string }): T | null;
+    findClosestByRange<T extends _HasRoomPosition | RoomPosition>(
+        objects: T[],
+        opts?: { filter: any | string }
+    ): T | null;
     /**
      * Find all objects in the specified linear range.
      * @param type Any of the FIND_* constants.
      * @param range The range distance.
      * @param opts See Room.find.
      */
-    findInRange<K extends FindConstant>(type: K, range: number, opts?: FilterOptions<K>): Array<FindTypes[K]>;
+    findInRange<K extends FindConstant>(
+        type: K,
+        range: number,
+        opts?: FilterOptions<K>
+    ): Array<FindTypes[K]>;
     findInRange<T extends Structure>(
         type: FIND_STRUCTURES | FIND_MY_STRUCTURES | FIND_HOSTILE_STRUCTURES,
         range: number,
-        opts?: FilterOptions<FIND_STRUCTURES>,
+        opts?: FilterOptions<FIND_STRUCTURES>
     ): T[];
     /**
      * Find all objects in the specified linear range.
@@ -3931,7 +4191,11 @@ interface RoomPosition {
      * @param range The range distance.
      * @param opts See Room.find.
      */
-    findInRange<T extends _HasRoomPosition | RoomPosition>(objects: T[], range: number, opts?: { filter?: any | string }): T[];
+    findInRange<T extends _HasRoomPosition | RoomPosition>(
+        objects: T[],
+        range: number,
+        opts?: { filter?: any | string }
+    ): T[];
     /**
      * Find an optimal path to the specified position using A* search algorithm.
      *
@@ -3948,7 +4212,10 @@ interface RoomPosition {
      * @param target Can be a RoomPosition object or any object containing RoomPosition.
      * @param opts An object containing pathfinding options flags (see Room.findPath for more details).
      */
-    findPathTo(target: RoomPosition | _HasRoomPosition, opts?: FindPathOpts): PathStep[];
+    findPathTo(
+        target: RoomPosition | _HasRoomPosition,
+        opts?: FindPathOpts
+    ): PathStep[];
     /**
      * Get linear direction to the specified position.
      * @param x X position in the room.
@@ -3983,7 +4250,10 @@ interface RoomPosition {
      * @param toPos The target position.
      * @param range The range distance.
      */
-    inRangeTo(target: RoomPosition | { pos: RoomPosition }, range: number): boolean;
+    inRangeTo(
+        target: RoomPosition | { pos: RoomPosition },
+        range: number
+    ): boolean;
     /**
      * Check whether this position is the same as the specified position.
      * @param x X position in the room.
@@ -4045,7 +4315,7 @@ interface RoomTerrain {
 interface RoomTerrainConstructor extends _Constructor<RoomTerrain> {
     /**
      * Get room terrain for the specified room. This method works for any room in the world even if you have no access to it.
-     * @param roomName String name of the room.
+     * @param roomName string name of the room.
      */
     new (roomName: string): RoomTerrain;
 }
@@ -4070,7 +4340,13 @@ declare class RoomVisual {
      * @param style The (optional) style.
      * @returns The RoomVisual object, for chaining.
      */
-    line(x1: number, y1: number, x2: number, y2: number, style?: LineStyle): RoomVisual;
+    line(
+        x1: number,
+        y1: number,
+        x2: number,
+        y2: number,
+        style?: LineStyle
+    ): RoomVisual;
 
     /**
      * Draw a line.
@@ -4107,7 +4383,13 @@ declare class RoomVisual {
      * @param style The (optional) style.
      * @returns The RoomVisual object, for chaining.
      */
-    rect(x: number, y: number, w: number, h: number, style?: PolyStyle): RoomVisual;
+    rect(
+        x: number,
+        y: number,
+        w: number,
+        h: number,
+        style?: PolyStyle
+    ): RoomVisual;
 
     /**
      * Draw a line.
@@ -4117,14 +4399,22 @@ declare class RoomVisual {
      * @param style An object describing the style.
      * @returns The RoomVisual object itself, so that you can chain calls.
      */
-    rect(topLeftPos: RoomPosition, width: number, height: number, style?: PolyStyle): RoomVisual;
+    rect(
+        topLeftPos: RoomPosition,
+        width: number,
+        height: number,
+        style?: PolyStyle
+    ): RoomVisual;
     /**
      * Draw a polygon.
      * @param points An array of points. Every array item should be either an array with 2 numbers (i.e. [10,15]), or a RoomPosition object.
      * @param style The (optional) style.
      * @returns The RoomVisual object, for chaining.
      */
-    poly(points: Array<[number, number] | RoomPosition>, style?: PolyStyle): RoomVisual;
+    poly(
+        points: Array<[number, number] | RoomPosition>,
+        style?: PolyStyle
+    ): RoomVisual;
 
     /**
      * Draw a text label.
@@ -4188,7 +4478,7 @@ interface LineStyle {
     /**
      * Either undefined (solid line), dashed, or dotted.Default is undefined.
      */
-    lineStyle?: "dashed" | "dotted" | "solid";
+    lineStyle?: 'dashed' | 'dotted' | 'solid';
 }
 
 interface PolyStyle {
@@ -4211,7 +4501,7 @@ interface PolyStyle {
     /**
      * Either undefined (solid line), dashed, or dotted.Default is undefined.
      */
-    lineStyle?: "dashed" | "dotted" | "solid";
+    lineStyle?: 'dashed' | 'dotted' | 'solid';
 }
 
 interface CircleStyle extends PolyStyle {
@@ -4251,7 +4541,7 @@ interface TextStyle {
      * Background rectangle padding, default is 0.3.
      */
     backgroundPadding?: number;
-    align?: "center" | "left" | "right";
+    align?: 'center' | 'left' | 'right';
     /**
      * Opacity value, default is 1.0.
      */
@@ -4314,14 +4604,21 @@ interface Room {
      * @param structureType One of the following constants: STRUCTURE_EXTENSION, STRUCTURE_RAMPART, STRUCTURE_ROAD, STRUCTURE_SPAWN, STRUCTURE_WALL, STRUCTURE_LINK
      * @returns Result Code: OK, ERR_INVALID_TARGET, ERR_INVALID_ARGS, ERR_RCL_NOT_ENOUGH
      */
-    createConstructionSite(x: number, y: number, structureType: BuildableStructureConstant): ScreepsReturnCode;
+    createConstructionSite(
+        x: number,
+        y: number,
+        structureType: BuildableStructureConstant
+    ): ScreepsReturnCode;
     /**
      * Create new ConstructionSite at the specified location.
      * @param pos Can be a RoomPosition object or any object containing RoomPosition.
      * @param structureType One of the following constants: STRUCTURE_EXTENSION, STRUCTURE_RAMPART, STRUCTURE_ROAD, STRUCTURE_SPAWN, STRUCTURE_WALL, STRUCTURE_LINK
      * @returns Result Code: OK, ERR_INVALID_TARGET, ERR_INVALID_ARGS, ERR_RCL_NOT_ENOUGH
      */
-    createConstructionSite(pos: RoomPosition | _HasRoomPosition, structureType: StructureConstant): ScreepsReturnCode;
+    createConstructionSite(
+        pos: RoomPosition | _HasRoomPosition,
+        structureType: StructureConstant
+    ): ScreepsReturnCode;
     /**
      * Create new ConstructionSite at the specified location.
      * @param x The X position.
@@ -4330,7 +4627,12 @@ interface Room {
      * @param name The name of the structure, for structures that support it (currently only spawns).
      * @returns Result Code: OK, ERR_INVALID_TARGET, ERR_INVALID_ARGS, ERR_RCL_NOT_ENOUGH
      */
-    createConstructionSite(x: number, y: number, structureType: STRUCTURE_SPAWN, name?: string): ScreepsReturnCode;
+    createConstructionSite(
+        x: number,
+        y: number,
+        structureType: STRUCTURE_SPAWN,
+        name?: string
+    ): ScreepsReturnCode;
     /**
      * Create new ConstructionSite at the specified location.
      * @param pos Can be a RoomPosition object or any object containing RoomPosition.
@@ -4338,7 +4640,11 @@ interface Room {
      * @param name The name of the structure, for structures that support it (currently only spawns).
      * @returns Result Code: OK, ERR_INVALID_TARGET, ERR_INVALID_ARGS, ERR_RCL_NOT_ENOUGH
      */
-    createConstructionSite(pos: RoomPosition | _HasRoomPosition, structureType: STRUCTURE_SPAWN, name?: string): ScreepsReturnCode;
+    createConstructionSite(
+        pos: RoomPosition | _HasRoomPosition,
+        structureType: STRUCTURE_SPAWN,
+        name?: string
+    ): ScreepsReturnCode;
     /**
      * Create new Flag at the specified location.
      * @param x The X position.
@@ -4359,7 +4665,7 @@ interface Room {
         y: number,
         name?: string,
         color?: ColorConstant,
-        secondaryColor?: ColorConstant,
+        secondaryColor?: ColorConstant
     ): ERR_NAME_EXISTS | ERR_INVALID_ARGS | string;
     /**
      * Create new Flag at the specified location.
@@ -4379,7 +4685,7 @@ interface Room {
         pos: RoomPosition | { pos: RoomPosition },
         name?: string,
         color?: ColorConstant,
-        secondaryColor?: ColorConstant,
+        secondaryColor?: ColorConstant
     ): ERR_NAME_EXISTS | ERR_INVALID_ARGS | string;
     /**
      * Find all objects of the specified type in the room.
@@ -4405,10 +4711,13 @@ interface Room {
      * @param opts An object with additional options
      * @returns An array with the objects found.
      */
-    find<K extends FindConstant>(type: K, opts?: FilterOptions<K>): Array<FindTypes[K]>;
+    find<K extends FindConstant>(
+        type: K,
+        opts?: FilterOptions<K>
+    ): Array<FindTypes[K]>;
     find<T extends Structure>(
         type: FIND_STRUCTURES | FIND_MY_STRUCTURES | FIND_HOSTILE_STRUCTURES,
-        opts?: FilterOptions<FIND_STRUCTURES>,
+        opts?: FilterOptions<FIND_STRUCTURES>
     ): T[];
     /**
      * Find the exit direction en route to another room.
@@ -4416,7 +4725,9 @@ interface Room {
      * @returns The room direction constant, one of the following: FIND_EXIT_TOP, FIND_EXIT_RIGHT, FIND_EXIT_BOTTOM, FIND_EXIT_LEFT
      * Or one of the following error codes: ERR_NO_PATH, ERR_INVALID_ARGS
      */
-    findExitTo(room: string | Room): ExitConstant | ERR_NO_PATH | ERR_INVALID_ARGS;
+    findExitTo(
+        room: string | Room
+    ): ExitConstant | ERR_NO_PATH | ERR_INVALID_ARGS;
     /**
      * Find an optimal path inside the room between fromPos and toPos using A* search algorithm.
      * @param fromPos The start position.
@@ -4424,7 +4735,11 @@ interface Room {
      * @param opts (optional) An object containing additonal pathfinding flags
      * @returns An array with path steps
      */
-    findPath(fromPos: RoomPosition, toPos: RoomPosition, opts?: FindPathOpts): PathStep[];
+    findPath(
+        fromPos: RoomPosition,
+        toPos: RoomPosition,
+        opts?: FindPathOpts
+    ): PathStep[];
     /**
      * Creates a RoomPosition object at the specified location.
      * @param x The X position.
@@ -4459,7 +4774,13 @@ interface Room {
      * @param asArray Set to true if you want to get the result as a plain array.
      * @returns An object with all the objects in the specified area
      */
-    lookAtArea(top: number, left: number, bottom: number, right: number, asArray?: false): LookAtResultMatrix;
+    lookAtArea(
+        top: number,
+        left: number,
+        bottom: number,
+        right: number,
+        asArray?: false
+    ): LookAtResultMatrix;
     /**
      * Get the list of objects at the specified room area. This method is more CPU efficient in comparison to multiple lookAt calls.
      * @param top The top Y boundary of the area.
@@ -4469,7 +4790,13 @@ interface Room {
      * @param asArray Set to true if you want to get the result as a plain array.
      * @returns An object with all the objects in the specified area
      */
-    lookAtArea(top: number, left: number, bottom: number, right: number, asArray: true): LookAtResultWithPos[];
+    lookAtArea(
+        top: number,
+        left: number,
+        bottom: number,
+        right: number,
+        asArray: true
+    ): LookAtResultWithPos[];
     /**
      * Get the objects at the given position.
      * @param type One of the LOOK_* constants.
@@ -4477,14 +4804,21 @@ interface Room {
      * @param y The Y position.
      * @returns An array of Creep at the given position.
      */
-    lookForAt<T extends keyof AllLookAtTypes>(type: T, x: number, y: number): Array<AllLookAtTypes[T]>;
+    lookForAt<T extends keyof AllLookAtTypes>(
+        type: T,
+        x: number,
+        y: number
+    ): Array<AllLookAtTypes[T]>;
     /**
      * Get the objects at the given RoomPosition.
      * @param type One of the LOOK_* constants.
      * @param target Can be a RoomPosition object or any object containing RoomPosition.
      * @returns An array of Creeps at the specified position if found.
      */
-    lookForAt<T extends keyof AllLookAtTypes>(type: T, target: RoomPosition | _HasRoomPosition): Array<AllLookAtTypes[T]>;
+    lookForAt<T extends keyof AllLookAtTypes>(
+        type: T,
+        target: RoomPosition | _HasRoomPosition
+    ): Array<AllLookAtTypes[T]>;
     /**
      * Get the given objets in the supplied area.
      * @param type One of the LOOK_* constants
@@ -4501,7 +4835,7 @@ interface Room {
         left: number,
         bottom: number,
         right: number,
-        asArray?: false,
+        asArray?: false
     ): LookForAtAreaResultMatrix<AllLookAtTypes[T], T>;
     /**
      * Get the given objets in the supplied area.
@@ -4519,7 +4853,7 @@ interface Room {
         left: number,
         bottom: number,
         right: number,
-        asArray: true,
+        asArray: true
     ): LookForAtAreaResultArray<AllLookAtTypes[T], T>;
 
     /**
@@ -4619,7 +4953,9 @@ interface Source extends RoomObject {
     ticksToRegeneration: number;
 }
 
-interface SourceConstructor extends _Constructor<Source>, _ConstructorById<Source> {}
+interface SourceConstructor
+    extends _Constructor<Source>,
+        _ConstructorById<Source> {}
 
 declare const Source: SourceConstructor;
 /**
@@ -4629,6 +4965,13 @@ declare const Source: SourceConstructor;
  * easily recover even if all your creeps died.
  */
 interface StructureSpawn extends OwnedStructure<STRUCTURE_SPAWN> {
+    _spawnCreep: {
+        (
+            body: BodyPartConstant[],
+            name: string,
+            opts?: SpawnOptions
+        ): ScreepsReturnCode;
+    };
     readonly prototype: StructureSpawn;
     /**
      * The amount of energy containing in the spawn.
@@ -4694,7 +5037,11 @@ interface StructureSpawn extends OwnedStructure<STRUCTURE_SPAWN> {
      * ERR_RCL_NOT_ENOUGH       -14 Your Room Controller level is not enough to use this spawn.
      * ```
      */
-    createCreep(body: BodyPartConstant[], name?: string, memory?: CreepMemory): ScreepsReturnCode | string;
+    createCreep(
+        body: BodyPartConstant[],
+        name?: string,
+        memory?: CreepMemory
+    ): ScreepsReturnCode | string;
 
     /**
      * Start the creep spawning process. The required energy amount can be withdrawn from all spawns and extensions in the room.
@@ -4721,7 +5068,11 @@ interface StructureSpawn extends OwnedStructure<STRUCTURE_SPAWN> {
      * ERR_RCL_NOT_ENOUGH       -14 Your Room Controller level is insufficient to use this spawn.
      * ```
      */
-    spawnCreep(body: BodyPartConstant[], name: string, opts?: SpawnOptions): ScreepsReturnCode;
+    spawnCreep(
+        body: BodyPartConstant[],
+        name: string,
+        opts?: SpawnOptions
+    ): ScreepsReturnCode;
 
     /**
      * Destroy this spawn immediately.
@@ -4756,13 +5107,15 @@ interface StructureSpawn extends OwnedStructure<STRUCTURE_SPAWN> {
     recycleCreep(target: Creep): ScreepsReturnCode;
 }
 
-interface StructureSpawnConstructor extends _Constructor<StructureSpawn>, _ConstructorById<StructureSpawn> {
+interface StructureSpawnConstructor
+    extends _Constructor<StructureSpawn>,
+        _ConstructorById<StructureSpawn> {
+    spawnCreep: any;
     Spawning: SpawningConstructor;
 }
 
 declare const StructureSpawn: StructureSpawnConstructor;
-declare const Spawn: StructureSpawnConstructor; // legacy alias
-// declare type Spawn = StructureSpawn;
+declare type Spawn = StructureSpawn;
 
 interface Spawning {
     readonly prototype: Spawning;
@@ -4802,7 +5155,9 @@ interface Spawning {
      * Set desired directions where the creep should move when spawned.
      * @param directions An array with the spawn directions
      */
-    setDirections(directions: DirectionConstant[]): ScreepsReturnCode & (OK | ERR_NOT_OWNER | ERR_INVALID_ARGS);
+    setDirections(
+        directions: DirectionConstant[]
+    ): ScreepsReturnCode & (OK | ERR_NOT_OWNER | ERR_INVALID_ARGS);
 }
 
 /**
@@ -4829,39 +5184,63 @@ interface SpawnOptions {
     directions?: DirectionConstant[];
 }
 
-interface SpawningConstructor extends _Constructor<Spawning>, _ConstructorById<Spawning> {}
-interface StoreBase<POSSIBLE_RESOURCES extends ResourceConstant, UNLIMITED_STORE extends boolean> {
+interface SpawningConstructor
+    extends _Constructor<Spawning>,
+        _ConstructorById<Spawning> {}
+interface StoreBase<
+    POSSIBLE_RESOURCES extends ResourceConstant,
+    UNLIMITED_STORE extends boolean
+> {
     /**
      * Returns capacity of this store for the specified resource. For a general purpose store, it returns total capacity if `resource` is undefined.
      * @param resource The type of the resource.
      * @returns Returns capacity number, or `null` in case of an invalid `resource` for this store type.
      */
     getCapacity<R extends ResourceConstant | undefined = undefined>(
-        resource?: R,
+        resource?: R
     ): UNLIMITED_STORE extends true
         ? null
         : R extends undefined
-        ? (ResourceConstant extends POSSIBLE_RESOURCES ? number : null)
-        : (R extends POSSIBLE_RESOURCES ? number : null);
+        ? ResourceConstant extends POSSIBLE_RESOURCES
+            ? number
+            : null
+        : R extends POSSIBLE_RESOURCES
+        ? number
+        : null;
     /**
      * Returns the capacity used by the specified resource, or total used capacity for general purpose stores if `resource` is undefined.
      * @param resource The type of the resource.
      * @returns Returns used capacity number, or `null` in case of a not valid `resource` for this store type.
      */
     getUsedCapacity<R extends ResourceConstant | undefined = undefined>(
-        resource?: R,
-    ): R extends undefined ? (ResourceConstant extends POSSIBLE_RESOURCES ? number : null) : (R extends POSSIBLE_RESOURCES ? number : null);
+        resource?: R
+    ): R extends undefined
+        ? ResourceConstant extends POSSIBLE_RESOURCES
+            ? number
+            : null
+        : R extends POSSIBLE_RESOURCES
+        ? number
+        : null;
     /**
      * Returns free capacity for the store. For a limited store, it returns the capacity available for the specified resource if `resource` is defined and valid for this store.
      * @param resource The type of the resource.
      * @returns Returns available capacity number, or `null` in case of an invalid `resource` for this store type.
      */
     getFreeCapacity<R extends ResourceConstant | undefined = undefined>(
-        resource?: R,
-    ): R extends undefined ? (ResourceConstant extends POSSIBLE_RESOURCES ? number : null) : (R extends POSSIBLE_RESOURCES ? number : null);
+        resource?: R
+    ): R extends undefined
+        ? ResourceConstant extends POSSIBLE_RESOURCES
+            ? number
+            : null
+        : R extends POSSIBLE_RESOURCES
+        ? number
+        : null;
 }
 
-type Store<POSSIBLE_RESOURCES extends ResourceConstant, UNLIMITED_STORE extends boolean> = StoreBase<POSSIBLE_RESOURCES, UNLIMITED_STORE> &
+type Store<
+    POSSIBLE_RESOURCES extends ResourceConstant,
+    UNLIMITED_STORE extends boolean
+> = StoreBase<POSSIBLE_RESOURCES, UNLIMITED_STORE> &
     { [P in POSSIBLE_RESOURCES]: number } &
     { [P in Exclude<ResourceConstant, POSSIBLE_RESOURCES>]: 0 };
 
@@ -4890,7 +5269,8 @@ type GenericStore = GenericStoreBase & { [P in ResourceConstant]: number };
 /**
  * Parent object for structure classes
  */
-interface Structure<T extends StructureConstant = StructureConstant> extends RoomObject {
+interface Structure<T extends StructureConstant = StructureConstant>
+    extends RoomObject {
     readonly prototype: Structure;
 
     /**
@@ -4928,12 +5308,14 @@ interface Structure<T extends StructureConstant = StructureConstant> extends Roo
      */
     notifyWhenAttacked(enabled: boolean): ScreepsReturnCode;
 
-    work?():void;
+    work?(): void;
 
-    store?:StoreDefinition;
+    store?: StoreDefinition;
 }
 
-interface StructureConstructor extends _Constructor<Structure>, _ConstructorById<Structure> {}
+interface StructureConstructor
+    extends _Constructor<Structure>,
+        _ConstructorById<Structure> {}
 
 declare const Structure: StructureConstructor;
 
@@ -4941,7 +5323,8 @@ declare const Structure: StructureConstructor;
  * The base prototype for a structure that has an owner. Such structures can be
  * found using `FIND_MY_STRUCTURES` and `FIND_HOSTILE_STRUCTURES` constants.
  */
-interface OwnedStructure<T extends StructureConstant = StructureConstant> extends Structure<T> {
+interface OwnedStructure<T extends StructureConstant = StructureConstant>
+    extends Structure<T> {
     readonly prototype: OwnedStructure;
 
     /**
@@ -4958,7 +5341,9 @@ interface OwnedStructure<T extends StructureConstant = StructureConstant> extend
     room: Room;
 }
 
-interface OwnedStructureConstructor extends _Constructor<OwnedStructure>, _ConstructorById<OwnedStructure> {}
+interface OwnedStructureConstructor
+    extends _Constructor<OwnedStructure>,
+        _ConstructorById<OwnedStructure> {}
 
 declare const OwnedStructure: OwnedStructureConstructor;
 
@@ -5027,7 +5412,9 @@ interface StructureController extends OwnedStructure<STRUCTURE_CONTROLLER> {
     unclaim(): ScreepsReturnCode;
 }
 
-interface StructureControllerConstructor extends _Constructor<StructureController>, _ConstructorById<StructureController> {}
+interface StructureControllerConstructor
+    extends _Constructor<StructureController>,
+        _ConstructorById<StructureController> {}
 
 declare const StructureController: StructureControllerConstructor;
 
@@ -5056,7 +5443,9 @@ interface StructureExtension extends OwnedStructure<STRUCTURE_EXTENSION> {
     store: Store<RESOURCE_ENERGY, false>;
 }
 
-interface StructureExtensionConstructor extends _Constructor<StructureExtension>, _ConstructorById<StructureExtension> {}
+interface StructureExtensionConstructor
+    extends _Constructor<StructureExtension>,
+        _ConstructorById<StructureExtension> {}
 
 declare const StructureExtension: StructureExtensionConstructor;
 
@@ -5095,10 +5484,15 @@ interface StructureLink extends OwnedStructure<STRUCTURE_LINK> {
      * @param target The target object.
      * @param amount The amount of energy to be transferred. If omitted, all the available energy is used.
      */
-    transferEnergy(target: Creep | StructureLink, amount?: number): ScreepsReturnCode;
+    transferEnergy(
+        target: Creep | StructureLink,
+        amount?: number
+    ): ScreepsReturnCode;
 }
 
-interface StructureLinkConstructor extends _Constructor<StructureLink>, _ConstructorById<StructureLink> {}
+interface StructureLinkConstructor
+    extends _Constructor<StructureLink>,
+        _ConstructorById<StructureLink> {}
 
 declare const StructureLink: StructureLinkConstructor;
 
@@ -5115,7 +5509,9 @@ interface StructureKeeperLair extends OwnedStructure<STRUCTURE_KEEPER_LAIR> {
     ticksToSpawn?: number;
 }
 
-interface StructureKeeperLairConstructor extends _Constructor<StructureKeeperLair>, _ConstructorById<StructureKeeperLair> {}
+interface StructureKeeperLairConstructor
+    extends _Constructor<StructureKeeperLair>,
+        _ConstructorById<StructureKeeperLair> {}
 
 declare const StructureKeeperLair: StructureKeeperLairConstructor;
 
@@ -5132,7 +5528,9 @@ interface StructureObserver extends OwnedStructure<STRUCTURE_OBSERVER> {
     observeRoom(roomName: string): ScreepsReturnCode;
 }
 
-interface StructureObserverConstructor extends _Constructor<StructureObserver>, _ConstructorById<StructureObserver> {}
+interface StructureObserverConstructor
+    extends _Constructor<StructureObserver>,
+        _ConstructorById<StructureObserver> {}
 
 declare const StructureObserver: StructureObserverConstructor;
 
@@ -5152,7 +5550,9 @@ interface StructurePowerBank extends OwnedStructure<STRUCTURE_POWER_BANK> {
     ticksToDecay: number;
 }
 
-interface StructurePowerBankConstructor extends _Constructor<StructurePowerBank>, _ConstructorById<StructurePowerBank> {}
+interface StructurePowerBankConstructor
+    extends _Constructor<StructurePowerBank>,
+        _ConstructorById<StructurePowerBank> {}
 
 declare const StructurePowerBank: StructurePowerBankConstructor;
 
@@ -5193,7 +5593,9 @@ interface StructurePowerSpawn extends OwnedStructure<STRUCTURE_POWER_SPAWN> {
     processPower(): ScreepsReturnCode;
 }
 
-interface StructurePowerSpawnConstructor extends _Constructor<StructurePowerSpawn>, _ConstructorById<StructurePowerSpawn> {}
+interface StructurePowerSpawnConstructor
+    extends _Constructor<StructurePowerSpawn>,
+        _ConstructorById<StructurePowerSpawn> {}
 
 declare const StructurePowerSpawn: StructurePowerSpawnConstructor;
 
@@ -5221,7 +5623,9 @@ interface StructureRampart extends OwnedStructure<STRUCTURE_RAMPART> {
     setPublic(isPublic: boolean): undefined;
 }
 
-interface StructureRampartConstructor extends _Constructor<StructureRampart>, _ConstructorById<StructureRampart> {}
+interface StructureRampartConstructor
+    extends _Constructor<StructureRampart>,
+        _ConstructorById<StructureRampart> {}
 
 declare const StructureRampart: StructureRampartConstructor;
 
@@ -5238,7 +5642,9 @@ interface StructureRoad extends Structure<STRUCTURE_ROAD> {
     ticksToDecay: number;
 }
 
-interface StructureRoadConstructor extends _Constructor<StructureRoad>, _ConstructorById<StructureRoad> {}
+interface StructureRoadConstructor
+    extends _Constructor<StructureRoad>,
+        _ConstructorById<StructureRoad> {}
 
 declare const StructureRoad: StructureRoadConstructor;
 
@@ -5260,7 +5666,9 @@ interface StructureStorage extends OwnedStructure<STRUCTURE_STORAGE> {
     storeCapacity: number;
 }
 
-interface StructureStorageConstructor extends _Constructor<StructureStorage>, _ConstructorById<StructureStorage> {}
+interface StructureStorageConstructor
+    extends _Constructor<StructureStorage>,
+        _ConstructorById<StructureStorage> {}
 
 declare const StructureStorage: StructureStorageConstructor;
 
@@ -5304,7 +5712,9 @@ interface StructureTower extends OwnedStructure<STRUCTURE_TOWER> {
     repair(target: Structure): ScreepsReturnCode;
 }
 
-interface StructureTowerConstructor extends _Constructor<StructureTower>, _ConstructorById<StructureTower> {}
+interface StructureTowerConstructor
+    extends _Constructor<StructureTower>,
+        _ConstructorById<StructureTower> {}
 
 declare const StructureTower: StructureTowerConstructor;
 
@@ -5319,7 +5729,9 @@ interface StructureWall extends Structure<STRUCTURE_WALL> {
     ticksToLive: number;
 }
 
-interface StructureWallConstructor extends _Constructor<StructureWall>, _ConstructorById<StructureWall> {}
+interface StructureWallConstructor
+    extends _Constructor<StructureWall>,
+        _ConstructorById<StructureWall> {}
 
 declare const StructureWall: StructureWallConstructor;
 
@@ -5334,7 +5746,9 @@ interface StructureExtractor extends OwnedStructure<STRUCTURE_EXTRACTOR> {
     cooldown: number;
 }
 
-interface StructureExtractorConstructor extends _Constructor<StructureExtractor>, _ConstructorById<StructureExtractor> {}
+interface StructureExtractorConstructor
+    extends _Constructor<StructureExtractor>,
+        _ConstructorById<StructureExtractor> {}
 
 declare const StructureExtractor: StructureExtractorConstructor;
 
@@ -5375,7 +5789,10 @@ interface StructureLab extends OwnedStructure<STRUCTURE_LAB> {
     /**
      * A Store object that contains cargo of this structure.
      */
-    store: Store<RESOURCE_ENERGY | MineralConstant | MineralCompoundConstant, false>;
+    store: Store<
+        RESOURCE_ENERGY | MineralConstant | MineralCompoundConstant,
+        false
+    >;
     /**
      * Boosts creep body part using the containing mineral compound. The creep has to be at adjacent square to the lab. Boosting one body part consumes 30 mineral units and 20 energy units.
      * @param creep The target creep.
@@ -5407,7 +5824,9 @@ interface StructureLab extends OwnedStructure<STRUCTURE_LAB> {
     runReaction(lab1: StructureLab, lab2: StructureLab): ScreepsReturnCode;
 }
 
-interface StructureLabConstructor extends _Constructor<StructureLab>, _ConstructorById<StructureLab> {}
+interface StructureLabConstructor
+    extends _Constructor<StructureLab>,
+        _ConstructorById<StructureLab> {}
 
 declare const StructureLab: StructureLabConstructor;
 
@@ -5436,10 +5855,17 @@ interface StructureTerminal extends OwnedStructure<STRUCTURE_TERMINAL> {
      * @param destination The name of the target room. You don't have to gain visibility in this room.
      * @param description The description of the transaction. It is visible to the recipient. The maximum length is 100 characters.
      */
-    send(resourceType: ResourceConstant, amount: number, destination: string, description?: string): ScreepsReturnCode;
+    send(
+        resourceType: ResourceConstant,
+        amount: number,
+        destination: string,
+        description?: string
+    ): ScreepsReturnCode;
 }
 
-interface StructureTerminalConstructor extends _Constructor<StructureTerminal>, _ConstructorById<StructureTerminal> {}
+interface StructureTerminalConstructor
+    extends _Constructor<StructureTerminal>,
+        _ConstructorById<StructureTerminal> {}
 
 declare const StructureTerminal: StructureTerminalConstructor;
 
@@ -5464,7 +5890,9 @@ interface StructureContainer extends Structure<STRUCTURE_CONTAINER> {
     ticksToDecay: number;
 }
 
-interface StructureContainerConstructor extends _Constructor<StructureContainer>, _ConstructorById<StructureContainer> {}
+interface StructureContainerConstructor
+    extends _Constructor<StructureContainer>,
+        _ConstructorById<StructureContainer> {}
 
 declare const StructureContainer: StructureContainerConstructor;
 
@@ -5512,7 +5940,9 @@ interface StructureNuker extends OwnedStructure<STRUCTURE_NUKER> {
     launchNuke(pos: RoomPosition): ScreepsReturnCode;
 }
 
-interface StructureNukerConstructor extends _Constructor<StructureNuker>, _ConstructorById<StructureNuker> {}
+interface StructureNukerConstructor
+    extends _Constructor<StructureNuker>,
+        _ConstructorById<StructureNuker> {}
 
 declare const StructureNuker: StructureNukerConstructor;
 
@@ -5535,7 +5965,9 @@ interface StructurePortal extends Structure<STRUCTURE_PORTAL> {
     ticksToDecay: number | undefined;
 }
 
-interface StructurePortalConstructor extends _Constructor<StructurePortal>, _ConstructorById<StructurePortal> {}
+interface StructurePortalConstructor
+    extends _Constructor<StructurePortal>,
+        _ConstructorById<StructurePortal> {}
 
 declare const StructurePortal: StructurePortalConstructor;
 
@@ -5562,10 +5994,18 @@ interface StructureFactory extends OwnedStructure<STRUCTURE_FACTORY> {
      * Produces the specified commodity.
      * All ingredients should be available in the factory store.
      */
-    produce(resource: CommodityConstant | MineralConstant | RESOURCE_ENERGY | RESOURCE_GHODIUM): ScreepsReturnCode;
+    produce(
+        resource:
+            | CommodityConstant
+            | MineralConstant
+            | RESOURCE_ENERGY
+            | RESOURCE_GHODIUM
+    ): ScreepsReturnCode;
 }
 
-interface StructureFactoryConstructor extends _Constructor<StructureFactory>, _ConstructorById<StructureFactory> {}
+interface StructureFactoryConstructor
+    extends _Constructor<StructureFactory>,
+        _ConstructorById<StructureFactory> {}
 
 declare const StructureFactory: StructureFactoryConstructor;
 
@@ -5584,7 +6024,9 @@ interface StructureInvaderCore extends OwnedStructure<STRUCTURE_INVADER_CORE> {
     ticksToDeploy: number;
 }
 
-interface StructureInvaderCoreConstructor extends _Constructor<StructureInvaderCore>, _ConstructorById<StructureInvaderCore> {}
+interface StructureInvaderCoreConstructor
+    extends _Constructor<StructureInvaderCore>,
+        _ConstructorById<StructureInvaderCore> {}
 
 declare const StructureInvaderCore: StructureInvaderCoreConstructor;
 
@@ -5626,13 +6068,20 @@ type AnyStoreStructure =
 /**
  * A discriminated union on Structure.type of all structure types
  */
-type AnyStructure = AnyOwnedStructure | StructureContainer | StructurePortal | StructureRoad | StructureWall;
+type AnyStructure =
+    | AnyOwnedStructure
+    | StructureContainer
+    | StructurePortal
+    | StructureRoad
+    | StructureWall;
 
 /**
  * Conditional type for all concrete implementations of Structure.
  * Unlike Structure<T>, ConcreteStructure<T> gives you the actual concrete class that extends Structure<T>.
  */
-type ConcreteStructure<T extends StructureConstant> = T extends STRUCTURE_EXTENSION
+type ConcreteStructure<
+    T extends StructureConstant
+> = T extends STRUCTURE_EXTENSION
     ? StructureExtension
     : T extends STRUCTURE_RAMPART
     ? StructureRampart
@@ -5709,6 +6158,8 @@ interface Tombstone extends RoomObject {
     creep: AnyCreep;
 }
 
-interface TombstoneConstructor extends _Constructor<Tombstone>, _ConstructorById<Tombstone> {}
+interface TombstoneConstructor
+    extends _Constructor<Tombstone>,
+        _ConstructorById<Tombstone> {}
 
 declare const Tombstone: TombstoneConstructor;

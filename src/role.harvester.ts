@@ -1,11 +1,13 @@
 import { creep } from './base';
-import { pushCarrierTask } from './task.manager';
+import { getSourceLink } from './util';
 //获取energy
-
 export class harvester extends Creep implements creep {
-    task: String;
+    task: string;
     type: Number = 0;
     work() {
+        if (getSourceLink().store.getFreeCapacity(RESOURCE_ENERGY) > 0) {
+            this.transfer(getSourceLink(), RESOURCE_ENERGY);
+        }
         if (this.memory['request'] == 0) {
             this.memory['full'] = false;
         }
@@ -20,9 +22,6 @@ export class harvester extends Creep implements creep {
             this.moveTo(path);
         } else if (this.harvest(target) == ERR_NOT_IN_RANGE) {
             this.moveTo(target);
-        }
-        if (this.store.getFreeCapacity() <= 10) {
-            pushCarrierTask('transfer ' + this.name,this.name);
         }
     }
 }

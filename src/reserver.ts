@@ -1,15 +1,15 @@
 import { getQuote } from './util';
 import { creep } from './base';
+import { setReserverAvailableFlag } from 'flag';
 export class reserve extends Creep implements creep {
-    task: String;
+    task: string;
     type: Number = 6;
     work(): void {
-        let source =
-            Game.flags[
-                Object.keys(Game.flags).find((v) => {
-                    return v.split(' ')[0] == 'RemoteSource';
-                })
-            ];
+        if (this.ticksToLive <= 10 && this.memory['flagName']) {
+            setReserverAvailableFlag(this.memory['flagName']);
+            this.suicide();
+        }
+        let source = Game.flags[this.memory.flagName];
         if (source.room) {
             let controller = source.room.controller;
             if (!controller) {
@@ -17,8 +17,7 @@ export class reserve extends Creep implements creep {
                     visualizePathStyle: { stroke: '#ffaa00' }
                 });
             } else {
-                const text = getQuote(this.room.name);
-
+                const text = getQuote(this.room.controller.id);
                 if (!(controller.sign && controller.sign.text == text)) {
                     if (
                         this.signController(controller, text) ==

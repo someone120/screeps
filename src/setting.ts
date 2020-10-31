@@ -7,7 +7,7 @@ export const bodySet = {
         1800: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE],
         2300: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE],
         5600: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE],
-        10000: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE],
+        10000: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE]
     },
     builder: {
         300: [WORK, CARRY, MOVE],
@@ -25,7 +25,7 @@ export const bodySet = {
             MOVE,
             MOVE,
             MOVE,
-            MOVE,
+            MOVE
         ],
         1800: [
             WORK,
@@ -45,7 +45,7 @@ export const bodySet = {
             MOVE,
             MOVE,
             MOVE,
-            MOVE,
+            MOVE
         ],
         2300: [
             WORK,
@@ -65,7 +65,7 @@ export const bodySet = {
             MOVE,
             MOVE,
             MOVE,
-            MOVE,
+            MOVE
         ],
         5600: [
             WORK,
@@ -85,7 +85,7 @@ export const bodySet = {
             MOVE,
             MOVE,
             MOVE,
-            MOVE,
+            MOVE
         ],
         10000: [
             WORK,
@@ -105,8 +105,8 @@ export const bodySet = {
             MOVE,
             MOVE,
             MOVE,
-            MOVE,
-        ],
+            MOVE
+        ]
     },
     carrier: {
         300: [CARRY, CARRY, MOVE],
@@ -125,7 +125,7 @@ export const bodySet = {
             MOVE,
             MOVE,
             MOVE,
-            MOVE,
+            MOVE
         ],
         2300: [
             CARRY,
@@ -148,14 +148,14 @@ export const bodySet = {
             MOVE,
             MOVE,
             MOVE,
-            MOVE,
+            MOVE
         ],
         5600: Array(30)
             .fill(CARRY, 0, 20)
             .fill(MOVE, 20, 30),
         10000: Array(48)
             .fill(CARRY, 0, 32)
-            .fill(MOVE, 32, 48),
+            .fill(MOVE, 32, 48)
     },
     upgrader: {
         300: [WORK, CARRY, MOVE],
@@ -173,7 +173,7 @@ export const bodySet = {
             MOVE,
             WORK,
             CARRY,
-            MOVE,
+            MOVE
         ],
         1800: [
             WORK,
@@ -193,7 +193,7 @@ export const bodySet = {
             MOVE,
             WORK,
             CARRY,
-            MOVE,
+            MOVE
         ],
         2300: [
             WORK,
@@ -222,7 +222,7 @@ export const bodySet = {
             MOVE,
             WORK,
             CARRY,
-            MOVE,
+            MOVE
         ],
         5600: [
             WORK,
@@ -251,7 +251,7 @@ export const bodySet = {
             MOVE,
             WORK,
             CARRY,
-            MOVE,
+            MOVE
         ],
         10000: [
             WORK,
@@ -280,46 +280,48 @@ export const bodySet = {
             MOVE,
             WORK,
             CARRY,
-            MOVE,
-        ],
+            MOVE
+        ]
     },
     reserver: {
         300: [MOVE, CLAIM],
         550: [MOVE, CLAIM],
-        800: [MOVE, CLAIM],
-        1300: [MOVE, CLAIM],
-        1800: [MOVE, MOVE, CLAIM, CLAIM],
-        2300: [MOVE, MOVE, CLAIM, CLAIM],
-        5600: [MOVE, MOVE, CLAIM, CLAIM],
-        10000: [MOVE, MOVE, CLAIM, CLAIM],
+        800: [TOUGH,MOVE, CLAIM],
+        1300: [TOUGH,MOVE, CLAIM],
+        1800: [TOUGH,MOVE, MOVE, CLAIM, CLAIM],
+        2300: [TOUGH,MOVE, MOVE, CLAIM, CLAIM],
+        5600: [TOUGH,MOVE, MOVE, CLAIM, CLAIM],
+        10000: [TOUGH,MOVE, MOVE, CLAIM, CLAIM]
     },
     remoteMiner: {
-        300: [WORK, CARRY, MOVE],
-        550: [WORK, WORK, CARRY, CARRY, MOVE, MOVE],
-        800: [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE],
+        300: [TOUGH, WORK, CARRY, MOVE],
+        550: [TOUGH, WORK, WORK, CARRY, CARRY, MOVE, MOVE],
+        800: [TOUGH, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE],
         1300: [
+            TOUGH,
             WORK,
             WORK,
             WORK,
             WORK,
             WORK,
+            RANGED_ATTACK,
             CARRY,
             CARRY,
             CARRY,
-            CARRY,
             MOVE,
             MOVE,
             MOVE,
             MOVE,
-            MOVE,
+            MOVE
         ],
         1800: [
+            TOUGH,
             WORK,
             WORK,
             WORK,
             WORK,
             WORK,
-            CARRY,
+            RANGED_ATTACK,
             CARRY,
             CARRY,
             CARRY,
@@ -334,15 +336,16 @@ export const bodySet = {
             MOVE,
             MOVE,
             MOVE,
-            MOVE,
+            MOVE
         ],
         2300: [
+            TOUGH,
             WORK,
             WORK,
             WORK,
             WORK,
             WORK,
-            CARRY,
+            RANGED_ATTACK,
             CARRY,
             CARRY,
             CARRY,
@@ -357,15 +360,16 @@ export const bodySet = {
             MOVE,
             MOVE,
             MOVE,
-            MOVE,
+            MOVE
         ],
         5600: [
+            TOUGH,
             WORK,
             WORK,
             WORK,
             WORK,
             WORK,
-            CARRY,
+            RANGED_ATTACK,
             CARRY,
             CARRY,
             CARRY,
@@ -380,15 +384,16 @@ export const bodySet = {
             MOVE,
             MOVE,
             MOVE,
-            MOVE,
+            MOVE
         ],
         10000: [
+            TOUGH,
             WORK,
             WORK,
             WORK,
             WORK,
             WORK,
-            CARRY,
+            RANGED_ATTACK,
             CARRY,
             CARRY,
             CARRY,
@@ -403,7 +408,7 @@ export const bodySet = {
             MOVE,
             MOVE,
             MOVE,
-            MOVE,
-        ],
-    },
+            MOVE
+        ]
+    }
 };

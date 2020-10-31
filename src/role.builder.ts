@@ -1,6 +1,7 @@
+import { getFlags } from './util';
 import { creep } from './base';
 export class builder extends Creep implements creep {
-    task: String;
+    task: string;
     type: Number = 1;
     /** @param {Creep} this **/
     work() {
@@ -12,56 +13,61 @@ export class builder extends Creep implements creep {
             this.memory['building'] = true;
             this.say('🚧 build');
         }
-        let targets = Game.rooms[this.memory['roomID']].find(FIND_CONSTRUCTION_SITES);
-        let flag =
-            Game.flags[
-                Object.keys(Game.flags).find((v) => {
-                    return v.split(' ')[0] == 'RemoteSource';
-                })
-            ];
-        if (flag.room) {
-            targets = targets.concat(flag.room.find(FIND_CONSTRUCTION_SITES));
-        }
+        let targets = Game.rooms[this.memory['roomID']].find(
+            FIND_CONSTRUCTION_SITES
+        );
+        let flag = getFlags();
+        flag.forEach((it) => {
+            if (it.room) {
+                targets = targets.concat(it.room.find(FIND_CONSTRUCTION_SITES));
+            }
+        });
         if (this.memory['building']) {
             if (targets.length >= 0) {
                 if (this.build(targets[0]) == ERR_NOT_IN_RANGE) {
                     this.moveTo(targets[0], {
-                        visualizePathStyle: { stroke: '#ffffff' },
+                        visualizePathStyle: { stroke: '#ffffff' }
                     });
                 }
             }
         } else {
             if (Game.rooms[this.memory['roomID']].storage) {
                 if (
-                    this.withdraw(Game.rooms[this.memory['roomID']].storage, RESOURCE_ENERGY) ==
-                    ERR_NOT_IN_RANGE
+                    this.withdraw(
+                        Game.rooms[this.memory['roomID']].storage,
+                        RESOURCE_ENERGY
+                    ) == ERR_NOT_IN_RANGE
                 ) {
                     this.moveTo(Game.rooms[this.memory['roomID']].storage);
                 }
             } else {
-                const source2 = Game.rooms[this.memory['roomID']].find(FIND_STRUCTURES, {
-                    filter: (structure) => {
-                        return (
-                            structure.structureType == STRUCTURE_CONTAINER &&
-                            structure.store.energy > 0
-                        );
-                    },
-                }) as StructureContainer[];
+                const source2 = Game.rooms[this.memory['roomID']].find(
+                    FIND_STRUCTURES,
+                    {
+                        filter: (structure) => {
+                            return (
+                                structure.structureType ==
+                                    STRUCTURE_CONTAINER &&
+                                structure.store.energy > 0
+                            );
+                        }
+                    }
+                ) as StructureContainer[];
                 source2.sort((a, b) => {
                     return b.store.energy - a.store.energy;
                 });
-
                 if (source2.length != 0) {
                     const result = this.withdraw(source2[0], RESOURCE_ENERGY);
-
                     if (result == ERR_NOT_IN_RANGE) {
                         this.moveTo(source2[0]);
                     }
                 } else {
-                    const source1 = Game.rooms[this.memory['roomID']].find(FIND_DROPPED_RESOURCES)[0];
+                    const source1 = Game.rooms[this.memory['roomID']].find(
+                        FIND_DROPPED_RESOURCES
+                    )[0];
                     if (this.pickup(source1) == ERR_NOT_IN_RANGE) {
                         this.moveTo(source1, {
-                            visualizePathStyle: { stroke: '#ffaa00' },
+                            visualizePathStyle: { stroke: '#ffaa00' }
                         });
                     }
                 }

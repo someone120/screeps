@@ -1,4 +1,7 @@
 interface Memory {
-    porterTasker: String[];
-    spawnTasks: String[];
+    porterTasker: string[];
+    spawnTask: string[];
+    ReserverRemoteSource:string[];
+    MinerRemoteSource:string[];
+    ScoutRemoteSource:string[];
 }

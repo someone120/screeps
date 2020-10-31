@@ -1,8 +1,7 @@
 import { getQuote } from './util';
 import { creep } from './base';
-
 export class Upgrader extends Creep implements creep {
-    task: String;
+    task: string;
     type: Number = 3;
     work() {
         if (this.memory['building'] && this.store[RESOURCE_ENERGY] == 0) {
@@ -15,7 +14,7 @@ export class Upgrader extends Creep implements creep {
         }
         if (this.memory['building']) {
             let targets = this.room.controller;
-            const text = getQuote(this.room.name);
+            const text = getQuote(this.room.controller.id);
             if (!(targets.sign && targets.sign.text == text)) {
                 if (this.signController(targets, text) == ERR_NOT_IN_RANGE) {
                     this.moveTo(targets, {
@@ -42,10 +41,8 @@ export class Upgrader extends Creep implements creep {
                 source2.sort((a, b) => {
                     return b.store.energy - a.store.energy;
                 });
-
                 if (source2.length != 0) {
                     const result = this.withdraw(source2[0], RESOURCE_ENERGY);
-
                     if (result == ERR_NOT_IN_RANGE) {
                         this.moveTo(source2[0]);
                     }

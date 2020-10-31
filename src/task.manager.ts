@@ -1,7 +1,6 @@
 import { indexOf } from 'lodash';
-
 class task {
-    run(creep: Creep, text: String): Boolean {
+    run(creep: Creep, text: string): Boolean {
         let split = text.split(' ');
         let moveCreep = Game.creeps[split[1]];
         if (!moveCreep) {
@@ -16,7 +15,7 @@ class task {
  * 向任务列表中推送任务
  * @param task 任务
  */
-export function pushCarrierTask(task: String, name: String) {
+export function pushCarrierTask(task: string, name: string) {
     if (
         Memory.porterTasker.includes(task) ||
         global['porterTasksTaken'].includes(task)
@@ -26,29 +25,25 @@ export function pushCarrierTask(task: String, name: String) {
     console.log(`<p style="color: #8BC34A;">[${name}]发布了任务：${task}</p>`);
     Memory.porterTasker.push(task);
 }
-
 /**
  * 向任务列表中推送任务
  * @param task 任务
  */
-export function pushSpawnTask(task: String, name: String) {
-    if (Memory['spawnTask'].includes(task) || global['spawnTask'] === task) {
+export function pushSpawnTask(task: string, name: string) {
+    if (Memory['spawnTask'].includes(task) || global['spawnTask'] == task) {
         return;
     }
     console.log(`<p style="color: #8BC34A;">[${name}]发布了任务：${task}</p>`);
     Memory['spawnTask'].push(task);
 }
-
 function finishTask(creep: Creep) {
     let index = global['porterTasksTaken'].indexOf(creep.memory['task']);
     if (index != -1) global['porterTasksTaken'].splice(index, 1);
     creep.memory['task'] = null;
     global[creep.name] = -1;
-    creep.say(`好诶！赚到了${~~(100 + Math.random() * 200)}円`, true);
 }
-
 export class transfer extends task {
-    run(creep: Creep, text: String): Boolean {
+    run(creep: Creep, text: string): Boolean {
         let split = text.split(' ');
         let moveCreep = Game.creeps[split[1]];
         if (!super.run(creep, text)) {
@@ -66,13 +61,11 @@ export class transfer extends task {
             moveCreep.memory['full'] = false;
             finishTask(creep);
         }
-
         return true;
     }
 }
-
 export class carry extends task {
-    run(creep: Creep, text: String): Boolean {
+    run(creep: Creep, text: string): Boolean {
         let split = text.split(' ');
         let storage = Game.structures[split[1]];
         if (!global[creep.name]) global[creep.name] = 0;
@@ -92,10 +85,8 @@ export class carry extends task {
             }
         } else {
             let targets = Game.spawns[split[2]];
-
             if (creep.store[RESOURCE_ENERGY] > 0) {
                 let result = creep.transfer(targets, RESOURCE_ENERGY);
-
                 if (result == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targets);
                 } else if (result == ERR_FULL) {
@@ -108,16 +99,14 @@ export class carry extends task {
         return true;
     }
 }
-
 export class request extends task {
-    run(creep: Creep, text: String): Boolean {
+    run(creep: Creep, text: string): Boolean {
         let split = text.split(' ');
         let storage = Game.structures[split[1]];
-
         if (!global[creep.name]) global[creep.name] = 0;
         if (global[creep.name] == 0) creep.memory['getting'] = true;
         global[creep.name]++;
-        if (creep.memory['getting'] && creep.store[RESOURCE_ENERGY] <= 50) {
+        if (creep.memory['getting'] && creep.store[RESOURCE_ENERGY] < 50) {
             if (!storage) {
                 creep.memory['getting'] = false;
                 return;
@@ -138,7 +127,6 @@ export class request extends task {
             }
             if (creep.store[RESOURCE_ENERGY] > 0) {
                 let result = creep.transfer(targets, RESOURCE_ENERGY);
-
                 if (result == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targets);
                 } else if (result == ERR_FULL) {

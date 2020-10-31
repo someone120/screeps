@@ -1,13 +1,9 @@
 export interface base{
     work():void
 }
-
 export interface creep extends base{
-    task:String
+    task:string
     type:Number
 }
-
 export interface structure extends base{
-    
 }
-
