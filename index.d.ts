@@ -1275,10 +1275,12 @@ interface Creep extends RoomObject {
      * Requires the MOVE body part if not being pulled.
      * @param direction The direction to move in (`TOP`, `TOP_LEFT`...)
      */
-    move(direction: DirectionConstant): CreepMoveReturnCode;
+    _move(
+        direction: DirectionConstant | Creep
+    ): CreepMoveReturnCode | ERR_NOT_IN_RANGE | ERR_INVALID_TARGET;
     move(
-        target: Creep
-    ): OK | ERR_NOT_OWNER | ERR_BUSY | ERR_NOT_IN_RANGE | ERR_INVALID_ARGS;
+        target: DirectionConstant | Creep
+    ): CreepMoveReturnCode | ERR_INVALID_TARGET | ERR_NOT_IN_RANGE;
     /**
      * Move the creep using the specified predefined path. Needs the MOVE body part.
      * @param path A path value as returned from Room.findPath or RoomPosition.findPathTo methods. Both array form and serialized string form are accepted.
@@ -1332,6 +1334,10 @@ interface Creep extends RoomObject {
      * Requires the MOVE body part. The target must be adjacent to the creep. The creep must move elsewhere, and the target must move towards the creep.
      * @param target The target creep to be pulled.
      */
+    goTo(
+        target: RoomPosition,
+        range?: number
+    ): CreepMoveReturnCode | ERR_NO_PATH | ERR_INVALID_TARGET | ERR_NOT_FOUND;
     pull(
         target: Creep
     ):
@@ -2990,7 +2996,7 @@ interface GameMap {
     getTerrainAt(pos: RoomPosition): Terrain;
     /**
      * Get room terrain for the specified room. This method works for any room in the world even if you have no access to it.
-     * @param roomName string name of the room.
+     * @param roomName String name of the room.
      */
     getRoomTerrain(roomName: string): RoomTerrain;
     /**
@@ -3372,14 +3378,14 @@ interface Memory {
     spawns: { [name: string]: SpawnMemory };
 }
 
-interface CreepMemory {
-    flagName?: string;
-    type: number;
-    roomID: string;
-}
+interface CreepMemory {}
 interface FlagMemory {}
 interface PowerCreepMemory {}
-interface RoomMemory {}
+interface RoomMemory {
+    restrictedPos?: { [creepName: string]: string; };
+    isLockByProtect?: boolean;
+    source?: Id<Source>[];
+}
 interface SpawnMemory {}
 
 declare const Memory: Memory;
@@ -4315,7 +4321,7 @@ interface RoomTerrain {
 interface RoomTerrainConstructor extends _Constructor<RoomTerrain> {
     /**
      * Get room terrain for the specified room. This method works for any room in the world even if you have no access to it.
-     * @param roomName string name of the room.
+     * @param roomName String name of the room.
      */
     new (roomName: string): RoomTerrain;
 }
@@ -4926,6 +4932,7 @@ declare const Ruin: RuinConstructor;
  * An energy source object. Can be harvested by creeps with a WORK body part.
  */
 interface Source extends RoomObject {
+    _freeSpaceCount: any;
     /**
      * The prototype is stored in the Source.prototype global object. You can use it to extend game objects behaviour globally:
      */
@@ -4965,13 +4972,6 @@ declare const Source: SourceConstructor;
  * easily recover even if all your creeps died.
  */
 interface StructureSpawn extends OwnedStructure<STRUCTURE_SPAWN> {
-    _spawnCreep: {
-        (
-            body: BodyPartConstant[],
-            name: string,
-            opts?: SpawnOptions
-        ): ScreepsReturnCode;
-    };
     readonly prototype: StructureSpawn;
     /**
      * The amount of energy containing in the spawn.
@@ -5110,12 +5110,12 @@ interface StructureSpawn extends OwnedStructure<STRUCTURE_SPAWN> {
 interface StructureSpawnConstructor
     extends _Constructor<StructureSpawn>,
         _ConstructorById<StructureSpawn> {
-    spawnCreep: any;
     Spawning: SpawningConstructor;
 }
 
 declare const StructureSpawn: StructureSpawnConstructor;
-declare type Spawn = StructureSpawn;
+declare const Spawn: StructureSpawnConstructor; // legacy alias
+// declare type Spawn = StructureSpawn;
 
 interface Spawning {
     readonly prototype: Spawning;
@@ -5273,6 +5273,7 @@ interface Structure<T extends StructureConstant = StructureConstant>
     extends RoomObject {
     readonly prototype: Structure;
 
+    store?: StoreDefinition;
     /**
      * The current amount of hit points of the structure.
      */
@@ -5307,10 +5308,6 @@ interface Structure<T extends StructureConstant = StructureConstant>
      * @param enabled Whether to enable notification or disable.
      */
     notifyWhenAttacked(enabled: boolean): ScreepsReturnCode;
-
-    work?(): void;
-
-    store?: StoreDefinition;
 }
 
 interface StructureConstructor

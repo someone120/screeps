@@ -33,7 +33,7 @@ export class ErrorMapper {
             if (match[2] === 'main') {
                 const pos = this.consumer.originalPositionFor({
                     column: parseInt(match[4], 10),
-                    line: parseInt(match[3], 10),
+                    line: parseInt(match[3], 10)
                 });
                 if (pos.line != null) {
                     if (pos.name) {
@@ -73,11 +73,11 @@ export class ErrorMapper {
                             )}</span>`
                         );
                     } else {
-                        console.log(
-                            `<span style='color:red'>${_.escape(
-                                this.sourceMappedStackTrace(e)
-                            )}</span>`
-                        );
+                        let a = `<span style='color:red'>${_.escape(
+                            this.sourceMappedStackTrace(e)
+                        )}</span>`;
+                        console.log(a);
+                        Game.notify(a);
                     }
                 } else {
                     // can't handle it

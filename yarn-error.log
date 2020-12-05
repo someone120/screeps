@@ -1,0 +1,71 @@
+Arguments: 
+  /usr/bin/node /usr/bin/yarn add screeps-server-mockup
+
+PATH: 
+  /home/someone120/.platformio/penv/bin:/home/someone120/.platformio/penv:/home/someone120/.platformio/python3/bin:/home/someone120/.cargo/bin:/home/someone120/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/opt/flutter/bin:/usr/lib/jvm/default/bin:/opt/flutter/bin:/usr/lib/jvm/default/bin
+
+Yarn version: 
+  1.22.10
+
+Node version: 
+  15.3.0
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: unable to verify the first certificate
+      at TLSSocket.onConnectSecure (node:_tls_wrap:1498:34)
+      at TLSSocket.emit (node:events:376:20)
+      at TLSSocket._finishInit (node:_tls_wrap:933:8)
+      at TLSWrap.ssl.onhandshakedone (node:_tls_wrap:707:12)
+
+npm manifest: 
+  {
+      "name": "screeps",
+      "version": "1.0.0",
+      "description": "",
+      "main": "index.js",
+      "scripts": {
+          "start": "rollup -cw --environment DEST:main",
+          "local": "rollup -cw --environment DEST:local",
+          "build": "rollup -cw"
+      },
+      "author": "",
+      "license": "ISC",
+      "devDependencies": {
+          "@commitlint/cli": "^11.0.0",
+          "@commitlint/config-conventional": "^11.0.0",
+          "@rollup/plugin-commonjs": "^14.0.0",
+          "@rollup/plugin-node-resolve": "^8.4.0",
+          "@types/lodash": "^3.10.2",
+          "@types/node": "^14.0.24",
+          "@typescript-eslint/eslint-plugin": "^4.4.0",
+          "@typescript-eslint/parser": "^4.4.0",
+          "eslint": "^7.11.0",
+          "husky": "^4.3.0",
+          "rollup": "^2.22.1",
+          "rollup-plugin-clear": "^2.0.7",
+          "rollup-plugin-copy": "^3.3.0",
+          "rollup-plugin-screeps": "^1.0.1",
+          "rollup-plugin-typescript2": "^0.27.1",
+          "screeps-multimeter": "^1.11.0",
+          "typescript": "^4.0.3"
+      },
+      "dependencies": {
+          "js-base64": "^3.5.2",
+          "sha1": "^1.1.1",
+          "source-map": "^0.6.1"
+      },
+      "husky": {
+          "hooks": {
+              "commit-msg": "commitlint -e $GIT_PARAMS"
+          }
+      }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

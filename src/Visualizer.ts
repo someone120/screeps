@@ -129,7 +129,7 @@ export class Visualizer {
         this.text(
             `有视野房间数量: ${_.keys(Game.rooms).length} | 共有: ${
                 _.keys(Game.creeps).length
-            }个Creep`,
+            }个Creep | 现在的时间：${Game.time}`,
             {
                 x: 1,
                 y: 1,

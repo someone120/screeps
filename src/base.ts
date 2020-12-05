@@ -1,7 +1,7 @@
 export interface base{
     work():void
 }
-export interface creep extends base{
+export interface creepExt extends base{
     task:string
     type:Number
 }

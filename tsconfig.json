@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "target": "es5",
+        "target": "es2017",
         "moduleResolution": "Node", 
         "outDir": "dist/",
         "baseUrl": "src/",
@@ -9,6 +9,7 @@
     },
     "include": [
         "src/**/*.ts",
+        "src/**/index.d.ts",
         "index.d.ts"
     ],
     "exclude": [

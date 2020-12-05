@@ -1,13 +1,15 @@
+import { getSourceFlags } from 'utils';
+
 export function getReserverFirstAvailableFlag(): string {
     if (!Memory.ReserverRemoteSource) {
         Memory.ReserverRemoteSource = [];
     }
-    return Object.keys(Game.flags).find((it) => {
+    return getSourceFlags().find((it) => {
         return (
-            it.split('_')[0] == 'RemoteSource' &&
-            !Memory.ReserverRemoteSource.includes(it)
+            it.name.split('_')[0] == 'RemoteSource' &&
+            !Memory.ReserverRemoteSource.includes(it.name)
         );
-    });
+    })?.name;
 }
 export function setReserverUnavailableFlag(name: string) {
     if (!Memory.ReserverRemoteSource) {
@@ -29,12 +31,12 @@ export function getMinerFirstAvailableFlag(): string {
     if (!Memory.MinerRemoteSource) {
         Memory.MinerRemoteSource = [];
     }
-    return Object.keys(Game.flags).find((v) => {
+    return getSourceFlags().find((it) => {
         return (
-            v.split('_')[0] == 'RemoteSource' &&
-            !Memory.MinerRemoteSource.includes(v)
+            it.name.split('_')[0] == 'RemoteSource' &&
+            !Memory.MinerRemoteSource.includes(it.name)
         );
-    });
+    })?.name;
 }
 export function setMinerUnavailableFlag(name: string) {
     if (!Memory.MinerRemoteSource) {
@@ -56,11 +58,9 @@ export function getScoutFirstAvailableFlag(): string {
     if (!Memory.ScoutRemoteSource) {
         Memory.ScoutRemoteSource = [];
     }
-    return Object.keys(Game.flags).find((it) => {
-        return (
-            !Memory.ScoutRemoteSource.includes(it)
-        );
-    });
+    return getSourceFlags().find((it) => {
+        return !Memory.ScoutRemoteSource.includes(it.name);
+    })?.name;
 }
 export function setScoutUnavailableFlag(name: string) {
     if (!Memory.ScoutRemoteSource) {

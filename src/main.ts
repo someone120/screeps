@@ -1,73 +1,72 @@
-import { energyTransfer } from './role.energyTransfer';
-import roleSpawn from 'role.spawn';
-import { creep } from './base';
-import { Upgrader } from './controller.keeper';
-import { ErrorMapper } from './errorMapping';
-import mount from './mount';
-import { RemoteCarrier } from './remoteCarrier';
-import { remoteMiner } from './remoteMiner';
-import { reserve } from './reserver';
-import { builder } from './role.builder';
-import { harvester } from './role.harvester';
-import { Repairer } from './role.maintainer';
-import { Carrier } from './role.porter';
-import { checkQuantity, stateScanner } from './util';
-import { Visualizer } from './Visualizer';
-import { Scort } from 'role.scout';
+import roleSpawn from 'mount/role.spawn';
+import { creepExt } from 'base';
+import { ErrorMapper } from 'errorMapping';
+import mount from 'mount/mount';
+import { stateScanner } from 'utils';
+import { Visualizer } from 'Visualizer';
+import { roles } from 'classes';
+
 module.exports.loop = ErrorMapper.wrapLoop(() => {
-    mount();
-    checkQuantity(Game.creeps);
-    if (!Memory['type']) Memory['type'] = [0, 0, 0, 0, 0];
-    if (!global['porterTasksTaken']) global['porterTasksTaken'] = [];
-    for (let name in Game.creeps) {
-        let creep = Game.creeps[name];
-        let t: creep;
-        drawType(creep);
-        switch (creep.memory['type']) {
-            case 0:
-                t = new harvester(creep.id);
-                break;
-            case 1:
-                t = new builder(creep.id);
-                break;
-            case 2:
-                t = new Carrier(creep.id);
-                break;
-            case 3:
-                t = new Upgrader(creep.id);
-                break;
-            case 4:
-                t = new Repairer(creep.id);
-                break;
-            case 5:
-                t = new remoteMiner(creep.id);
-                break;
-            case 6:
-                t = new reserve(creep.id);
-                break;
-            case 7:
-                t = new RemoteCarrier(creep.id);
-                break;
-            case 8:
-                t = new energyTransfer(creep.id);
-                break;
-            case 9:
-                t = new Scort(creep.id);
-                break;
-            case -1:
-                break;
-            //falls through
-            case undefined:
-            default:
-                creep.say('我自裁吧');
-                creep.suicide();
-                break;
+    loop();
+});
+
+export function checkQuantity(creeps: { [creepName: string]: Creep }) {
+    if (Game.time % 10 != 0) {
+        return;
+    }
+    Memory.type = {};
+    Memory.ScoutRemoteSource = [];
+    Memory.ReserverRemoteSource = [];
+    Memory.MinerRemoteSource = [];
+    Object.values(creeps).forEach((creep) => {
+        if (
+            !Memory.type[creep.memory.roomID] ||
+            Memory.type[creep.memory.roomID].length <= 0
+        ) {
+            Memory.type[creep.memory.roomID] = Array(roles.length).fill(0);
         }
+        Memory.type[creep.memory.roomID][creep.memory.type]++;
+        if (creep.memory.flagName) {
+            switch (creep.memory.type) {
+                case 5:
+                    Memory.MinerRemoteSource.push(creep.memory.flagName);
+                    break;
+                case 6:
+                    Memory.ReserverRemoteSource.push(creep.memory.flagName);
+                    break;
+                case 9:
+                    Memory.ScoutRemoteSource.push(creep.memory.flagName);
+                    break;
+                default:
+                    break;
+            }
+        }
+    });
+}
+function loop() {
+    mount();
+    roleSpawn();
+    checkQuantity(Game.creeps);
+    for (let name in Game.creeps) {
+        // console.log(name);
+        let creep = Game.creeps[name];
+        if (Memory['destoryNext'] && Memory['destoryNext'] == name) {
+            creep.suicide();
+            Memory['destoryNext'] = null;
+            continue;
+        }
+        if (creep.memory.type == -1) {
+            continue;
+        }
+        let t: creepExt = new roles[creep.memory.type](creep.id);
+        drawType(creep);
         if (t) t.work();
     }
     autoClean();
     Object.values(Game.structures).forEach((v) => {
         if (v.work) {
+            if (v.structureType == STRUCTURE_CONTAINER) console.log(v.id);
+
             v.work();
         }
     });
@@ -78,11 +77,14 @@ module.exports.loop = ErrorMapper.wrapLoop(() => {
     // console.log(JSON.stringify(path));
     Visualizer.visuals();
     stateScanner();
-    roleSpawn();
-    if (Game.time % 1000 == 0) {
+    if (Game.time % 10000 == 0) {
         Game.cpu.halt();
     }
-});
+}
+
+/**
+ * 自动清理死亡的creep内存
+ */
 function autoClean() {
     if (Game.time % 20 != 0) {
         return;
@@ -91,42 +93,16 @@ function autoClean() {
         if (!Game.creeps[name]) {
             delete Memory.creeps[name];
         }
+
+        for (const flagName in Memory.flags) {
+            if (!Game.flags[flagName]) {
+                delete Memory.flags[flagName];
+            }
+        }
     }
 }
 function drawType(creep: Creep) {
-    let text = '';
-    switch (creep.memory['type']) {
-        case 0:
-            text = 'Miner';
-            break;
-        case 1:
-            text = 'Builder';
-            break;
-        case 2:
-            text = 'Carrier';
-            break;
-        case 3:
-            text = 'Upgrader';
-            break;
-        case 4:
-            text = 'Repairer';
-            break;
-        case 5:
-            text = 'remoteMiner';
-            break;
-        case 6:
-            text = 'reserve';
-            break;
-        case 7:
-            text = 'RemoteCarrier';
-            break;
-        case 8:
-            text = 'energyTransfer';
-            break;
-        default:
-            text = '我也不懂';
-            break;
-    }
+    let text = roles[creep.memory.type].name || '我也不懂';
     creep.room.visual.text(text, creep.pos.x, creep.pos.y + 0.5, {
         color: '#2196F3',
         font: 0.3,
