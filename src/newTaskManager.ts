@@ -5,7 +5,7 @@ const tasks: {
     request: { task: [supply], paramLenget: 2 }
 };
 
-/* 转移资源
+/** 转移资源
  * 需要两个参数，p[0]为目标，p[1]为需要的资源。
  */
 export function transfer(creep: Creep): boolean {
@@ -36,7 +36,7 @@ export function prepare(creep: Creep): boolean {
     return true;
 }
 
-/* 供应资源
+/** 供应资源
  * 需要两个参数，p[0]为目标，p[1]为需要的资源。
  * 在没有所需要的资源会自动向storage拿
  */
