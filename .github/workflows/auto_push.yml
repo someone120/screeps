@@ -15,8 +15,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install
-      - run: echo $CONFIG > .screeps.json
-      - run: npm run once
+      - run: |
+        echo $CONFIG > .screeps.json
+        npm run once
       - run: npm test
         env:
           CONFIG: ${{ secrets.config }}
