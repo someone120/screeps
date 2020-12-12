@@ -11,21 +11,22 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2.1.3
         with:
           node-version: ${{ matrix.node-version }}
       - name: init
-      - run: |
-        echo $CONFIG > .screeps.json
-        if [ -f .screeps.json ];then                                                                                                                                                                                  ─╯
-        exit 0
-        else
-        exit 1
-        fi
-        npm install
+        run: |
+          echo "" > .screeps.json
+          if [ -f .screeps.json ];then                                                                                                                                                                                  ─╯
+          exit 0
+          else
+          exit 1
+          fi
+          npm install
+        env:
+         CONFIG: ${{ secrets.config }}
       - name: start
-      - run: |
-        npm run once
-        npm test
-      env:
-        CONFIG: ${{ secrets.config }}
+        run: |
+          npm run once
+          npm test
+       
