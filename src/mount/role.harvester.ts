@@ -1,5 +1,6 @@
 import { creepExt } from 'base';
 import { getSourceLink } from 'utils';
+// import { getSourceLink } from 'utils';
 import { freeSpaceCount } from './cache/room/source';
 //获取energy
 export class harvester extends Creep implements creepExt {
@@ -9,7 +10,7 @@ export class harvester extends Creep implements creepExt {
         const target = this.room.sources[0];
         const mine = this.harvest(target);
         if (mine == ERR_NOT_IN_RANGE) {
-            this.goTo(target.pos);
+            this.goTo(target.pos,{range:1});
         } else if (mine == OK) {
             this.memory.standed = true;
             this.room.addRestrictedPos(this.name, this.pos);
@@ -40,6 +41,9 @@ export class harvester extends Creep implements creepExt {
         }
         if (this.ticksToLive < 10) {
             this.room.removeRestrictedPos(this.name);
+        }
+        if (this.store.getFreeCapacity(RESOURCE_ENERGY) == 0) {
+            this.drop(RESOURCE_ENERGY);
         }
     }
 }

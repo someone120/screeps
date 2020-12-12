@@ -18,6 +18,9 @@ export default function() {
     for (const i in Game.spawns) {
         if (Object.prototype.hasOwnProperty.call(Game.spawns, i)) {
             const spawn = Game.spawns[i];
+            if (!Memory.type) {
+                Memory.type = {};
+            }
             if (
                 !Memory.type[spawn.room.name] ||
                 Memory.type[spawn.room.name].length <= 0
@@ -57,7 +60,7 @@ export default function() {
                 const wallPainter = Memory.type[spawn.room.name][11];
                 const Protectors = Memory.type[spawn.room.name][12];
 
-                if (Porter == 0 || miners == 0 || energyTransfer == 0) {
+                if (Porter == 0 || miners == 0) {
                     available = 300;
                 }
 
@@ -81,24 +84,24 @@ export default function() {
                     pushUpgrader(available, spawn);
                     spawn.memory['send'] = true;
                 }
-                if (energyTransfer < 1) {
+                if (energyTransfer < 1 && spawn.room.controller.level >= 6) {
                     let task = `energyTransfer ${available}`;
-                    if (!Memory.spawnTask[spawn.name]) {
-                        Memory.spawnTask[spawn.name] = [];
+                    if (!Memory.spawnTask[spawn.room.name]) {
+                        Memory.spawnTask[spawn.room.name] = [];
                     }
                     if (!global['spawnTask']) {
                         global['spawnTask'] = {};
                     }
                     if (
                         !(
-                            Memory.spawnTask[spawn.name].includes(task) ||
-                            global.spawnTask[spawn.name] == task
+                            Memory.spawnTask[spawn.room.name].includes(task) ||
+                            global.spawnTask[spawn.room.name] == task
                         )
                     ) {
                         console.log(
-                            `<p style="color: #8BC34A;">[${spawn.name}]发布了任务：${task}</p>`
+                            `<p style="color: #8BC34A;">[${spawn.room.name}]发布了任务：${task}</p>`
                         );
-                        Memory.spawnTask[spawn.name].unshift(task);
+                        Memory.spawnTask[spawn.room.name].unshift(task);
                     }
                 }
                 if (
@@ -113,7 +116,7 @@ export default function() {
                     }
                 }
                 if (wallPainter < 3) {
-                    pushSpawnTask(`WallPainter ${available}`, spawn.name);
+                    pushSpawnTask(`WallPainter ${available}`, spawn.room.name);
                 }
                 if (
                     getSourceFlags() &&
@@ -145,18 +148,18 @@ export default function() {
                         `Scout ${available} ${JSON.stringify(d)
                             .replace(' ', '')
                             .replace('\n', '')}`,
-                        spawn.name
+                        spawn.room.name
                     );
                 }
                 if (spawn.room.controller.level >= 6 && MineralCreep < 1) {
-                    // pushSpawnTask(`Mineraler ${available}`, spawn.room.name);
+                    pushSpawnTask(`Mineraler ${available}`, spawn.room.name);
                 }
                 if (getSourceFlags() && Protectors < getSourceFlags().length) {
                     getSourceFlags().forEach((it) => {
                         if (it.room && !roomStat(it.room.name)) {
                             pushSpawnTask(
                                 `Protector ${available} ${it.room.name}`,
-                                spawn.name
+                                spawn.room.name
                             );
                             lockRoom(it.room.name);
                         }
@@ -177,64 +180,64 @@ export default function() {
     }
 }
 function pushRemoteCarrier(i: Number, storage: string, spawn: StructureSpawn) {
-    pushSpawnTask(`RemoteCarrier ${i} ${storage}`, spawn.name);
+    pushSpawnTask(`RemoteCarrier ${i} ${storage}`, spawn.room.name);
 }
 function pushHarvester(i: Number, spawn: StructureSpawn) {
     if (!Memory.spawnTask) {
         Memory.spawnTask = {};
     }
-    if (!Memory.spawnTask[spawn.name]) {
-        Memory.spawnTask[spawn.name] = [];
+    if (!Memory.spawnTask[spawn.room.name]) {
+        Memory.spawnTask[spawn.room.name] = [];
     }
     if (!global['spawnTask']) {
         global['spawnTask'] = {};
     }
     let task = `Harvester ${i}`;
     if (
-        Memory.spawnTask[spawn.name].includes(task) ||
-        global.spawnTask[spawn.name] == task
+        Memory.spawnTask[spawn.room.name].includes(task) ||
+        global.spawnTask[spawn.room.name] == task
     ) {
         return;
     }
     console.log(
-        `<p style="color: #8BC34A;">[${spawn.name}]发布了任务：${task}</p>`
+        `<p style="color: #8BC34A;">[${spawn.room.name}]发布了任务：${task}</p>`
     );
-    Memory.spawnTask[spawn.name].unshift(task);
+    Memory.spawnTask[spawn.room.name].unshift(task);
 }
 function pushCarrier(i: Number, spawn: StructureSpawn) {
     if (!Memory.spawnTask) {
         Memory.spawnTask = {};
     }
-    if (!Memory.spawnTask[spawn.name]) {
-        Memory.spawnTask[spawn.name] = [];
+    if (!Memory.spawnTask[spawn.room.name]) {
+        Memory.spawnTask[spawn.room.name] = [];
     }
     if (!global['spawnTask']) {
         global['spawnTask'] = {};
     }
     let task = `Carrier ${i}`;
     if (
-        Memory.spawnTask[spawn.name].includes(task) ||
-        global.spawnTask[spawn.name] == task
+        Memory.spawnTask[spawn.room.name].includes(task) ||
+        global.spawnTask[spawn.room.name] == task
     ) {
         return;
     }
     console.log(
-        `<p style="color: #8BC34A;">[${spawn.name}]发布了任务：${task}</p>`
+        `<p style="color: #8BC34A;">[${spawn.room.name}]发布了任务：${task}</p>`
     );
-    Memory.spawnTask[spawn.name].unshift(task);
+    Memory.spawnTask[spawn.room.name].unshift(task);
 }
 function pushRepairer(i: Number, spawn: StructureSpawn) {
-    pushSpawnTask(`Repairer ${i}`, spawn.name);
+    pushSpawnTask(`Repairer ${i}`, spawn.room.name);
 }
 function pushBuilder(i: Number, spawn: StructureSpawn) {
-    pushSpawnTask(`Builder ${i}`, spawn.name);
+    pushSpawnTask(`Builder ${i}`, spawn.room.name);
 }
 function pushUpgrader(i: Number, spawn: StructureSpawn) {
-    pushSpawnTask(`Upgrader ${i}`, spawn.name);
+    pushSpawnTask(`Upgrader ${i}`, spawn.room.name);
 }
 function pushRemoteMiner(i: Number, flagName: string, spawn: StructureSpawn) {
-    pushSpawnTask(`RemoteMiner ${i} ${flagName}`, spawn.name);
+    pushSpawnTask(`RemoteMiner ${i} ${flagName}`, spawn.room.name);
 }
 function pushReserver(i: Number, flagName: string, spawn: StructureSpawn) {
-    pushSpawnTask(`Reserver ${i} ${flagName}`, spawn.name);
+    pushSpawnTask(`Reserver ${i} ${flagName}`, spawn.room.name);
 }

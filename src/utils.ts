@@ -1,5 +1,6 @@
 import { encode } from 'js-base64';
 import { pushCarrierTask } from './task.manager';
+export const WHITE_LIST = ['RaskVann'];
 
 // const quote: string[] = [
 //     '隐患险于明火，防范胜于救灾，责任重于泰山。',
@@ -15,9 +16,11 @@ import { pushCarrierTask } from './task.manager';
 export function calcBodyPart(bodySet: BodySet): BodyPartConstant[] {
     // 把身体配置项拓展成如下形式的二维数组
     // [ [ TOUGH ], [ WORK, WORK ], [ MOVE, MOVE, MOVE ] ]
-    const bodys = Object.keys(bodySet).map(type => Array(bodySet[type]).fill(type))
+    const bodys = Object.keys(bodySet).map((type) =>
+        Array(bodySet[type]).fill(type)
+    );
     // 把二维数组展平
-    return [].concat(...bodys)
+    return [].concat(...bodys);
 }
 export function getOppositeDirection(
     direction: DirectionConstant
@@ -68,12 +71,65 @@ export function requestEnergyPos(
     // console.log(`requestEneryge ${storageId} ${structureId}`);
 }
 export function requestEnergy(storageId: string, structureId: string) {
-    pushCarrierTask(`requestEneryge ${storageId} ${structureId}`, structureId);
+    pushCarrierTask(`request/${structureId}/${RESOURCE_ENERGY}`, structureId);
     // console.log(`requestEneryge ${storageId} ${structureId}`);
 }
-
+/**
+ * 检测是不是Container
+ * @param target 目标
+ */
+export function isContainer(target): target is StructureContainer {
+    return target.structureType && target.structureType == STRUCTURE_CONTAINER;
+}
+/**
+ * 检测是不是Storage
+ * @param target 目标
+ */
+export function isStorage(target): target is StructureStorage {
+    return target.structureType && target.structureType == STRUCTURE_STORAGE;
+}
 export function buildRoad(from: RoomPosition, to: RoomPosition) {
-    let path = PathFinder.search(from, { pos: to, range: 1 });
+    let path = PathFinder.search(
+        from,
+        { pos: to, range: 1 },
+        {
+            roomCallback: (roomName) => {
+                let room = Game.rooms[roomName];
+                if (!room) return;
+                
+                let costs = new PathFinder.CostMatrix();
+
+                room.find(FIND_STRUCTURES).forEach(function(struct) {
+                    if (struct.structureType === STRUCTURE_ROAD) {
+                        // 相对于平原，寻路时将更倾向于道路
+                        costs.set(struct.pos.x, struct.pos.y, 1);
+                    } else if (
+                        struct.structureType !== STRUCTURE_CONTAINER &&
+                        (struct.structureType !== STRUCTURE_RAMPART ||
+                            !struct.my)
+                    ) {
+                        // 不能穿过无法行走的建筑
+                        costs.set(struct.pos.x, struct.pos.y, 0xff);
+                    }
+                });
+
+                room.find(FIND_CONSTRUCTION_SITES).forEach(function(struct) {
+                    if (struct.structureType === STRUCTURE_ROAD) {
+                        // 相对于平原，寻路时将更倾向于道路
+                        costs.set(struct.pos.x, struct.pos.y, 1);
+                    } else if (
+                        struct.structureType !== STRUCTURE_CONTAINER &&
+                        (struct.structureType !== STRUCTURE_RAMPART ||
+                            !struct.my)
+                    ) {
+                        // 不能穿过无法行走的建筑
+                        costs.set(struct.pos.x, struct.pos.y, 0xff);
+                    }
+                });
+                return costs;
+            }
+        }
+    );
     for (let i of path.path) {
         i.createConstructionSite(STRUCTURE_ROAD);
     }
@@ -118,6 +174,6 @@ export function getSourceLink(): StructureLink {
             return it.structureType == STRUCTURE_LINK;
         }) as StructureLink;
 }
-export function getStorageLink(): StructureLink {
+export function getStorageLink(RoomName:string): StructureLink {
     return Game.getObjectById('5fbb9840b800f334cd02ab43');
 }

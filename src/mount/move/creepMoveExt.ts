@@ -1,37 +1,83 @@
+import _ from 'lodash';
 import { getOppositeDirection } from 'utils';
 
 export class creepMoveExt extends Creep {
     public goTo(
-        target: RoomPosition
+        target: RoomPosition,
+        opts?: MoveToOpts
     ): CreepMoveReturnCode | ERR_NO_PATH | ERR_INVALID_TARGET | ERR_NOT_FOUND {
         // const baseCost = Game.cpu.getUsed()
-        const moveResult = this.moveTo(target, {
-            reusePath: 20,
-            ignoreCreeps: true,
-            costCallback: (roomName, costMatrix) => {
-                
-                if (roomName === this.room.name) {
-                    // 避开房间中的禁止通行点
-                    const restrictedPos = this.room.getRestrictedPos();
-                    for (const creepName in restrictedPos) {
-                        // 自己注册的禁止通行点位自己可以走
-                        if (creepName === this.name) continue;
-                        if (!Game.creeps[creepName]) {
-                            this.room.removeRestrictedPos(creepName);
-                            continue;
+        const moveResult = this.moveTo(
+            target,
+            _.assign(
+                {
+                    reusePath: 20,
+                    ignoreCreeps: true,
+                    costCallback: (roomName, costMatrix) => {
+                        if (roomName === this.room.name) {
+                            // 避开房间中的禁止通行点
+                            const restrictedPos = this.room.getRestrictedPos();
+                            for (const creepName in restrictedPos) {
+                                // 自己注册的禁止通行点位自己可以走
+                                if (creepName === this.name) continue;
+                                if (!Game.creeps[creepName]) {
+                                    this.room.removeRestrictedPos(creepName);
+                                    continue;
+                                }
+                                const pos = this.room.unserializePos(
+                                    restrictedPos[creepName]
+                                );
+                                costMatrix.set(pos.x, pos.y, 0xff);
+                            }
                         }
-                        const pos = this.room.unserializePos(
-                            restrictedPos[creepName]
-                        );
-                        costMatrix.set(pos.x, pos.y, 0xff);
-                    }
-                }
 
-                return costMatrix;
-            }
-        });
+                        return costMatrix;
+                    }
+                },
+                opts
+            )
+        );
 
         return moveResult;
+    }
+    public farMoveTo(
+        target: RoomPosition,
+        range: number = 0
+    ):
+        | CreepMoveReturnCode
+        | ERR_NO_PATH
+        | ERR_NOT_IN_RANGE
+        | ERR_INVALID_TARGET {
+        if (this.memory.farMove == undefined) this.memory.farMove = {};
+        // 确认目标有没有变化, 变化了则重新规划路线
+        const targetPosTag = this.room.serializePos(target);
+        if (targetPosTag !== this.memory.farMove.targetPos) {
+            this.memory.farMove.targetPos = targetPosTag;
+            this.memory.farMove.path = this.findPath(target, range);
+        }
+        // 确认缓存有没有被清除
+        if (!this.memory.farMove.path) {
+            this.memory.farMove.path = this.findPath(target, range);
+        }
+
+        // 还为空的话就是没找到路径
+        if (!this.memory.farMove.path) {
+            delete this.memory.farMove.path;
+            return OK;
+        }
+
+        // 使用缓存进行移动
+        const goResult = this.goByCache();
+
+        // 如果发生撞停或者参数异常的话说明缓存可能存在问题，移除缓存
+        if (goResult === ERR_INVALID_TARGET || goResult == ERR_INVALID_ARGS) {
+            delete this.memory.farMove.path;
+        }
+        // 其他异常直接报告
+        else if (goResult != OK && goResult != ERR_TIRED)
+            this.say(`远程寻路 ${goResult}`);
+
+        return goResult;
     }
     public findPath(target: RoomPosition, range: number): string | null {
         if (!this.memory.farMove) this.memory.farMove = {};
@@ -41,6 +87,9 @@ export class creepMoveExt extends Creep {
         const routeKey = `${this.room.serializePos(
             this.pos
         )} ${this.room.serializePos(target)}`;
+        if (!global.routeCache) {
+            global.routeCache = {};
+        }
         let route = global.routeCache[routeKey];
         // 如果有值则直接返回
         if (route) {
@@ -162,6 +211,8 @@ export class creepMoveExt extends Creep {
     public move(
         target: DirectionConstant | Creep
     ): CreepMoveReturnCode | ERR_INVALID_TARGET | ERR_NOT_IN_RANGE {
+        // const baseCost = Game.cpu.getUsed()
+        // 进行移动，并分析其移动结果，OK 时才有可能发生撞停
         const moveResult = this._move(target);
 
         if (moveResult != OK || target instanceof Creep) return moveResult;
@@ -180,11 +231,6 @@ export class creepMoveExt extends Creep {
                 return ERR_INVALID_TARGET;
             }
         }
-
-        // 没有之前的位置或者没重复就正常返回 OK 和更新之前位置
-        this.memory.prePos = currentPos;
-
-        return OK;
     }
     public mutualCross(
         direction: DirectionConstant

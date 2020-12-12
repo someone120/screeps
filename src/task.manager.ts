@@ -17,10 +17,13 @@ class task {
  * @param task 任务
  */
 export function pushCarrierTask(task: string, name: string) {
+    if (!Memory.porterTasker) {
+        Memory.porterTasker=[]
+    }
     if (
         !(
             Memory.porterTasker.includes(task) ||
-            global['porterTasksTaken'].includes(task)
+            global.porterTasksTaken.includes(task)
         )
     ) {
         console.log(
@@ -56,8 +59,8 @@ export function pushSpawnTask(task: string, name: string) {
     }
 }
 function finishTask(creep: Creep) {
-    let index = global['porterTasksTaken'].indexOf(creep.memory['parentTask']);
-    if (index != -1) global['porterTasksTaken'].splice(index, 1);
+    let index = global.porterTasksTaken.indexOf(creep.memory['parentTask']);
+    if (index != -1) global.porterTasksTaken.splice(index, 1);
     creep.memory['parentTask'] = null;
     global[creep.name] = -1;
 }

@@ -1,6 +1,6 @@
-const WHITE_LIST = [];
+
 import { structure } from 'base';
-import { assignPrototype, requestEnergy } from './utils';
+import { assignPrototype, requestEnergy, WHITE_LIST } from './utils';
 export default class towerExt extends StructureTower implements structure {
     public work(): void {
         this.check(this);
@@ -20,7 +20,11 @@ export default class towerExt extends StructureTower implements structure {
         }
     }
     private find(tower: StructureTower) {
-        return tower.room.find(FIND_HOSTILE_CREEPS);
+        return tower.room.find(FIND_HOSTILE_CREEPS,{
+            filter:(it)=>{
+                return !WHITE_LIST.includes(it.owner.username)
+            }
+        });
     }
     private check(tower: StructureTower) {
         if (Game.time % 5 != 0) {
@@ -54,7 +58,7 @@ export default class towerExt extends StructureTower implements structure {
             } ${this.id}`;
             if (
                 Memory.porterTasker.includes(task) ||
-                global['porterTasksTaken'].includes(task)
+                global.porterTasksTaken.includes(task)
             ) {
                 return;
             }

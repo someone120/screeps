@@ -1298,11 +1298,9 @@ interface Creep extends RoomObject {
      * @param y Y position of the target in the room.
      * @param opts An object containing pathfinding options flags (see Room.findPath for more info) or one of the following: reusePath, serializeMemory, noPathFinding
      */
-    moveTo(
-        x: number,
-        y: number,
-        opts?: MoveToOpts
-    ): CreepMoveReturnCode | ERR_NO_PATH | ERR_INVALID_TARGET;
+    move(
+        target: DirectionConstant | Creep
+    ): CreepMoveReturnCode | ERR_INVALID_TARGET | ERR_NOT_IN_RANGE;
     /**
      * Find the optimal path to the target within the same room and move to it.
      * A shorthand to consequent calls of pos.findPathTo() and move() methods.
@@ -1334,10 +1332,6 @@ interface Creep extends RoomObject {
      * Requires the MOVE body part. The target must be adjacent to the creep. The creep must move elsewhere, and the target must move towards the creep.
      * @param target The target creep to be pulled.
      */
-    goTo(
-        target: RoomPosition,
-        range?: number
-    ): CreepMoveReturnCode | ERR_NO_PATH | ERR_INVALID_TARGET | ERR_NOT_FOUND;
     pull(
         target: Creep
     ):
@@ -1347,6 +1341,18 @@ interface Creep extends RoomObject {
         | ERR_INVALID_TARGET
         | ERR_NOT_IN_RANGE
         | ERR_NO_BODYPART;
+    goTo(
+        target: RoomPosition,
+        opts?: MoveToOpts
+    ): CreepMoveReturnCode | ERR_NO_PATH | ERR_INVALID_TARGET | ERR_NOT_FOUND;
+    farMoveTo(
+        target: RoomPosition,
+        range?: number
+    ):
+        | CreepMoveReturnCode
+        | ERR_NO_PATH
+        | ERR_NOT_IN_RANGE
+        | ERR_INVALID_TARGET;
     /**
      * A ranged attack against another creep or structure.
      *
@@ -2227,6 +2233,7 @@ type CreepMoveReturnCode =
     | OK
     | ERR_NOT_OWNER
     | ERR_BUSY
+    | ERR_INVALID_ARGS
     | ERR_TIRED
     | ERR_NO_BODYPART;
 
@@ -3382,7 +3389,7 @@ interface CreepMemory {}
 interface FlagMemory {}
 interface PowerCreepMemory {}
 interface RoomMemory {
-    restrictedPos?: { [creepName: string]: string; };
+    restrictedPos?: { [creepName: string]: string };
     isLockByProtect?: boolean;
     source?: Id<Source>[];
 }
@@ -4291,6 +4298,8 @@ interface RoomPosition {
      * @param type One of the following string constants: constructionSite, creep, exit, flag, resource, source, structure, terrain
      */
     lookFor<T extends keyof AllLookAtTypes>(type: T): Array<AllLookAtTypes[T]>;
+    getFreeSpace(): RoomPosition[];
+    intersection(...p: RoomPosition[][]): RoomPosition[];
 }
 
 interface RoomPositionConstructor extends _Constructor<RoomPosition> {

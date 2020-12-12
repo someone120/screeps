@@ -13,24 +13,15 @@ export default class spawnExt extends StructureSpawn implements structure {
         }
         if (this.spawning) {
             if (!this.memory['time'] || this.memory['time'] == -1) {
-                this.memory['time'] = this.spawning.needTime + Game.time + 1;
+                this.memory['time'] = this.spawning.needTime + Game.time + 5;
             }
             if (this.memory['time'] < Game.time) {
                 Memory['destoryNext'] = this.spawning.name;
-                this.spawning.setDirections([
-                    TOP,
-                    BOTTOM,
-                    LEFT,
-                    RIGHT,
-                    TOP_LEFT,
-                    TOP_RIGHT,
-                    BOTTOM_LEFT,
-                    BOTTOM_RIGHT
-                ]);
+                this.spawning.setDirections([TOP]);
             }
         }
-        if (!Memory.spawnTask[this.name]) {
-            Memory.spawnTask[this.name] = [];
+        if (!Memory.spawnTask[this.room.name]) {
+            Memory.spawnTask[this.room.name] = [];
         }
         if (!global['spawnTask']) {
             global['spawnTask'] = {};
@@ -55,7 +46,7 @@ export default class spawnExt extends StructureSpawn implements structure {
                 available = 300;
             }
             global['spawnTask'][this.name] = getTask(
-                Memory.spawnTask[this.name],
+                Memory.spawnTask[this.room.name],
                 available
             );
         } else {
@@ -65,7 +56,7 @@ export default class spawnExt extends StructureSpawn implements structure {
                 parseInt(global['spawnTask'][this.name].split(' ')[1]) > 300 &&
                 Memory.type[this.room.name][2] <= 0
             ) {
-                Memory.spawnTask[this.name].push(
+                Memory.spawnTask[this.room.name].push(
                     global['spawnTask'][this.name]
                 );
                 global['spawnTask'][this.name] = null;
@@ -329,7 +320,7 @@ function parseTask(tasks: string, spawn: StructureSpawn, roomID): Number {
                 break;
             case 'Mineraler':
                 result = spawn.spawnCreep(
-                    bodySet.harvester[split[1]],
+                    bodySet.worker[split[1]],
                     `Mineraler@${Game.time}`,
                     {
                         memory: { type: 10, roomID: roomID }

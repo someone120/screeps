@@ -1,14 +1,34 @@
-import { calcBodyPart } from "utils"
+import { calcBodyPart } from 'utils';
 
-const getBodyConfig = function(...bodySets: [ BodySet, BodySet, BodySet, BodySet, BodySet, BodySet, BodySet, BodySet]): BodyConfig {
-    let config = { 300: [], 550: [], 800: [], 1300: [], 1800: [], 2300: [], 5600: [], 10000: [] }
+const getBodyConfig = function(
+    ...bodySets: [
+        BodySet,
+        BodySet,
+        BodySet,
+        BodySet,
+        BodySet,
+        BodySet,
+        BodySet,
+        BodySet
+    ]
+): BodyConfig {
+    let config = {
+        300: [],
+        550: [],
+        800: [],
+        1300: [],
+        1800: [],
+        2300: [],
+        5600: [],
+        10000: []
+    };
     // 遍历空配置项，用传入的 bodySet 依次生成配置项
     Object.keys(config).map((level, index) => {
-        config[level] = calcBodyPart(bodySets[index])
-    })
+        config[level] = calcBodyPart(bodySets[index]);
+    });
 
-    return config
-}
+    return config;
+};
 
 /**
  * 不同角色在 1 - 8 级时对应的的身体部件配置
@@ -104,14 +124,14 @@ export const bodyConfigs: BodyConfigs = {
      * 使用 attack 身体部件的攻击单位
      */
     attacker: getBodyConfig(
-        { [MOVE]: 2, [ATTACK]: 2 },
-        { [MOVE]: 3, [ATTACK]: 3 },
-        { [MOVE]: 4, [ATTACK]: 4 },
-        { [MOVE]: 5, [ATTACK]: 5 },
-        { [MOVE]: 6, [ATTACK]: 6 },
-        { [MOVE]: 7, [ATTACK]: 7 },
-        { [MOVE]: 8, [ATTACK]: 8 },
-        { [MOVE]: 9, [ATTACK]: 9 }
+        { [MOVE]: 2, [ATTACK]: 2},
+        { [MOVE]: 3, [ATTACK]: 3},
+        { [MOVE]: 4, [ATTACK]: 4},
+        { [MOVE]: 6, [ATTACK]: 5, [HEAL]: 1},
+        { [MOVE]: 7, [ATTACK]: 6, [HEAL]: 1},
+        { [MOVE]: 8, [ATTACK]: 7, [HEAL]: 1},
+        { [MOVE]: 9, [ATTACK]: 8, [HEAL]: 1},
+        { [MOVE]: 10, [ATTACK]: 9, [HEAL]: 1}
     ),
 
     /**
@@ -126,7 +146,7 @@ export const bodyConfigs: BodyConfigs = {
         { [MOVE]: 7, [HEAL]: 7 },
         { [MOVE]: 16, [HEAL]: 16 },
         { [MOVE]: 25, [HEAL]: 25 }
-    ), 
+    ),
 
     /**
      * 拆除者身体
@@ -156,4 +176,4 @@ export const bodyConfigs: BodyConfigs = {
         { [WORK]: 7, [CARRY]: 15, [MOVE]: 11 },
         { [WORK]: 11, [CARRY]: 15, [MOVE]: 19 }
     )
-}
+};

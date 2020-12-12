@@ -1,9 +1,20 @@
 import { creepExt } from 'base';
+import _ from 'lodash';
 import { getStorageLink } from 'utils';
+
 export class Manager extends Creep implements creepExt {
     task: string;
     type: Number = 8;
     work() {
+        let link = getStorageLink(this.room.name);
+        const spawn = this.pos.findClosestByRange(FIND_MY_SPAWNS);
+        let pos = this.pos.intersection(
+            this.room.storage.pos.getFreeSpace(),
+            link.pos.getFreeSpace(),
+            spawn.pos.getFreeSpace()
+        );
+        this.memory.standed = true;
+        this.room.addRestrictedPos(this.name, this.pos);
         if (this.store.getUsedCapacity() > 0) {
             for (const res in this.store) {
                 if (Object.prototype.hasOwnProperty.call(this.store, res)) {
@@ -13,41 +24,21 @@ export class Manager extends Creep implements creepExt {
                             res as ResourceConstant
                         ) == ERR_NOT_IN_RANGE
                     ) {
-                        this.goTo(this.room.storage.pos);
+                        this.goTo(pos[0]);
                     }
                 }
             }
             return;
         }
-        let link = getStorageLink();
-        if (link.store.getUsedCapacity(RESOURCE_ENERGY) > 0) {
+        if (link && link.store.getUsedCapacity(RESOURCE_ENERGY) > 0) {
             if (this.withdraw(link, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                this.goTo(link.pos);
+                this.goTo(pos[0]);
             }
             return;
         }
-        if (
-            this.room.terminal &&
-            this.room.terminal.store.getUsedCapacity() > 0
-        ) {
-            for (const res in this.room.terminal.store) {
-                if (
-                    Object.prototype.hasOwnProperty.call(
-                        this.room.terminal.store,
-                        res
-                    )
-                ) {
-                    if (
-                        this.withdraw(
-                            this.room.terminal,
-                            res as ResourceConstant
-                        ) == ERR_NOT_IN_RANGE
-                    ) {
-                        this.goTo(this.room.terminal.pos);
-                    }
-                }
-            }
-            return;
+
+        if (this.ticksToLive < 500) {
+            spawn.renewCreep(this);
         }
     }
 }

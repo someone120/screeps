@@ -9,9 +9,11 @@ export class Mineraler extends Creep implements creepExt {
             Game.rooms[this.memory.roomID].controller.level >= 6
         ) {
             let mineral = this.room.find(FIND_MINERALS);
-            if (this.harvest(mineral[0]) == ERR_NOT_IN_RANGE) {
+            const result = this.harvest(mineral[0]);
+
+            if (result == ERR_NOT_IN_RANGE) {
                 this.goTo(mineral[0].pos);
-            } else {
+            } else if (result == OK) {
                 let container = this.pos
                     .lookFor(LOOK_STRUCTURES)
                     .find((it) => it.structureType == STRUCTURE_CONTAINER);

@@ -23,6 +23,6 @@ export default function() {
         mountSource();
         mountContainer();
         _.assign(global, globalObj);
-        if (!global['porterTasksTaken']) global['porterTasksTaken'] = [];
+        if (!global.porterTasksTaken) global.porterTasksTaken = [];
     }
 }

@@ -10,7 +10,7 @@ import {
  */
 function getTask(): string {
     let task = Memory.porterTasker.shift();
-    global['porterTasksTaken'].push(task);
+    global.porterTasksTaken.push(task);
     return task;
 }
 /**
@@ -44,16 +44,16 @@ export class Carrier extends Creep implements creepExt {
     work() {
         if (this.ticksToLive <= 10 && this.memory['parentTask']) {
             pushCarrierTask(this.memory['parentTask'], this.name);
-            let index = global['porterTasksTaken'].indexOf(
+            let index = global.porterTasksTaken.indexOf(
                 this.memory['parentTask']
             );
-            if (index != -1) global['porterTasksTaken'].splice(index, 1);
+            if (index != -1) global.porterTasksTaken.splice(index, 1);
             this.memory['parentTask'] = null;
             global[this.name] = -1;
             this.say('要死要死', true);
         }
         if (this.memory['parentTask'] == null) {
-            if (this.ticksToLive > 10 && this.store[RESOURCE_ENERGY] > 10) {
+            if (this.ticksToLive > 10 && this.store[RESOURCE_ENERGY] > 50) {
                 this.memory['parentTask'] = getTask();
             } // 获取任务列表里的任务
             if (this.memory['parentTask'] != null) {

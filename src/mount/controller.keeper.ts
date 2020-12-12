@@ -14,26 +14,32 @@ export class Upgrader extends Creep implements creepExt {
         }
         if (this.memory['building']) {
             let targets = Game.rooms[this.memory['roomID']].controller;
-            const text = getQuote(Game.rooms[this.memory['roomID']].controller.id);
+            const text = getQuote(
+                Game.rooms[this.memory['roomID']].controller.id
+            );
             if (!(targets.sign && targets.sign.text == text)) {
                 if (this.signController(targets, text) == ERR_NOT_IN_RANGE) {
                     this.goTo(targets.pos);
                 }
             }
             if (this.upgradeController(targets) == ERR_NOT_IN_RANGE) {
-                this.goTo(targets.pos);
+                this.goTo(targets.pos, { range: 3 });
             }
         } else {
             let source2 = Game.rooms[this.memory['roomID']].storage;
             if (!source2) {
-                const source2 = Game.rooms[this.memory['roomID']].find(FIND_STRUCTURES, {
-                    filter: (structure) => {
-                        return (
-                            structure.structureType == STRUCTURE_CONTAINER &&
-                            structure.store.energy > 0
-                        );
+                const source2 = Game.rooms[this.memory['roomID']].find(
+                    FIND_STRUCTURES,
+                    {
+                        filter: (structure) => {
+                            return (
+                                structure.structureType ==
+                                    STRUCTURE_CONTAINER &&
+                                structure.store.energy > 0
+                            );
+                        }
                     }
-                }) as StructureContainer[];
+                ) as StructureContainer[];
                 source2.sort((a, b) => {
                     return b.store.energy - a.store.energy;
                 });
@@ -43,7 +49,9 @@ export class Upgrader extends Creep implements creepExt {
                         this.goTo(source2[0].pos);
                     }
                 } else {
-                    const source1 = Game.rooms[this.memory['roomID']].find(FIND_DROPPED_RESOURCES)[0];
+                    const source1 = Game.rooms[this.memory['roomID']].find(
+                        FIND_DROPPED_RESOURCES
+                    )[0];
                     if (this.pickup(source1) == ERR_NOT_IN_RANGE) {
                         this.goTo(source1.pos);
                     }
