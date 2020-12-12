@@ -17,9 +17,7 @@ jobs:
             - name: start
               run: |
                   echo "$CONFIG" > .screeps.json
-                  if [ -f .screeps.json ];then
-                  exit 0
-                  else
+                  if [ !-f .screeps.json ];then
                   exit 1
                   fi
                   npm install
