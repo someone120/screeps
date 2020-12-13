@@ -2,7 +2,7 @@ interface Memory {
     rooms: {
         [roomName: string]: RoomMemory;
     };
-    bypassRooms: any;
+    bypassRooms: string[];
     freeSpaceCount: any;
     porterTasker: { [name: string]: string[] };
     spawnTask: { [name: string]: string[] };

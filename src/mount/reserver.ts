@@ -20,7 +20,7 @@ export class reserve extends Creep implements creepExt {
         if (source.room) {
             let controller = source.room.controller;
             if (!controller) {
-                this.goTo(source.pos);
+                this.farMoveTo(source.pos,1);
             } else {
                 const text = getQuote(this.room.controller.id);
                 if (!(controller.sign && controller.sign.text == text)) {
@@ -28,7 +28,7 @@ export class reserve extends Creep implements creepExt {
                         this.signController(controller, text) ==
                         ERR_NOT_IN_RANGE
                     ) {
-                        this.goTo(controller.pos);
+                        this.farMoveTo(controller.pos,1);
                     }
                 }
                 if (
@@ -36,18 +36,18 @@ export class reserve extends Creep implements creepExt {
                     this.room.controller.reservation.username != 'someone120'
                 ) {
                     if (this.attackController(controller) == ERR_NOT_IN_RANGE) {
-                        this.goTo(controller.pos);
+                        this.farMoveTo(controller.pos,1);
                     }
                     return;
                 }
                 if (this.reserveController(controller) == ERR_NOT_IN_RANGE) {
-                    this.goTo(controller.pos);
+                    this.farMoveTo(controller.pos,1);
                 }
                 this.memory.standed = true;
                 this.room.addRestrictedPos(this.name, this.pos);
             }
         } else {
-            this.goTo(source.pos);
+            this.farMoveTo(source.pos,1);
         }
         if (this.ticksToLive <= 100) {
             let available = Game.spawns['Spawn1'].room.energyCapacityAvailable;

@@ -10,11 +10,11 @@ export class remoteProtector extends Creep implements creepExt {
         }
         const protectRoom: Room = Game.rooms[this.memory.protectRoomId];
         if (!protectRoom) {
-            this.goTo(new RoomPosition(20, 20, this.memory.protectRoomId));
+            this.farMoveTo(new RoomPosition(20, 20, this.memory.protectRoomId),1);
             return;
         }
         if (this.room.name !== protectRoom.name) {
-            this.goTo(new RoomPosition(20, 20, this.memory.protectRoomId));
+            this.farMoveTo(new RoomPosition(20, 20, this.memory.protectRoomId),1);
             return;
         }
         const enemyCreep = this.room.find(FIND_HOSTILE_CREEPS, {
@@ -24,7 +24,7 @@ export class remoteProtector extends Creep implements creepExt {
         });
         if (enemyCreep.length > 0) {
             if (this.attack(enemyCreep[0]) == ERR_NOT_IN_RANGE) {
-                this.goTo(enemyCreep[0].pos);
+                this.farMoveTo(enemyCreep[0].pos,1);
             }
             return;
         }
@@ -35,7 +35,7 @@ export class remoteProtector extends Creep implements creepExt {
         });
         if (enemyStr.length > 0) {
             if (this.attack(enemyStr[0]) == ERR_NOT_IN_RANGE) {
-                this.goTo(enemyStr[0].pos);
+                this.farMoveTo(enemyStr[0].pos,1);
             }
             return;
         }
@@ -45,7 +45,7 @@ export class remoteProtector extends Creep implements creepExt {
             this.pos.y <= 1 ||
             this.pos.y >= 48
         ) {
-            this.goTo(protectRoom.getPositionAt(20, 20));
+            this.farMoveTo(protectRoom.getPositionAt(20, 20),1);
             return;
         }
         if (this.hitsMax - this.hits > 0) {

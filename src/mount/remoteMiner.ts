@@ -68,14 +68,14 @@ export class remoteMiner extends Creep implements creepExt {
         if (source && this.pos.roomName == source.pos.roomName) {
             const result = this.harvest(source.pos.lookFor(LOOK_SOURCES)[0]);
             if (result == ERR_NOT_IN_RANGE) {
-                this.goTo(source.pos);
+                this.farMoveTo(source.pos,1);
             }
             if (result == OK) {
                 this.memory.standed = true;
                 this.room.addRestrictedPos(this.name, this.pos);
             }
         } else {
-            if (source) this.goTo(source.pos);
+            if (source) this.farMoveTo(source.pos,1);
         }
     }
 }
