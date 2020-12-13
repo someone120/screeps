@@ -1,6 +1,13 @@
 import { creepExt } from 'base';
 import { doing } from 'task.manager';
-function getTask(roomName:string): string {
+function getTask(roomName: string): string {
+    if (!Memory.porterTasker) {
+        Memory.porterTasker = {};
+    }
+    if (!Memory.porterTasker[roomName]) {
+        Memory.porterTasker[roomName] = [];
+        return undefined;
+    }
     let task = Memory.porterTasker[roomName].shift();
     global.porterTasksTaken.push(task);
     return task;

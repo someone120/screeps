@@ -7,6 +7,9 @@ export function pushCarrierTask(task: string, roomName: string,name: string) {
     if (!Memory.porterTasker) {
         Memory.porterTasker = {};
     }
+    if (!Memory.porterTasker[roomName]) {
+        Memory.porterTasker[roomName] = [];
+    }
     if (
         !(
             Memory.porterTasker[roomName].includes(task) ||
