@@ -52,7 +52,7 @@ function loop() {
         let creep = Game.creeps[name];
         if (Memory['destoryNext'] && Memory['destoryNext'] == name) {
             creep.suicide();
-            Memory['destoryNext'] = null;
+            delete Memory['destoryNext']
             continue;
         }
         if (creep.memory.type == -1) {

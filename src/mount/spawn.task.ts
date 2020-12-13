@@ -59,7 +59,7 @@ export default class spawnExt extends StructureSpawn implements structure {
                 Memory.spawnTask[this.room.name].push(
                     global['spawnTask'][this.name]
                 );
-                global['spawnTask'][this.name] = null;
+                delete global['spawnTask'][this.name];
                 return;
             }
             const result = parseTask(
@@ -68,7 +68,7 @@ export default class spawnExt extends StructureSpawn implements structure {
                 this.room.name
             );
             if (result == OK) {
-                global['spawnTask'][this.name] = null;
+                delete global['spawnTask'][this.name];
             }
             this.room.visual.text(
                 global['spawnTask'][this.name],

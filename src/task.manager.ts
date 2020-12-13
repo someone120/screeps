@@ -205,9 +205,9 @@ export function doing(creep: Creep) {
         // console.log(`${creep.name} ${creep.memory.parentTaskRaw}`);
 
         if (index != -1) global.porterTasksTaken.splice(index, 1);
-        creep.memory.parentTask = null;
-        creep.memory.parentTaskRaw = null;
-        creep.memory.task = null;
-        creep.memory.index = null;
+        delete creep.memory.parentTask
+        delete creep.memory.parentTaskRaw
+        delete creep.memory.task
+        delete creep.memory.index
     }
 }
