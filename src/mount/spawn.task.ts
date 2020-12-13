@@ -50,15 +50,13 @@ export default class spawnExt extends StructureSpawn implements structure {
                 available
             );
         } else {
+            const type = global['spawnTask'][this.name].split(' ')[0];
             if (
-                this.room.energyAvailable <
-                    parseInt(global['spawnTask'][this.name].split(' ')[1]) &&
-                parseInt(global['spawnTask'][this.name].split(' ')[1]) > 300 &&
-                Memory.type[this.room.name][2] <= 0
+                (Memory.type[this.room.name][0] <= 0 ||
+                    Memory.type[this.room.name][2] <= 0) &&
+                type != 'Carrier' &&
+                type != 'Harvester'
             ) {
-                Memory.spawnTask[this.room.name].push(
-                    global['spawnTask'][this.name]
-                );
                 delete global['spawnTask'][this.name];
                 return;
             }

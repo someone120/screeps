@@ -40,6 +40,13 @@ export class creepMoveExt extends Creep {
 
         return moveResult;
     }
+    /**
+     * 远程寻路
+     * 包含对穿功能，会自动躲避 bypass 中配置的绕过房间
+     *
+     * @param target 要移动到的位置对象
+     * @param range 允许移动到目标周围的范围
+     */
     public farMoveTo(
         target: RoomPosition,
         range: number = 0
@@ -208,30 +215,34 @@ export class creepMoveExt extends Creep {
 
         return goResult;
     }
-    public move(target: DirectionConstant | Creep): CreepMoveReturnCode | ERR_INVALID_TARGET | ERR_NOT_IN_RANGE {
+    public move(
+        target: DirectionConstant | Creep
+    ): CreepMoveReturnCode | ERR_INVALID_TARGET | ERR_NOT_IN_RANGE {
         // const baseCost = Game.cpu.getUsed()
         // 进行移动，并分析其移动结果，OK 时才有可能发生撞停
-        const moveResult = this._move(target) 
+        const moveResult = this._move(target);
 
-        if (moveResult != OK || target instanceof Creep) return moveResult
-        
-        const currentPos = `${this.pos.x}/${this.pos.y}`
+        if (moveResult != OK || target instanceof Creep) return moveResult;
+
+        const currentPos = `${this.pos.x}/${this.pos.y}`;
         // 如果和之前位置重复了就分析撞上了啥
         if (this.memory.prePos && currentPos == this.memory.prePos) {
             // 尝试对穿，如果自己禁用了对穿的话则直接重新寻路
-            const crossResult = this.memory.disableCross ? ERR_BUSY : this.mutualCross(target)
+            const crossResult = this.memory.disableCross
+                ? ERR_BUSY
+                : this.mutualCross(target);
 
             // 没找到说明撞墙上了或者前面的 creep 拒绝对穿，重新寻路
             if (crossResult != OK) {
-                delete this.memory._move
-                return ERR_INVALID_TARGET
+                delete this.memory._move;
+                return ERR_INVALID_TARGET;
             }
         }
 
         // 没有之前的位置或者没重复就正常返回 OK 和更新之前位置
-        this.memory.prePos = currentPos
+        this.memory.prePos = currentPos;
 
-        return OK
+        return OK;
     }
     public mutualCross(
         direction: DirectionConstant

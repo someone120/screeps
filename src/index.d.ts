@@ -25,7 +25,7 @@ interface Room {
     removeRestrictedPos(creepName: string): void;
     unserializePos(arg0: any);
     getRestrictedPos();
-    serializePos(pos: RoomPosition);
+    serializePos(pos: RoomPosition): string;
     sources: Source[];
 }
 
@@ -44,7 +44,16 @@ interface CreepMemory {
     _move?: any;
     disableCross?: any;
     prePos?: string;
-    farMove?: any;
+    farMove?: {
+        // 序列化之后的路径信息
+        path?: string;
+        // 移动索引，标志 creep 现在走到的第几个位置
+        index?: number;
+        // 上一个位置信息，形如"14/4"，用于在 creep.move 返回 OK 时检查有没有撞墙
+        prePos?: string;
+        // 缓存路径的目标，该目标发生变化时刷新路径, 形如"14/4E14S1"
+        targetPos?: string;
+    };
     flagName?: string;
     index?: number;
     task?: {
