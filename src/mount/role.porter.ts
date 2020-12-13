@@ -1,7 +1,7 @@
 import { creepExt } from 'base';
 import { doing } from 'task.manager';
-function getTask(): string {
-    let task = Memory.porterTasker.shift();
+function getTask(roomName:string): string {
+    let task = Memory.porterTasker[roomName].shift();
     global.porterTasksTaken.push(task);
     return task;
 }
@@ -13,7 +13,7 @@ export class Carrier extends Creep implements creepExt {
             doing(this);
             return;
         } else {
-            this.memory.parentTaskRaw = getTask();
+            this.memory.parentTaskRaw = getTask(this.room.name);
             if (this.memory.parentTaskRaw) {
                 doing(this);
             }

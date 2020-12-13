@@ -3,20 +3,20 @@ import { isContainer, isStorage } from 'utils';
  * 向任务列表中推送任务
  * @param task 任务
  */
-export function pushCarrierTask(task: string, name: string) {
+export function pushCarrierTask(task: string, roomName: string,name: string) {
     if (!Memory.porterTasker) {
-        Memory.porterTasker = [];
+        Memory.porterTasker = {};
     }
     if (
         !(
-            Memory.porterTasker.includes(task) ||
+            Memory.porterTasker[roomName].includes(task) ||
             global.porterTasksTaken.includes(task)
         )
     ) {
         console.log(
             `<p style="color: #8BC34A;">[${name}]发布了任务：${task}</p>`
         );
-        Memory.porterTasker.push(task);
+        Memory.porterTasker[roomName].push(task);
     }
 }
 /**

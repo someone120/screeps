@@ -89,19 +89,16 @@ export function stateScanner() {
     Memory['stats'].bucket = Game.cpu.bucket;
 }
 
-export function requestEnergyPos(
-    storageId: string,
+
+export function requestEnergy(
     structureId: string,
-    pos: RoomPosition
+    roomName: string
 ) {
     pushCarrierTask(
-        `requestEneryge ${storageId} ${structureId} ${pos.x} ${pos.y}`,
+        `request/${structureId}/${RESOURCE_ENERGY}`,
+        roomName,
         structureId
     );
-    // console.log(`requestEneryge ${storageId} ${structureId}`);
-}
-export function requestEnergy(storageId: string, structureId: string) {
-    pushCarrierTask(`request/${structureId}/${RESOURCE_ENERGY}`, structureId);
     // console.log(`requestEneryge ${storageId} ${structureId}`);
 }
 /**

@@ -4,7 +4,7 @@ interface Memory {
     };
     bypassRooms: any;
     freeSpaceCount: any;
-    porterTasker: string[];
+    porterTasker: { [name: string]: string[] };
     spawnTask: { [name: string]: string[] };
     ReserverRemoteSource: string[];
     MinerRemoteSource: string[];

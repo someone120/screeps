@@ -57,7 +57,7 @@ export default class towerExt extends StructureTower implements structure {
                 this.room.storage ? this.room.storage.id : ''
             } ${this.id}`;
             if (
-                Memory.porterTasker.includes(task) ||
+                Memory.porterTasker[this.room.name].includes(task) ||
                 global.porterTasksTaken.includes(task)
             ) {
                 return;
@@ -65,7 +65,7 @@ export default class towerExt extends StructureTower implements structure {
             console.log(
                 `<p style="color: #8BC34A;">[${this.id}]发布了任务：${task}</p>`
             );
-            Memory.porterTasker.unshift(task);
+            Memory.porterTasker[this.room.name].unshift(task);
         }
     }
     private normal(tower: StructureTower) {

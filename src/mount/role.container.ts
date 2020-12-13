@@ -8,7 +8,7 @@ export default class containerExt extends StructureContainer implements base {
             for (const res in this.store) {
                 if (Object.prototype.hasOwnProperty.call(this.store, res)) {
                     if (this.store[res] > 0)
-                        pushCarrierTask(`TransferMineral/${this.id}/${res}/${this.room.storage.id}/${res}`, this.id);
+                        pushCarrierTask(`TransferMineral/${this.id}/${res}/${this.room.storage.id}/${res}`,this.room.name, this.id);
                 }
             }
         }

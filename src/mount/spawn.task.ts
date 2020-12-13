@@ -308,7 +308,7 @@ function parseTask(tasks: string, spawn: StructureSpawn, roomID): Number {
                 if (split[2]) {
                     d = JSON.parse(split[2]);
                 }
-                result = spawn.spawnCreep([TOUGH, MOVE], `Scout@${Game.time}`, {
+                result = spawn.spawnCreep([MOVE], `Scout@${Game.time}`, {
                     memory: {
                         type: 9,
                         roomID: roomID,
