@@ -44,6 +44,14 @@ export default {
         sourcemap: true
     },
     plugins: [
+        copy({
+            targets: [
+                {
+                    src: 'src/debuger.js',
+                    dest: 'dist/'
+                }
+            ]
+        }),
         // 清除上次编译成果
         clear({ targets: ['dist'] }),
         // 打包依赖

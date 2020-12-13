@@ -138,19 +138,19 @@ export default function() {
                     spawn.memory['send'] = true;
                 }
 
-                if (scout < Object.keys(Game.flags).length) {
-                    let d: {
-                        remoteSource: boolean;
-                    } = {
-                        remoteSource: false
-                    };
-                    pushSpawnTask(
-                        `Scout ${available} ${JSON.stringify(d)
-                            .replace(' ', '')
-                            .replace(/\n/g, '')}`,
-                        spawn.room.name
-                    );
-                }
+                // if (scout < Object.keys(Game.flags).length) {
+                //     let d: {
+                //         remoteSource: boolean;
+                //     } = {
+                //         remoteSource: false
+                //     };
+                //     pushSpawnTask(
+                //         `Scout ${available} ${JSON.stringify(d)
+                //             .replace(' ', '')
+                //             .replace(/\n/g, '')}`,
+                //         spawn.room.name
+                //     );
+                // }
                 if (spawn.room.controller.level >= 6 && MineralCreep < 1) {
                     pushSpawnTask(`Mineraler ${available}`, spawn.room.name);
                 }

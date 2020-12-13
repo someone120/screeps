@@ -5,10 +5,11 @@ import mount from 'mount/mount';
 import { stateScanner } from 'utils';
 import { Visualizer } from 'Visualizer';
 import { roles } from 'classes';
+import _ from 'lodash';
 
-module.exports.loop = ErrorMapper.wrapLoop(() => {
+module.exports.loop =require("debuger").warpLoop(ErrorMapper.wrapLoop(() => {
     loop();
-});
+}));
 
 export function checkQuantity(creeps: { [creepName: string]: Creep }) {
     if (Game.time % 10 != 0) {
@@ -50,9 +51,27 @@ function loop() {
     for (let name in Game.creeps) {
         // console.log(name);
         let creep = Game.creeps[name];
+        if (
+            Game.cpu.bucket < 200 &&
+            Game.time%2==1&&
+            !_.map(creep.body, 'type').includes(CLAIM) &&
+            creep.body.length < 5
+        ) {
+            creep.say('🛏️');
+            continue;
+        }
+        if (
+            Game.cpu.bucket < 200 &&
+            Game.time%2==0&&
+            !_.map(creep.body, 'type').includes(CLAIM) &&
+            creep.body.length > 5
+        ) {
+            creep.say('🛏️');
+            continue;
+        }
         if (Memory['destoryNext'] && Memory['destoryNext'] == name) {
             creep.suicide();
-            delete Memory['destoryNext']
+            delete Memory['destoryNext'];
             continue;
         }
         if (creep.memory.type == -1) {
