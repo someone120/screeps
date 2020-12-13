@@ -1,0 +1,30 @@
+import { Upgrader } from 'mount/controller.keeper';
+import { RemoteCarrier } from 'mount/remoteCarrier';
+import { remoteMiner } from 'mount/remoteMiner';
+import { remoteProtector } from 'mount/remoteProtector';
+import { reserve } from 'mount/reserver';
+import { builder } from 'mount/role.builder';
+import { Manager } from 'mount/role.energyTransfer';
+import { harvester } from 'mount/role.harvester';
+import { Repairer } from 'mount/role.maintainer';
+import { Mineraler } from 'mount/role.mineral';
+import { Carrier } from 'mount/role.porter';
+import { Scort } from 'mount/role.scout';
+import { WallPainter } from 'mount/role.wallPainter';
+import { Carrie } from 'mount/testP';
+import { attacker } from 'mount/war/Attacker';
+export const roles = [
+    harvester,
+    builder,
+    Carrie,
+    Upgrader,
+    Repairer,
+    remoteMiner,
+    reserve,
+    RemoteCarrier,
+    Manager,
+    Scort,
+    Mineraler,
+    WallPainter,
+    remoteProtector
+];

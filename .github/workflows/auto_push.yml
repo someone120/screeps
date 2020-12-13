@@ -1,0 +1,27 @@
+name: Node.js CI
+
+on: [push]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [10.x]
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v2.1.3
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - name: start
+              run: |
+                  echo "$CONFIG" > .screeps.json
+                  if [ !-f .screeps.json ];then
+                  exit 1
+                  fi
+                  npm install
+                  echo `npm run once`
+                  npm test
+              env:
+                  CONFIG: ${{ secrets.config }}

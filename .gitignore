@@ -1,6 +1,8 @@
-ts*
+tscomm*
 /dist
 /.tscache
 /node_modules
 /.vscode
 .screeps.json
+/src/t.html
+/src/rust
