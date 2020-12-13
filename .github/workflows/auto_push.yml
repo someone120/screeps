@@ -14,14 +14,18 @@ jobs:
               uses: actions/setup-node@v2.1.3
               with:
                   node-version: ${{ matrix.node-version }}
-            - name: start
+            - name: init
               run: |
-                  echo "$CONFIG" > .screeps.json
-                  if [ !-f .screeps.json ];then
-                  exit 1
-                  fi
-                  npm install
-                  echo `npm run once`
-                  npm run test
+                echo "$CONFIG" > .screeps.json
+                if [ !-f .screeps.json ];then
+                exit 1
+                fi
+                npm install
+            - name: test
+              run: |
+                npm run test
+            - name: update
+              run: |
+                npm run once
               env:
                   CONFIG: ${{ secrets.config }}
