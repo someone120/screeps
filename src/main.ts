@@ -70,7 +70,7 @@ function loop() {
             v.work();
         }
     });
-    if (Game.cpu.bucket >= 9000 && Memory['towerStat'] == 'normal') {
+    if (Game.cpu.bucket == 10000 && Memory['towerStat'] == 'normal') {
         Game.cpu.generatePixel();
     }
     // let path=PathFinder.search(RoomPosition(4,17, 'W33N42'),{pos:RoomPosition(21,26, 'W33N42'),range:1})
