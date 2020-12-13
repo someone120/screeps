@@ -16,7 +16,11 @@ export function transfer(creep: Creep): boolean {
         creep.memory.index--;
         return true;
     }
-    if (creep.transfer(obj, creep.memory.task.p[1] as ResourceConstant) == OK) {
+    const result = creep.transfer(
+        obj,
+        creep.memory.task.p[1] as ResourceConstant
+    );
+    if (result != ERR_NOT_IN_RANGE) {
         return true;
     }
     creep.goTo(obj.pos);
@@ -31,7 +35,10 @@ export function withdraw(creep: Creep): boolean {
     if (!obj || !obj.store) {
         return true;
     }
-    if (creep.withdraw(obj, creep.memory.task.p[1] as ResourceConstant) == OK) {
+    if (
+        creep.withdraw(obj, creep.memory.task.p[1] as ResourceConstant) !=
+        ERR_NOT_IN_RANGE
+    ) {
         return true;
     }
     creep.goTo(obj.pos);
