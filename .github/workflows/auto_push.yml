@@ -22,6 +22,6 @@ jobs:
                   fi
                   npm install
                   echo `npm run once`
-                  npm test
+                  npm run test
               env:
                   CONFIG: ${{ secrets.config }}

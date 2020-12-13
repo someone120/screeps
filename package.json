@@ -8,6 +8,7 @@
     "local": "rollup -cw --environment DEST:local",
     "build": "rollup -cw",
     "once": "rollup -c --environment DEST:main",
+    "test": "npm run test-unit",
     "test-unit": "rollup -c rollup.test-unit-config.ts && mocha dist/test-unit.bundle.js"
   },
   "author": "",
@@ -41,10 +42,5 @@
   "dependencies": {
     "js-base64": "^3.5.2",
     "source-map": "^0.6.1"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -e $GIT_PARAMS"
-    }
   }
 }
