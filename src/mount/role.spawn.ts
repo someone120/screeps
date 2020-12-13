@@ -6,7 +6,7 @@ import {
     setReserverUnavailableFlag,
     setScoutUnavailableFlag
 } from 'flag';
-import { pushCarrierTask, pushSpawnTask } from 'task.manager';
+import { pushCarrierTask, pushSpawnTask } from '../task.manager';
 import { getSourceFlags, requestEnergy } from 'utils';
 import { lockRoom, roomStat } from './cache/room/protect';
 const PorterNumber = 4;
@@ -147,7 +147,7 @@ export default function() {
                     pushSpawnTask(
                         `Scout ${available} ${JSON.stringify(d)
                             .replace(' ', '')
-                            .replace('\n', '')}`,
+                            .replace(/\n/g, '')}`,
                         spawn.room.name
                     );
                 }
