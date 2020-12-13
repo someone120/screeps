@@ -13,6 +13,36 @@ export const WHITE_LIST = ['RaskVann'];
 //     '你们真的……我认为……遍地……你们有一个好，全世界跑到什么地方，你们比其他的西方记者啊跑得还快。但是呢问来问去的问题啊，都 too simple，啊，sometimes naive！懂了没啊？'
 // ];
 
+export function getBodyConfig(
+    ...bodySets: [
+        BodySet,
+        BodySet,
+        BodySet,
+        BodySet,
+        BodySet,
+        BodySet,
+        BodySet,
+        BodySet
+    ]
+): BodyConfig {
+    let config = {
+        300: [],
+        550: [],
+        800: [],
+        1300: [],
+        1800: [],
+        2300: [],
+        5600: [],
+        10000: []
+    };
+    // 遍历空配置项，用传入的 bodySet 依次生成配置项
+    Object.keys(config).map((level, index) => {
+        config[level] = calcBodyPart(bodySets[index]);
+    });
+
+    return config;
+}
+
 export function calcBodyPart(bodySet: BodySet): BodyPartConstant[] {
     // 把身体配置项拓展成如下形式的二维数组
     // [ [ TOUGH ], [ WORK, WORK ], [ MOVE, MOVE, MOVE ] ]
@@ -96,7 +126,7 @@ export function buildRoad(from: RoomPosition, to: RoomPosition) {
             roomCallback: (roomName) => {
                 let room = Game.rooms[roomName];
                 if (!room) return;
-                
+
                 let costs = new PathFinder.CostMatrix();
 
                 room.find(FIND_STRUCTURES).forEach(function(struct) {
@@ -130,8 +160,11 @@ export function buildRoad(from: RoomPosition, to: RoomPosition) {
             }
         }
     );
-    for (let i of path.path) {
-        i.createConstructionSite(STRUCTURE_ROAD);
+    for (const i in path.path) {
+        if (Object.prototype.hasOwnProperty.call(path.path, i)) {
+            const element = path.path[i];
+            element.createConstructionSite(STRUCTURE_ROAD);
+        }
     }
 }
 
@@ -174,6 +207,6 @@ export function getSourceLink(): StructureLink {
             return it.structureType == STRUCTURE_LINK;
         }) as StructureLink;
 }
-export function getStorageLink(RoomName:string): StructureLink {
+export function getStorageLink(RoomName: string): StructureLink {
     return Game.getObjectById('5fbb9840b800f334cd02ab43');
 }

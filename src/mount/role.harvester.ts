@@ -10,7 +10,7 @@ export class harvester extends Creep implements creepExt {
         const target = this.room.sources[0];
         const mine = this.harvest(target);
         if (mine == ERR_NOT_IN_RANGE) {
-            this.goTo(target.pos,{range:1});
+            this.goTo(target.pos, { range: 1 });
         } else if (mine == OK) {
             this.memory.standed = true;
             this.room.addRestrictedPos(this.name, this.pos);

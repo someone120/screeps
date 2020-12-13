@@ -97,7 +97,7 @@ export function supply(creep: Creep): boolean {
     }
     let target = Game.getObjectById(creep.memory.task.p[0]) as Structure;
     if (!target.store) {
-        return false;
+        return true;
     }
     if (
         creep.transfer(target, creep.memory.task.p[1] as ResourceConstant) ==
