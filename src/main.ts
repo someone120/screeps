@@ -7,19 +7,18 @@ import { Visualizer } from 'Visualizer';
 import { roles } from 'classes';
 import _ from 'lodash';
 
-module.exports.loop =require("debuger").warpLoop(ErrorMapper.wrapLoop(() => {
-    loop();
-}));
+module.exports.loop = require('debuger').warpLoop(
+    ErrorMapper.wrapLoop(() => {
+        loop();
+    })
+);
 
-export function checkQuantity(creeps: { [creepName: string]: Creep }) {
-    if (Game.time % 10 != 0) {
-        return;
-    }
-    Memory.type = {};
-    Memory.ScoutRemoteSource = [];
-    Memory.ReserverRemoteSource = [];
-    Memory.MinerRemoteSource = [];
-    Object.values(creeps).forEach((creep) => {
+function loop() {
+    mount();
+    for (let name in Game.creeps) {
+        // console.log(name);
+
+        let creep = Game.creeps[name];
         if (
             !Memory.type[creep.memory.roomID] ||
             Memory.type[creep.memory.roomID].length <= 0
@@ -42,18 +41,9 @@ export function checkQuantity(creeps: { [creepName: string]: Creep }) {
                     break;
             }
         }
-    });
-}
-function loop() {
-    mount();
-    roleSpawn();
-    checkQuantity(Game.creeps);
-    for (let name in Game.creeps) {
-        // console.log(name);
-        let creep = Game.creeps[name];
         if (
             Game.cpu.bucket < 200 &&
-            Game.time%2==1&&
+            Game.time % 2 == 1 &&
             !_.map(creep.body, 'type').includes(CLAIM) &&
             creep.body.length < 5
         ) {
@@ -62,7 +52,7 @@ function loop() {
         }
         if (
             Game.cpu.bucket < 200 &&
-            Game.time%2==0&&
+            Game.time % 2 == 0 &&
             !_.map(creep.body, 'type').includes(CLAIM) &&
             creep.body.length > 5
         ) {
@@ -96,6 +86,7 @@ function loop() {
     // console.log(JSON.stringify(path));
     Visualizer.visuals();
     stateScanner();
+    roleSpawn();
     if (Game.time % 10000 == 0) {
         Game.cpu.halt();
     }
