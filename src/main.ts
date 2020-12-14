@@ -14,6 +14,10 @@ module.exports.loop = require('debuger').warpLoop(
 );
 
 function loop() {
+    Memory.type = {};
+    Memory.ScoutRemoteSource = [];
+    Memory.ReserverRemoteSource = [];
+    Memory.MinerRemoteSource = [];
     mount();
     for (let name in Game.creeps) {
         // console.log(name);

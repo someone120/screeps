@@ -5,6 +5,15 @@ import { bodyConfigs as bodySet } from 'setting';
 import { assignPrototype, encodee as encode } from 'utils';
 export default class spawnExt extends StructureSpawn implements structure {
     work() {
+        if (!Memory.type) {
+                Memory.type = {};
+            }
+            if (
+                !Memory.type[this.room.name] ||
+                Memory.type[this.room.name].length <= 0
+            ) {
+                Memory.type[this.room.name] = Array(12).fill(0);
+            }
         if (!global['spawnEnd']) {
             global['spawnEnd'] = {};
         }
