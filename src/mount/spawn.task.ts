@@ -6,14 +6,14 @@ import { assignPrototype, encodee as encode } from 'utils';
 export default class spawnExt extends StructureSpawn implements structure {
     work() {
         if (!Memory.type) {
-                Memory.type = {};
-            }
-            if (
-                !Memory.type[this.room.name] ||
-                Memory.type[this.room.name].length <= 0
-            ) {
-                Memory.type[this.room.name] = Array(12).fill(0);
-            }
+            Memory.type = {};
+        }
+        if (
+            !Memory.type[this.room.name] ||
+            Memory.type[this.room.name].length <= 0
+        ) {
+            Memory.type[this.room.name] = Array(12).fill(0);
+        }
         if (!global['spawnEnd']) {
             global['spawnEnd'] = {};
         }
@@ -36,39 +36,22 @@ export default class spawnExt extends StructureSpawn implements structure {
             global['spawnTask'] = {};
         }
         if (!global['spawnTask'][this.name]) {
-            let available = this.room.energyCapacityAvailable;
-            if (available >= 10000) {
-                available = 10000;
-            } else if (available >= 5600) {
-                available = 5600;
-            } else if (available >= 2300) {
-                available = 2300;
-            } else if (available >= 1800) {
-                available = 1800;
-            } else if (available >= 1300) {
-                available = 1300;
-            } else if (available >= 800) {
-                available = 800;
-            } else if (available >= 550) {
-                available = 550;
-            } else if (available >= 300) {
-                available = 300;
-            }
             global['spawnTask'][this.name] = getTask(
-                Memory.spawnTask[this.room.name],
-                available
+                Memory.spawnTask[this.room.name]
             );
         } else {
             const type = global['spawnTask'][this.name].split(' ');
             if (
                 (Memory.type[this.room.name][0] <= 0 ||
                     Memory.type[this.room.name][2] <= 0) &&
-                type[0] != 'Carrier' &&
-                type[0] != 'Harvester' &&
-                type[1] != '300'
+                (type[0] === 'Carrier' || type[0] === 'Harvester') &&
+                    parseInt(type[1]) > 300
             ) {
                 delete global['spawnTask'][this.name];
-                return;
+
+                global['spawnTask'][this.name] = getTask(
+                    Memory.spawnTask[this.room.name]
+                );
             }
             const result = parseTask(
                 global['spawnTask'][this.name],
@@ -239,20 +222,8 @@ function spawnNewUpgrader(
     }
     return result;
 }
-function getTask(tasks: string[], available: number): string {
-    let index = -1;
-    let temp = tasks.find((it, k) => {
-        if (parseInt(it.split(' ')[1]) <= available) {
-            index = k;
-            return true;
-        }
-        return false;
-    });
-    if (!temp) {
-        return undefined;
-    }
-    tasks.splice(index, 1);
-    return temp;
+function getTask(tasks: string[]): string {
+    return tasks.shift();
 }
 function parseTask(tasks: string, spawn: StructureSpawn, roomID): Number {
     let result: Number;

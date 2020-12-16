@@ -26,7 +26,7 @@ export function pushCarrierTask(task: string, roomName: string,name: string) {
  * 向任务列表中推送任务
  * @param task 任务
  */
-export function pushSpawnTask(task: string, name: string) {
+export function pushSpawnTask(task: string, name: string,spawnName:string) {
     if (!Memory.spawnTask) {
         Memory.spawnTask = {};
     }
@@ -39,7 +39,7 @@ export function pushSpawnTask(task: string, name: string) {
     if (
         !(
             Memory.spawnTask[name].includes(task) ||
-            global.spawnTask[name] == task
+            global.spawnTask[spawnName] == task
         )
     ) {
         console.log(

@@ -78,11 +78,10 @@ function loop() {
     autoClean();
     Object.values(Game.structures).forEach((v) => {
         if (v.work) {
-            if (v.structureType == STRUCTURE_CONTAINER) console.log(v.id);
-
             v.work();
         }
     });
+    roleSpawn();
     if (Game.cpu.bucket == 10000 && Memory['towerStat'] == 'normal') {
         Game.cpu.generatePixel();
     }
@@ -90,7 +89,6 @@ function loop() {
     // console.log(JSON.stringify(path));
     Visualizer.visuals();
     stateScanner();
-    roleSpawn();
     if (Game.time % 10000 == 0) {
         Game.cpu.halt();
     }

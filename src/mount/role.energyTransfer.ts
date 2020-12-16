@@ -8,6 +8,20 @@ export class Manager extends Creep implements creepExt {
     work() {
         let link = getStorageLink(this.room.name);
         const spawn = this.pos.findClosestByRange(FIND_MY_SPAWNS);
+        if (
+            spawn.store[RESOURCE_ENERGY] < 300 &&
+            this.store.getFreeCapacity(RESOURCE_ENERGY) === 0
+        ) {
+            this.transfer(spawn, RESOURCE_ENERGY);
+            return;
+        }
+        if (
+            spawn.store[RESOURCE_ENERGY] < 300 &&
+            this.store.getUsedCapacity(RESOURCE_ENERGY) === 0
+        ) {
+            let result = this.withdraw(this.room.storage, RESOURCE_ENERGY);
+            if (result == OK) return;
+        }
         let pos = this.pos.intersection(
             this.room.storage.pos.getFreeSpace(),
             link.pos.getFreeSpace(),

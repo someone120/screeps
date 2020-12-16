@@ -1,4 +1,5 @@
 import { structure } from 'base';
+import { pushCarrierTask } from 'task.manager';
 import { assignPrototype, requestEnergy, WHITE_LIST } from './utils';
 export default class towerExt extends StructureTower implements structure {
     public work(): void {
@@ -42,16 +43,7 @@ export default class towerExt extends StructureTower implements structure {
         }
 
         let task = `request/${this.id}/energy`;
-        if (
-            Memory.porterTasker[this.room.name].includes(task) ||
-            global.porterTasksTaken.includes(task)
-        ) {
-            return;
-        }
-        console.log(
-            `<p style="color: #8BC34A;">[${this.id}]发布了任务：${task}</p>`
-        );
-        Memory.porterTasker[this.room.name].unshift(task);
+        pushCarrierTask(task, this.room.name, this.id);
     }
     private normal(tower: StructureTower) {
         let hurtCreep = tower.room.find(FIND_MY_CREEPS, {
