@@ -14,19 +14,15 @@ export class Repairer extends Creep implements creepExt {
                     this.goTo(this.room.storage.pos);
                 }
             } else {
-                const source2 = this.pos.findClosestByRange(
-                    FIND_STRUCTURES,
-                    {
-                        filter: (structure) => {
-                            return (
-                                structure.structureType ==
-                                    STRUCTURE_CONTAINER &&
-                                structure.store.energy > 0
-                            );
-                        }
+                const source2 = this.pos.findClosestByRange(FIND_STRUCTURES, {
+                    filter: (structure) => {
+                        return (
+                            structure.structureType == STRUCTURE_CONTAINER &&
+                            structure.store.energy > 0
+                        );
                     }
-                )
-                
+                });
+
                 if (source2) {
                     const result = this.withdraw(source2, RESOURCE_ENERGY);
                     if (result == ERR_NOT_IN_RANGE) {
@@ -127,6 +123,22 @@ export class Repairer extends Creep implements creepExt {
             Memory.type[this.memory.roomID][1]++;
             Memory.type[this.memory.roomID][4]--;
             this.memory.type = 1;
+            return;
+        }
+        let needRepair = this.room.find(FIND_STRUCTURES, {
+            filter: (it) => {
+                return (
+                    it.hits < 100000 &&
+                    it.hitsMax - it.hits > 0 &&
+                    it.structureType != STRUCTURE_WALL
+                );
+            }
+        });
+        if (needRepair.length <= 1) {
+            Memory.type[this.memory.roomID][4]--;
+            Memory.type[this.memory.roomID][3]++;
+            this.memory.type = 3;
+            return;
         }
     }
 }
