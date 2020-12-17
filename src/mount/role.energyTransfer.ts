@@ -10,10 +10,10 @@ export class Manager extends Creep implements creepExt {
         const spawn = this.pos.findClosestByRange(FIND_MY_SPAWNS);
         if (
             spawn.store[RESOURCE_ENERGY] < 300 &&
-            this.store.getFreeCapacity(RESOURCE_ENERGY) === 0
+            this.store.getUsedCapacity(RESOURCE_ENERGY) !== 0
         ) {
-            this.transfer(spawn, RESOURCE_ENERGY);
-            return;
+            let result = this.transfer(spawn, RESOURCE_ENERGY);
+            if (result == OK) return;
         }
         if (
             spawn.store[RESOURCE_ENERGY] < 300 &&

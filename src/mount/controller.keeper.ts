@@ -26,7 +26,12 @@ export class Upgrader extends Creep implements creepExt {
                 this.goTo(targets.pos, { range: 3 });
             }
         } else {
-            let source2 = Game.rooms[this.memory['roomID']].storage;
+            let source2 =
+                Game.rooms[this.memory['roomID']].storage.store[
+                    RESOURCE_ENERGY
+                ] > 0
+                    ? Game.rooms[this.memory['roomID']].storage
+                    : null;
             if (!source2) {
                 const source2 = Game.rooms[this.memory['roomID']].find(
                     FIND_STRUCTURES,

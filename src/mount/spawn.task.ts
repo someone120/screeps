@@ -5,6 +5,24 @@ import { bodyConfigs as bodySet } from 'setting';
 import { assignPrototype, encodee as encode } from 'utils';
 export default class spawnExt extends StructureSpawn implements structure {
     work() {
+        let available = this.room.energyCapacityAvailable;
+        if (available >= 10000) {
+            available = 10000;
+        } else if (available >= 5600) {
+            available = 5600;
+        } else if (available >= 2300) {
+            available = 2300;
+        } else if (available >= 1800) {
+            available = 1800;
+        } else if (available >= 1300) {
+            available = 1300;
+        } else if (available >= 800) {
+            available = 800;
+        } else if (available >= 550) {
+            available = 550;
+        } else if (available >= 300) {
+            available = 300;
+        }
         if (!Memory.type) {
             Memory.type = {};
         }
@@ -42,11 +60,15 @@ export default class spawnExt extends StructureSpawn implements structure {
         } else {
             const type = global['spawnTask'][this.name].split(' ');
             if (
-                (Memory.type[this.room.name][0] <= 0 ||
+                ((Memory.type[this.room.name][0] <= 0 ||
                     Memory.type[this.room.name][2] <= 0) &&
-                (type[0] === 'Carrier' || type[0] === 'Harvester') &&
-                    parseInt(type[1]) > 300
-            ) {
+                    !(
+                        (type[0] === 'Carrier' || type[0] === 'Harvester') &&
+                        parseInt(type[1]) > 300
+                    ) &&
+                    parseInt(type[1]) > 300) ||
+                parseInt(type[1]) > available
+            ) { // 挺简单的，是吧？
                 delete global['spawnTask'][this.name];
 
                 global['spawnTask'][this.name] = getTask(

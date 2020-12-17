@@ -111,7 +111,7 @@ export function supply(creep: Creep): boolean {
         let target: StructureContainer | StructureStorage | Resource =
             creep.room.storage.store[creep.memory.task.p[1]] > 0
                 ? creep.room.storage
-                : null ||
+                : 
                   (creep.pos.findClosestByRange(FIND_STRUCTURES, {
                       filter: (it) => {
                           return (

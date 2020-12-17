@@ -9,7 +9,7 @@ import {
 import { pushCarrierTask, pushSpawnTask } from '../task.manager';
 import { getSourceFlags, requestEnergy } from 'utils';
 import { lockRoom, roomStat } from './cache/room/protect';
-const PorterNumber = 4;
+const PorterNumber = 2;
 const KeeperNumber = 4;
 /**
  * 按照creep数量发送生成任务
