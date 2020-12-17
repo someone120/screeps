@@ -71,9 +71,14 @@ function loop() {
         if (creep.memory.type == -1) {
             continue;
         }
-        let t: creepExt = new roles[creep.memory.type](creep.id);
-        drawType(creep);
-        if (t) t.work();
+        let t: creepExt = roles[creep.memory.type]
+            ? new roles[creep.memory.type](creep.id)
+            : null;
+
+        if (t) {
+            t.work();
+            drawType(creep);
+        }
     }
     autoClean();
     Object.values(Game.structures).forEach((v) => {
