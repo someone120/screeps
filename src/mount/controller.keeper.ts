@@ -22,8 +22,12 @@ export class Upgrader extends Creep implements creepExt {
                     this.goTo(targets.pos);
                 }
             }
-            if (this.upgradeController(targets) == ERR_NOT_IN_RANGE) {
+            const result = this.upgradeController(targets);
+            if (result == ERR_NOT_IN_RANGE) {
                 this.goTo(targets.pos, { range: 3 });
+            }
+            if (result == OK) {
+                this.room.addRestrictedPos(this.name, this.pos);
             }
         } else {
             let source2 =

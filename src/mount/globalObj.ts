@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { random } from 'lodash';
 import { pushCarrierTask, pushSpawnTask } from 'task.manager';
 import { buildRoad, encodee } from 'utils';
+import { add, remove } from 'whiteList';
 export default {
     buildRoadd(from: RoomPosition, to: RoomPosition) {
         buildRoad(from, to);
@@ -65,5 +66,9 @@ export default {
         }
     },
     pushCarrierTaskk: pushCarrierTask,
-    pushSpawnTaskk: pushSpawnTask
+    pushSpawnTaskk: pushSpawnTask,
+    WhiteList:{
+        add:add,
+        remove:remove
+    }
 };

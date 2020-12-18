@@ -12,6 +12,7 @@ interface Memory {
     lessWallId: { [roomName: string]: { id: Id<StructureWall>; ttl: number } };
     type: { [name: string]: number[] };
     beScoutRoom: string[];
+    WHITE_LIST: string[];
 }
 
 interface posExt {

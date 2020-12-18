@@ -1,4 +1,5 @@
 import { creepExt } from 'base';
+import { filter } from 'lodash';
 import { WHITE_LIST } from 'utils';
 import { unlockRoom } from './cache/room/protect';
 
@@ -19,7 +20,7 @@ export class remoteProtector extends Creep implements creepExt {
         }
         const enemyCreep = this.room.find(FIND_HOSTILE_CREEPS, {
             filter: (it) => {
-                return !WHITE_LIST.includes(it.owner.username);
+                return filter
             }
         });
         if (enemyCreep.length > 0) {
@@ -30,7 +31,7 @@ export class remoteProtector extends Creep implements creepExt {
         }
         const enemyStr = this.room.find(FIND_HOSTILE_STRUCTURES, {
             filter: (it) => {
-                return !WHITE_LIST.includes(it.owner.username);
+                return filter
             }
         });
         if (enemyStr.length > 0) {

@@ -1,6 +1,7 @@
 import { structure } from 'base';
 import { pushCarrierTask } from 'task.manager';
-import { assignPrototype, requestEnergy, WHITE_LIST } from './utils';
+import { filter } from 'whiteList';
+import { assignPrototype,  WHITE_LIST } from './utils';
 export default class towerExt extends StructureTower implements structure {
     public work(): void {
         this.check(this);
@@ -22,7 +23,7 @@ export default class towerExt extends StructureTower implements structure {
     private find(tower: StructureTower) {
         return tower.room.find(FIND_HOSTILE_CREEPS, {
             filter: (it) => {
-                return !WHITE_LIST.includes(it.owner.username);
+                return filter
             }
         });
     }
