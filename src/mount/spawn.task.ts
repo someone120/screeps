@@ -62,13 +62,10 @@ export default class spawnExt extends StructureSpawn implements structure {
             if (
                 ((Memory.type[this.room.name][0] <= 0 ||
                     Memory.type[this.room.name][2] <= 0) &&
-                    !(
-                        (type[0] === 'Carrier' || type[0] === 'Harvester') &&
-                        parseInt(type[1]) > 300
-                    ) &&
                     parseInt(type[1]) > 300) ||
                 parseInt(type[1]) > available
-            ) { // 挺简单的，是吧？
+            ) {
+                // 挺简单的，是吧？
                 delete global['spawnTask'][this.name];
 
                 global['spawnTask'][this.name] = getTask(
