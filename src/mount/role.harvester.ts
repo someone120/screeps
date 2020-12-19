@@ -1,4 +1,5 @@
 import { creepExt } from 'base';
+import { pushSpawnTask } from 'task.manager';
 import { getSourceLink } from 'utils';
 // import { getSourceLink } from 'utils';
 import { freeSpaceCount } from './cache/room/source';
@@ -39,8 +40,27 @@ export class harvester extends Creep implements creepExt {
                 }
             }
         }
-        if (this.ticksToLive < 10) {
+        if (this.ticksToLive < 100) {
             this.room.removeRestrictedPos(this.name);
+            let available = this.room.energyCapacityAvailable;
+            if (available >= 10000) {
+                available = 10000;
+            } else if (available >= 5600) {
+                available = 5600;
+            } else if (available >= 2300) {
+                available = 2300;
+            } else if (available >= 1800) {
+                available = 1800;
+            } else if (available >= 1300) {
+                available = 1300;
+            } else if (available >= 800) {
+                available = 800;
+            } else if (available >= 550) {
+                available = 550;
+            } else if (available >= 300) {
+                available = 300;
+            }
+            pushSpawnTask(`Harvester ${available}`,this.room.name,'')
         }
         if (this.store.getFreeCapacity(RESOURCE_ENERGY) == 0) {
             this.drop(RESOURCE_ENERGY);

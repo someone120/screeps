@@ -30,7 +30,9 @@ export class Upgrader extends Creep implements creepExt {
                 this.room.addRestrictedPos(this.name, this.pos);
             }
         } else {
-            let source2 =
+            let source2 =this.pos.findInRange(FIND_STRUCTURES,1,{filter:(it)=>{
+                return it.structureType==STRUCTURE_LINK&&it.store[RESOURCE_ENERGY]>0
+            }})||
                 Game.rooms[this.memory['roomID']].storage.store[
                     RESOURCE_ENERGY
                 ] > 0

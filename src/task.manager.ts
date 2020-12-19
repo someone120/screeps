@@ -3,7 +3,7 @@ import { isContainer, isStorage } from 'utils';
  * 向任务列表中推送任务
  * @param task 任务
  */
-export function pushCarrierTask(task: string, roomName: string,name: string) {
+export function pushCarrierTask(task: string, roomName: string, name: string) {
     if (!Memory.porterTasker) {
         Memory.porterTasker = {};
     }
@@ -26,26 +26,30 @@ export function pushCarrierTask(task: string, roomName: string,name: string) {
  * 向任务列表中推送任务
  * @param task 任务
  */
-export function pushSpawnTask(task: string, name: string,spawnName:string) {
+export function pushSpawnTask(
+    task: string,
+    RoomName: string,
+    SpawnName: string
+) {
     if (!Memory.spawnTask) {
         Memory.spawnTask = {};
     }
-    if (!Memory.spawnTask[name]) {
-        Memory.spawnTask[name] = [];
+    if (!Memory.spawnTask[RoomName]) {
+        Memory.spawnTask[RoomName] = [];
     }
     if (!global.spawnTask) {
         global.spawnTask = {};
     }
     if (
         !(
-            Memory.spawnTask[name].includes(task) ||
-            global.spawnTask[spawnName] == task
+            Memory.spawnTask[RoomName].includes(task) ||
+            global.spawnTask[SpawnName] == task
         )
     ) {
         console.log(
-            `<p style="color: #8BC34A;">[${name}]发布了任务：${task}</p>`
+            `<p style="color: #8BC34A;">[${RoomName}]发布了任务：${task}</p>`
         );
-        Memory.spawnTask[name].push(task);
+        Memory.spawnTask[RoomName].push(task);
     }
 }
 const tasks: {
@@ -68,7 +72,11 @@ export function transfer(creep: Creep): boolean {
         obj,
         creep.memory.task.p[1] as ResourceConstant
     );
-    if (result != ERR_NOT_IN_RANGE) {
+    if (
+        result != ERR_NOT_IN_RANGE ||
+        obj.store.getFreeCapacity(creep.memory.task.p[1] as ResourceConstant) ==
+            0
+    ) {
         return true;
     }
     creep.goTo(obj.pos);
@@ -111,8 +119,7 @@ export function supply(creep: Creep): boolean {
         let target: StructureContainer | StructureStorage | Resource =
             creep.room.storage.store[creep.memory.task.p[1]] > 0
                 ? creep.room.storage
-                : 
-                  (creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                : (creep.pos.findClosestByRange(FIND_STRUCTURES, {
                       filter: (it) => {
                           return (
                               it.structureType == STRUCTURE_CONTAINER &&
@@ -208,9 +215,9 @@ export function doing(creep: Creep) {
         // console.log(`${creep.name} ${creep.memory.parentTaskRaw}`);
 
         if (index != -1) global.porterTasksTaken.splice(index, 1);
-        delete creep.memory.parentTask
-        delete creep.memory.parentTaskRaw
-        delete creep.memory.task
-        delete creep.memory.index
+        delete creep.memory.parentTask;
+        delete creep.memory.parentTaskRaw;
+        delete creep.memory.task;
+        delete creep.memory.index;
     }
 }
