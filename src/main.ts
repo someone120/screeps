@@ -18,6 +18,7 @@ function loop() {
     Memory.ScoutRemoteSource = [];
     Memory.ReserverRemoteSource = [];
     Memory.MinerRemoteSource = [];
+    global.porterTasksTaken = [];
     mount();
     for (let name in Game.creeps) {
         // console.log(name);
@@ -44,6 +45,9 @@ function loop() {
                 default:
                     break;
             }
+        }
+        if (creep.memory.parentTaskRaw) {
+            global.porterTasksTaken.push(creep.memory.parentTaskRaw);
         }
         if (
             Game.cpu.bucket < 200 &&

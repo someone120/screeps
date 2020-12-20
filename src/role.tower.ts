@@ -1,7 +1,7 @@
 import { structure } from 'base';
 import { pushCarrierTask } from 'task.manager';
 import { filter } from 'whiteList';
-import { assignPrototype,  WHITE_LIST } from './utils';
+import { assignPrototype, requestEnergy, WHITE_LIST } from './utils';
 export default class towerExt extends StructureTower implements structure {
     public work(): void {
         this.check(this);
@@ -23,7 +23,7 @@ export default class towerExt extends StructureTower implements structure {
     private find(tower: StructureTower) {
         return tower.room.find(FIND_HOSTILE_CREEPS, {
             filter: (it) => {
-                return filter
+                return filter;
             }
         });
     }
@@ -42,9 +42,30 @@ export default class towerExt extends StructureTower implements structure {
         if (Game.time % 50 == 0) {
             global[`towerRequest${tower.id}`] = false;
         }
-
-        let task = `request/${this.id}/energy`;
-        pushCarrierTask(task, this.room.name, this.id);
+        if (
+            tower.store.getFreeCapacity(RESOURCE_ENERGY) > 20 &&
+            Memory['towerStat'] == 'normal'
+        ) {
+            requestEnergy(
+                this.room.storage ? this.room.storage.id : '',
+                this.id
+            );
+        } else if (
+            tower.store.getFreeCapacity(RESOURCE_ENERGY) > 20 &&
+            Memory['towerStat'] != 'normal'
+        ) {
+            let task = `request/${this.id}/energy`;
+            if (
+                Memory.porterTasker[this.room.name].includes(task) ||
+                global.porterTasksTaken.includes(task)
+            ) {
+                return;
+            }
+            console.log(
+                `<p style="color: #8BC34A;">[${this.id}]发布了任务：${task}</p>`
+            );
+            Memory.porterTasker[this.room.name].unshift(task);
+        }
     }
     private normal(tower: StructureTower) {
         let hurtCreep = tower.room.find(FIND_MY_CREEPS, {

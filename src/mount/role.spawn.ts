@@ -9,6 +9,7 @@ import {
 import { pushCarrierTask, pushSpawnTask } from '../task.manager';
 import { getSourceFlags, requestEnergy } from 'utils';
 import { lockRoom, roomStat } from './cache/room/protect';
+import _ from 'lodash';
 const PorterNumber = 2;
 const KeeperNumber = 4;
 /**
@@ -116,11 +117,7 @@ export default function() {
                     }
                 }
                 if (wallPainter < 3) {
-                    pushSpawnTask(
-                        `WallPainter ${available}`,
-                        spawn.room.name,
-                        spawn.name
-                    );
+                    pushSpawnTask(`WallPainter ${available}`, spawn.room.name);
                 }
                 if (
                     getSourceFlags() &&
@@ -156,19 +153,14 @@ export default function() {
                 //     );
                 // }
                 if (spawn.room.controller.level >= 6 && MineralCreep < 1) {
-                    pushSpawnTask(
-                        `Mineraler ${available}`,
-                        spawn.room.name,
-                        spawn.name
-                    );
+                    pushSpawnTask(`Mineraler ${available}`, spawn.room.name);
                 }
                 if (getSourceFlags() && Protectors < getSourceFlags().length) {
                     getSourceFlags().forEach((it) => {
                         if (it.room && !roomStat(it.room.name)) {
                             pushSpawnTask(
                                 `Protector ${available} ${it.room.name}`,
-                                spawn.room.name,
-                                spawn.name
+                                spawn.room.name
                             );
                             lockRoom(it.room.name);
                         }
@@ -189,7 +181,7 @@ export default function() {
     }
 }
 function pushRemoteCarrier(i: Number, storage: string, spawn: StructureSpawn) {
-    pushSpawnTask(`RemoteCarrier ${i} ${storage}`, spawn.room.name, spawn.name);
+    pushSpawnTask(`RemoteCarrier ${i} ${storage}`, spawn.room.name);
 }
 function pushHarvester(i: Number, spawn: StructureSpawn) {
     if (!Memory.spawnTask) {
@@ -204,7 +196,7 @@ function pushHarvester(i: Number, spawn: StructureSpawn) {
     let task = `Harvester ${i}`;
     if (
         Memory.spawnTask[spawn.room.name].includes(task) ||
-        global.spawnTask[spawn.name] == task
+        _.map(global.spawnTask, 'spawnName').includes(task)
     ) {
         return;
     }
@@ -226,7 +218,7 @@ function pushCarrier(i: Number, spawn: StructureSpawn) {
     let task = `Carrier ${i}`;
     if (
         Memory.spawnTask[spawn.room.name].includes(task) ||
-        global.spawnTask[spawn.name] == task
+        _.map(global.spawnTask, 'spawnName').includes(task)
     ) {
         return;
     }
@@ -236,17 +228,17 @@ function pushCarrier(i: Number, spawn: StructureSpawn) {
     Memory.spawnTask[spawn.room.name].unshift(task);
 }
 function pushRepairer(i: Number, spawn: StructureSpawn) {
-    pushSpawnTask(`Repairer ${i}`, spawn.room.name, spawn.name);
+    pushSpawnTask(`Repairer ${i}`, spawn.room.name);
 }
 function pushBuilder(i: Number, spawn: StructureSpawn) {
-    pushSpawnTask(`Builder ${i}`, spawn.room.name, spawn.name);
+    pushSpawnTask(`Builder ${i}`, spawn.room.name);
 }
 function pushUpgrader(i: Number, spawn: StructureSpawn) {
-    pushSpawnTask(`Upgrader ${i}`, spawn.room.name, spawn.name);
+    pushSpawnTask(`Upgrader ${i}`, spawn.room.name);
 }
 function pushRemoteMiner(i: Number, flagName: string, spawn: StructureSpawn) {
-    pushSpawnTask(`RemoteMiner ${i} ${flagName}`, spawn.room.name, spawn.name);
+    pushSpawnTask(`RemoteMiner ${i} ${flagName}`, spawn.room.name);
 }
 function pushReserver(i: Number, flagName: string, spawn: StructureSpawn) {
-    pushSpawnTask(`Reserver ${i} ${flagName}`, spawn.room.name, spawn.name);
+    pushSpawnTask(`Reserver ${i} ${flagName}`, spawn.room.name);
 }

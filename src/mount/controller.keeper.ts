@@ -30,9 +30,19 @@ export class Upgrader extends Creep implements creepExt {
                 this.room.addRestrictedPos(this.name, this.pos);
             }
         } else {
-            let source2 =this.pos.findInRange(FIND_STRUCTURES,1,{filter:(it)=>{
-                return it.structureType==STRUCTURE_LINK&&it.store[RESOURCE_ENERGY]>0
-            }})||
+            let source2 =
+                Game.rooms[this.memory['roomID']].controller.pos.findInRange(
+                    FIND_STRUCTURES,
+                    3,
+                    {
+                        filter: (it) => {
+                            return (
+                                it.structureType == STRUCTURE_LINK &&
+                                it.store[RESOURCE_ENERGY] > 0
+                            );
+                        }
+                    }
+                ) ||
                 Game.rooms[this.memory['roomID']].storage.store[
                     RESOURCE_ENERGY
                 ] > 0
@@ -67,9 +77,9 @@ export class Upgrader extends Creep implements creepExt {
                         this.goTo(source1.pos);
                     }
                 }
-            } else if (
-                this.withdraw(source2, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE
-            ) {
+                return;
+            }
+            if (this.withdraw(source2, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                 this.goTo(source2.pos);
             }
         }

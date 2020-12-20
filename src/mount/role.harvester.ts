@@ -40,7 +40,7 @@ export class harvester extends Creep implements creepExt {
                 }
             }
         }
-        if (this.ticksToLive < 100) {
+        if (this.ticksToLive < 300) {
             this.room.removeRestrictedPos(this.name);
             let available = this.room.energyCapacityAvailable;
             if (available >= 10000) {
@@ -60,7 +60,24 @@ export class harvester extends Creep implements creepExt {
             } else if (available >= 300) {
                 available = 300;
             }
-            pushSpawnTask(`Harvester ${available}`,this.room.name,'')
+            if (!Memory.spawnTask) {
+                Memory.spawnTask = {};
+            }
+            if (!Memory.spawnTask[this.room.name]) {
+                Memory.spawnTask[this.room.name] = [];
+            }
+            if (!global['spawnTask']) {
+                global['spawnTask'] = {};
+            }
+            let task = `Harvester ${available}`;
+            if (this.memory.isSend) {
+                return;
+            }
+            console.log(
+                `<p style="color: #8BC34A;">[${this.room.name}]发布了任务：${task}</p>`
+            );
+            Memory.spawnTask[this.room.name].unshift(task);
+            this.memory.isSend = true;
         }
         if (this.store.getFreeCapacity(RESOURCE_ENERGY) == 0) {
             this.drop(RESOURCE_ENERGY);

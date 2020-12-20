@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { isContainer, isStorage } from 'utils';
 /**
  * 向任务列表中推送任务
@@ -29,7 +30,7 @@ export function pushCarrierTask(task: string, roomName: string, name: string) {
 export function pushSpawnTask(
     task: string,
     RoomName: string,
-    SpawnName: string
+    isTop: boolean = false
 ) {
     if (!Memory.spawnTask) {
         Memory.spawnTask = {};
@@ -43,13 +44,17 @@ export function pushSpawnTask(
     if (
         !(
             Memory.spawnTask[RoomName].includes(task) ||
-            global.spawnTask[SpawnName] == task
+            _.map(global.spawnTask,'spawnName').includes(task)
         )
     ) {
         console.log(
             `<p style="color: #8BC34A;">[${RoomName}]发布了任务：${task}</p>`
         );
-        Memory.spawnTask[RoomName].push(task);
+        if (isTop) {
+            Memory.spawnTask[RoomName].unshift(task);
+        } else {
+            Memory.spawnTask[RoomName].push(task);
+        }
     }
 }
 const tasks: {

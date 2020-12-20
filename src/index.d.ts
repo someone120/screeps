@@ -42,6 +42,7 @@ interface CreepMemory {
     pos?: any;
     roomID: string;
     standed?: boolean;
+    isSend?:boolean;
     _move?: any;
     disableCross?: any;
     prePos?: string;
