@@ -29,8 +29,12 @@ export class builder extends Creep implements creepExt {
         });
         if (this.memory['building']) {
             if (targets.length >= 0) {
-                if (this.build(targets[0]) == ERR_NOT_IN_RANGE) {
+                const result = this.build(targets[0]);
+                if (result == ERR_NOT_IN_RANGE) {
                     this.goTo(targets[0].pos);
+                }
+                if (result == OK) {
+                    this.room.addRestrictedPos(this.name, this.pos);
                 }
             }
         } else {
@@ -42,7 +46,7 @@ export class builder extends Creep implements creepExt {
                             structure.structureType == STRUCTURE_CONTAINER &&
                             structure.store.energy > 0
                         );
-                    }
+                    },
                 }
             ) as StructureContainer[];
             if (source2.length != 0) {
@@ -57,7 +61,7 @@ export class builder extends Creep implements creepExt {
                 {
                     filter: (it) => {
                         return it.resourceType == RESOURCE_ENERGY;
-                    }
+                    },
                 }
             );
             if (source1.length) {
