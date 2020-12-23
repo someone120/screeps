@@ -98,6 +98,11 @@ export class harvester extends Creep implements creepExt {
             Memory.spawnTask[this.room.name].unshift(task);
             this.memory.isSend = true;
         }
+        if (this.ticksToLive < 10) {
+            this.room.unlockSource(
+                Game.getObjectById<Source>(this.memory.sourceID)
+            );
+        }
         if (this.store.getFreeCapacity(RESOURCE_ENERGY) == 0) {
             this.drop(RESOURCE_ENERGY);
         }
