@@ -20,7 +20,7 @@ export class Repairer extends Creep implements creepExt {
                             structure.structureType == STRUCTURE_CONTAINER &&
                             structure.store.energy > 0
                         );
-                    }
+                    },
                 });
 
                 if (source2) {
@@ -45,7 +45,7 @@ export class Repairer extends Creep implements creepExt {
                         it.hitsMax - it.hits > 0 &&
                         it.structureType != STRUCTURE_WALL
                     );
-                }
+                },
             });
             if (target) {
                 let res = this.repair(target);
@@ -63,7 +63,7 @@ export class Repairer extends Creep implements creepExt {
                             it.hitsMax - it.hits > 0 &&
                             it.structureType != STRUCTURE_WALL
                         );
-                    }
+                    },
                 }
             );
             if (targets.length > 0) {
@@ -88,7 +88,7 @@ export class Repairer extends Creep implements creepExt {
                                 it.structureType != STRUCTURE_WALL &&
                                 it.structureType != STRUCTURE_INVADER_CORE
                             );
-                        }
+                        },
                     })
                 );
             });
@@ -108,17 +108,8 @@ export class Repairer extends Creep implements creepExt {
         let constructions = Game.rooms[this.memory['roomID']].find(
             FIND_CONSTRUCTION_SITES
         );
-        flag.forEach((it) => {
-            if (it.room) {
-                constructions = constructions.concat(
-                    it.room.find(FIND_CONSTRUCTION_SITES)
-                );
-            }
-        });
         if (
-            ~~(constructions.length * 2.5) >
-                Memory.type[this.memory.roomID][1] &&
-            Memory.type[this.memory.roomID][4] >= 2
+            ~~(constructions.length * 2.5) > Memory.type[this.memory.roomID][1]
         ) {
             Memory.type[this.memory.roomID][1]++;
             Memory.type[this.memory.roomID][4]--;
@@ -132,7 +123,7 @@ export class Repairer extends Creep implements creepExt {
                     it.hitsMax - it.hits > 0 &&
                     it.structureType != STRUCTURE_WALL
                 );
-            }
+            },
         });
         if (needRepair.length <= 1) {
             Memory.type[this.memory.roomID][4]--;

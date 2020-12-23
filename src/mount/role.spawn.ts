@@ -4,7 +4,7 @@ import {
     getScoutFirstAvailableFlag,
     setMinerUnavailableFlag,
     setReserverUnavailableFlag,
-    setScoutUnavailableFlag
+    setScoutUnavailableFlag,
 } from 'flag';
 import { pushCarrierTask, pushSpawnTask } from '../task.manager';
 import { getSourceFlags, requestEnergy } from 'utils';
@@ -65,12 +65,12 @@ export default function() {
                     available = 300;
                 }
 
-                if (miners < spawn.room.sources.length) {
-                    pushHarvester(available, spawn);
-                    spawn.memory['send'] = true;
-                }
                 if (Porter < PorterNumber) {
                     pushCarrier(available, spawn);
+                    spawn.memory['send'] = true;
+                }
+                if (miners < spawn.room.sources.length) {
+                    pushHarvester(available, spawn);
                     spawn.memory['send'] = true;
                 }
                 if (builder < 2) {
@@ -184,6 +184,10 @@ function pushRemoteCarrier(i: Number, storage: string, spawn: StructureSpawn) {
     pushSpawnTask(`RemoteCarrier ${i} ${storage}`, spawn.room.name);
 }
 function pushHarvester(i: Number, spawn: StructureSpawn) {
+    const freeSource = spawn.room.findUnlockSource(spawn.room.sources);
+    if (!freeSource) {
+        return;
+    }
     if (!Memory.spawnTask) {
         Memory.spawnTask = {};
     }
@@ -193,7 +197,7 @@ function pushHarvester(i: Number, spawn: StructureSpawn) {
     if (!global['spawnTask']) {
         global['spawnTask'] = {};
     }
-    let task = `Harvester ${i}`;
+    let task = `Harvester ${i} ${freeSource.id}`;
     if (
         Memory.spawnTask[spawn.room.name].includes(task) ||
         _.map(global.spawnTask, 'spawnName').includes(task)

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 export function filter(it: Creep): boolean {
-    return include(it.owner.username);
+    return !include(it.owner.username);
 }
 
 export function include(name: string): boolean {

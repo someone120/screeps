@@ -70,8 +70,7 @@ export class reserve extends Creep implements creepExt {
             }
             pushSpawnTask(
                 `Reserver ${available} ${this.memory.flagName}`,
-                this.memory.roomID,
-                'Spawn1'
+                this.memory.roomID
             );
             this.room.removeRestrictedPos(this.name);
         }

@@ -30,9 +30,14 @@ export class creepMoveExt extends Creep {
                                 costMatrix.set(pos.x, pos.y, 0xff);
                             }
                         }
-
+                        for (let i = 0; i <= 49; i++) {
+                            costMatrix.set(0, i, 0xff);
+                            costMatrix.set(i, 0, 0xff);
+                            costMatrix.set(49, i, 0xff);
+                            costMatrix.set(i, 49, 0xff);
+                        }
                         return costMatrix;
-                    }
+                    },
                 },
                 opts
             )
@@ -142,6 +147,10 @@ export class creepMoveExt extends Creep {
                     for (const creepName in restrictedPos) {
                         // 自己注册的禁止通行点位自己可以走
                         if (creepName === this.name) continue;
+                        if (!Game.creeps[creepName]) {
+                            this.room.removeRestrictedPos(creepName);
+                            continue;
+                        }
                         const pos = room.unserializePos(
                             restrictedPos[creepName]
                         );
@@ -149,7 +158,7 @@ export class creepMoveExt extends Creep {
                     }
 
                     return costs;
-                }
+                },
             }
         );
 

@@ -1,10 +1,16 @@
-import { setMinerUnavailableFlag, setReserverUnavailableFlag } from 'flag';
-import _ from 'lodash';
 import { structure } from 'base';
 import { bodyConfigs as bodySet } from 'setting';
-import { assignPrototype, encodee as encode } from 'utils';
+import { pushCarrierTask } from 'task.manager';
+import { assignPrototype } from 'utils';
 export default class spawnExt extends StructureSpawn implements structure {
     work() {
+        if (this.store.getFreeCapacity(RESOURCE_ENERGY) > 0) {
+            pushCarrierTask(
+                `request/${this.id}/${RESOURCE_ENERGY}`,
+                this.room.name,
+                this.id
+            );
+        }
         let available = this.room.energyCapacityAvailable;
         if (available >= 10000) {
             available = 10000;
@@ -88,7 +94,7 @@ export default class spawnExt extends StructureSpawn implements structure {
                 {
                     font: 0.3,
                     stroke: '#000000',
-                    strokeWidth: 0.05
+                    strokeWidth: 0.05,
                 }
             );
             if (this.spawning) {
@@ -105,7 +111,7 @@ export default class spawnExt extends StructureSpawn implements structure {
                         font: 0.3,
                         stroke: '#000000',
                         strokeWidth: 0.05,
-                        align: 'left'
+                        align: 'left',
                     }
                 );
             }
@@ -124,17 +130,20 @@ export default class spawnExt extends StructureSpawn implements structure {
 function spawnNewHarvester(
     i: Number,
     spawn: StructureSpawn,
-    roomID: string
+    roomID: string,
+    sourceID: string
 ): Number {
     let result = spawn.spawnCreep(
         bodySet.harvester[i + ''],
         `Miner@${Game.time}`,
         {
-            memory: { type: 0, roomID: roomID }
+            memory: { type: 0, roomID: roomID, sourceID: sourceID },
         }
     );
     if (result == OK) {
         spawn.memory['send'] = false;
+
+        spawn.room.lockSource(Game.getObjectById<Source>(sourceID));
     }
     return result;
 }
@@ -147,7 +156,7 @@ function spawnNewBuilder(
         bodySet.worker[i + ''],
         `Builder@${Game.time}`,
         {
-            memory: { type: 4, roomID: roomID }
+            memory: { type: 4, roomID: roomID },
         }
     );
     if (result == OK) {
@@ -164,7 +173,7 @@ function spawnNewCarrier(
         bodySet.manager[i + ''],
         `Carrier@${Game.time}`,
         {
-            memory: { type: 2, roomID: roomID }
+            memory: { type: 2, roomID: roomID },
         }
     );
     if (result == OK) {
@@ -182,7 +191,7 @@ function spawnNewReserver(
         bodySet.reserver[i + ''],
         `reserver@${Game.time}`,
         {
-            memory: { type: 6, roomID: roomID, flagName: flagName }
+            memory: { type: 6, roomID: roomID, flagName: flagName },
         }
     );
     if (result == OK) {
@@ -200,7 +209,7 @@ function spawnNewRemoteMiner(
         bodySet.remoteHarvester[i + ''],
         `RemoteMiner@${Game.time}`,
         {
-            memory: { type: 5, roomID: roomID, flagName: flagName }
+            memory: { type: 5, roomID: roomID, flagName: flagName },
         }
     );
     if (result == OK) {
@@ -217,7 +226,7 @@ function spawnNewRemoteCarrier(
         bodySet.manager[i + ''],
         `RemoteCarrier@${Game.time}`,
         {
-            memory: { type: 7, roomID: roomID }
+            memory: { type: 7, roomID: roomID },
         }
     );
     if (result == OK) {
@@ -234,7 +243,7 @@ function spawnNewUpgrader(
         bodySet.upgrader[i + ''],
         `Upgrader@${Game.time}`,
         {
-            memory: { type: 3, roomID: roomID }
+            memory: { type: 3, roomID: roomID },
         }
     );
     if (result == OK) {
@@ -254,7 +263,12 @@ function parseTask(tasks: string, spawn: StructureSpawn, roomID): Number {
                 result = spawnNewCarrier(parseInt(split[1]), spawn, roomID);
                 break;
             case 'Harvester':
-                result = spawnNewHarvester(parseInt(split[1]), spawn, roomID);
+                result = spawnNewHarvester(
+                    parseInt(split[1]),
+                    spawn,
+                    roomID,
+                    split[2]
+                );
                 break;
             case 'Builder':
                 result = spawnNewBuilder(parseInt(split[1]), spawn, roomID);
@@ -294,7 +308,7 @@ function parseTask(tasks: string, spawn: StructureSpawn, roomID): Number {
                     `energyTransfer@${Game.time}`,
                     {
                         memory: { type: 8, roomID: roomID },
-                        directions: [BOTTOM]
+                        directions: [BOTTOM],
                     }
                 );
                 break;
@@ -313,8 +327,8 @@ function parseTask(tasks: string, spawn: StructureSpawn, roomID): Number {
                         roomID: roomID,
                         pos: d.pos,
                         remoteSource: d.remoteSource,
-                        flagName: d.flagName
-                    }
+                        flagName: d.flagName,
+                    },
                 });
                 break;
             case 'Mineraler':
@@ -322,7 +336,7 @@ function parseTask(tasks: string, spawn: StructureSpawn, roomID): Number {
                     bodySet.worker[split[1]],
                     `Mineraler@${Game.time}`,
                     {
-                        memory: { type: 10, roomID: roomID }
+                        memory: { type: 10, roomID: roomID },
                     }
                 );
                 break;
@@ -331,7 +345,7 @@ function parseTask(tasks: string, spawn: StructureSpawn, roomID): Number {
                     bodySet.worker[split[1]],
                     `WallPainter@${Game.time}`,
                     {
-                        memory: { type: 11, roomID: roomID }
+                        memory: { type: 11, roomID: roomID },
                     }
                 );
                 break;
@@ -343,8 +357,8 @@ function parseTask(tasks: string, spawn: StructureSpawn, roomID): Number {
                         memory: {
                             type: 12,
                             roomID: roomID,
-                            protectRoomId: split[2]
-                        }
+                            protectRoomId: split[2],
+                        },
                     }
                 );
                 break;

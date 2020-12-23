@@ -24,7 +24,7 @@ export default class towerExt extends StructureTower implements structure {
         return tower.room.find(FIND_HOSTILE_CREEPS, {
             filter: (it) => {
                 return filter;
-            }
+            },
         });
     }
     private check(tower: StructureTower) {
@@ -71,7 +71,7 @@ export default class towerExt extends StructureTower implements structure {
         let hurtCreep = tower.room.find(FIND_MY_CREEPS, {
             filter: (creep) => {
                 return creep.hitsMax - creep.hits > 0;
-            }
+            },
         });
         let hurtBuild = tower.room
             .find(FIND_STRUCTURES, {
@@ -80,7 +80,7 @@ export default class towerExt extends StructureTower implements structure {
                         structure.hits < 25000 &&
                         structure.hitsMax - structure.hits > 0
                     );
-                }
+                },
             })
             .sort((a, b) => {
                 return a.hitsMax - a.hits - (b.hitsMax - b.hits);
@@ -93,14 +93,11 @@ export default class towerExt extends StructureTower implements structure {
     }
     private less(tower: StructureTower) {
         let attack = this.pos.findClosestByRange(FIND_HOSTILE_CREEPS, {
-            filter: (creep) => {
-                return !WHITE_LIST.includes(creep.owner.username);
-            }
+            filter: filter,
         });
         tower.attack(attack);
     }
     private more(tower: StructureTower) {
-        this.room.controller.activateSafeMode();
         this.less(tower);
     }
 }

@@ -1,6 +1,5 @@
+import { filter } from 'whiteList';
 import { creepExt } from 'base';
-import { filter } from 'lodash';
-import { WHITE_LIST } from 'utils';
 import { unlockRoom } from './cache/room/protect';
 
 export class remoteProtector extends Creep implements creepExt {
@@ -19,9 +18,7 @@ export class remoteProtector extends Creep implements creepExt {
             return;
         }
         const enemyCreep = this.room.find(FIND_HOSTILE_CREEPS, {
-            filter: (it) => {
-                return filter
-            }
+            filter: filter
         });
         if (enemyCreep.length > 0) {
             if (this.attack(enemyCreep[0]) == ERR_NOT_IN_RANGE) {
@@ -30,9 +27,7 @@ export class remoteProtector extends Creep implements creepExt {
             return;
         }
         const enemyStr = this.room.find(FIND_HOSTILE_STRUCTURES, {
-            filter: (it) => {
-                return filter
-            }
+            filter: filter
         });
         if (enemyStr.length > 0) {
             if (this.attack(enemyStr[0]) == ERR_NOT_IN_RANGE) {

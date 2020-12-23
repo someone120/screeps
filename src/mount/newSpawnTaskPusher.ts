@@ -3,7 +3,7 @@ import { pushSpawnTask } from 'task.manager';
 //TODO
 const functions: ((Room: Room, available: number) => boolean)[] = [
     checkHarvester,
-    checkCarrier
+    checkCarrier,
 ];
 
 export default function(spawn: StructureSpawn) {

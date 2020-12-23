@@ -3,6 +3,7 @@ interface Memory {
         [roomName: string]: RoomMemory;
     };
     bypassRooms: string[];
+    lockSource: string[];
     freeSpaceCount: any;
     porterTasker: { [name: string]: string[] };
     spawnTask: { [name: string]: string[] };
@@ -22,6 +23,9 @@ interface posExt {
 }
 
 interface Room {
+    findUnlockSource(id: Source[]): Source;
+    unlockSource(id: Source);
+    lockSource(id: Source);
     addRestrictedPos(creepName: string, pos: RoomPosition): void;
     removeRestrictedPos(creepName: string): void;
     unserializePos(arg0: any);
@@ -36,13 +40,14 @@ interface Structure {
 
 interface CreepMemory {
     parentTaskRaw?: string;
+    sourceID?: string;
     protectRoomId?: string;
     type: number;
     remoteSource?: boolean;
     pos?: any;
     roomID: string;
     standed?: boolean;
-    isSend?:boolean;
+    isSend?: boolean;
     _move?: any;
     disableCross?: any;
     prePos?: string;

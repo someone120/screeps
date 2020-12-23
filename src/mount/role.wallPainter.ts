@@ -7,7 +7,12 @@ export class WallPainter extends Creep implements creepExt {
         if (this.store.getUsedCapacity() == 0) {
             if (
                 this.withdraw(
-                    Game.rooms[this.memory['roomID']].storage,
+                    Game.rooms[this.memory['roomID']].storage &&
+                        Game.rooms[this.memory['roomID']].storage.store[
+                            RESOURCE_ENERGY
+                        ] > 0
+                        ? Game.rooms[this.memory.roomID].storage
+                        : undefined,
                     RESOURCE_ENERGY
                 ) == ERR_NOT_IN_RANGE
             ) {
@@ -38,7 +43,7 @@ export class WallPainter extends Creep implements creepExt {
                             it.structureType == STRUCTURE_RAMPART) &&
                         it.hits < it.hitsMax
                     );
-                }
+                },
             }
         ) as StructureWall[];
         wall.sort((a, b) => {
@@ -46,7 +51,7 @@ export class WallPainter extends Creep implements creepExt {
         });
         Memory.lessWallId[this.memory['roomID']] = {
             id: wall[0].id,
-            ttl: Game.time + 300
+            ttl: Game.time + 300,
         };
     }
 }

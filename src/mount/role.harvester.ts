@@ -2,13 +2,14 @@ import { creepExt } from 'base';
 import { pushSpawnTask } from 'task.manager';
 import { getSourceLink } from 'utils';
 // import { getSourceLink } from 'utils';
-import { freeSpaceCount } from './cache/room/source';
 //获取energy
 export class harvester extends Creep implements creepExt {
     task: string;
     type: Number = 0;
     work() {
-        const target = this.room.sources[0];
+        const target =
+            Game.getObjectById<Source>(this.memory.sourceID) ||
+            this.room.sources[0];
         const mine = this.harvest(target);
         if (mine == ERR_NOT_IN_RANGE) {
             this.goTo(target.pos, { range: 1 });
@@ -35,8 +36,26 @@ export class harvester extends Creep implements creepExt {
                     .find((it) => {
                         return it.structureType == STRUCTURE_CONTAINER;
                     });
-                if (!container) {
+                const construct = this.pos.lookFor(LOOK_CONSTRUCTION_SITES);
+                if (!container && !construct) {
                     this.pos.createConstructionSite(STRUCTURE_CONTAINER);
+                } else {
+                    if (container) {
+                        if (
+                            this.store[RESOURCE_ENERGY] >
+                                this.getActiveBodyparts(WORK) * 2 &&
+                            container.hitsMax - container.hits > 0
+                        ) {
+                            this.repair(container);
+                        }
+                    } else {
+                        if (
+                            this.store[RESOURCE_ENERGY] >
+                            this.getActiveBodyparts(WORK) * 2
+                        ) {
+                            this.build(construct[0]);
+                        }
+                    }
                 }
             }
         }
@@ -69,7 +88,7 @@ export class harvester extends Creep implements creepExt {
             if (!global['spawnTask']) {
                 global['spawnTask'] = {};
             }
-            let task = `Harvester ${available}`;
+            let task = `Harvester ${available} ${this.memory.sourceID}`;
             if (this.memory.isSend) {
                 return;
             }
