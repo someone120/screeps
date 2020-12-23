@@ -142,7 +142,7 @@ function spawnNewHarvester(
     );
     if (result == OK) {
         spawn.memory['send'] = false;
-
+        console.log(`[SPAWN]采集者 Miner@${Game.time} 对应矿点 ${sourceID}`);
         spawn.room.lockSource(Game.getObjectById<Source>(sourceID));
     }
     return result;
