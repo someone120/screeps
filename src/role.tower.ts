@@ -43,11 +43,7 @@ export default class towerExt extends StructureTower implements structure {
             global[`towerRequest${tower.id}`] = false;
         }
         if (tower.store.getFreeCapacity(RESOURCE_ENERGY) > 10) {
-            requestEnergy(
-                this.room.storage ? this.room.storage.id : '',
-                this.id,
-                true
-            );
+            requestEnergy(this.id, this.room.name, true);
         }
     }
     private normal(tower: StructureTower) {
