@@ -7,9 +7,11 @@ export class harvester extends Creep implements creepExt {
     task: string;
     type: Number = 0;
     work() {
-        const target =
-            Game.getObjectById<Source>(this.memory.sourceID) ||
-            this.room.sources[0];
+        let target = Game.getObjectById<Source>(this.memory.sourceID);
+        if (!target) {
+            this.memory.sourceID = this.room.sources[0].id;
+            target = this.room.sources[0];
+        }
         const mine = this.harvest(target);
         if (mine == ERR_NOT_IN_RANGE) {
             this.goTo(target.pos, { range: 1 });
