@@ -42,29 +42,12 @@ export default class towerExt extends StructureTower implements structure {
         if (Game.time % 50 == 0) {
             global[`towerRequest${tower.id}`] = false;
         }
-        if (
-            tower.store.getFreeCapacity(RESOURCE_ENERGY) > 20 &&
-            Memory['towerStat'] == 'normal'
-        ) {
+        if (tower.store.getFreeCapacity(RESOURCE_ENERGY) > 10) {
             requestEnergy(
                 this.room.storage ? this.room.storage.id : '',
-                this.id
+                this.id,
+                true
             );
-        } else if (
-            tower.store.getFreeCapacity(RESOURCE_ENERGY) > 20 &&
-            Memory['towerStat'] != 'normal'
-        ) {
-            let task = `request/${this.id}/energy`;
-            if (
-                Memory.porterTasker[this.room.name].includes(task) ||
-                global.porterTasksTaken.includes(task)
-            ) {
-                return;
-            }
-            console.log(
-                `<p style="color: #8BC34A;">[${this.id}]发布了任务：${task}</p>`
-            );
-            Memory.porterTasker[this.room.name].unshift(task);
         }
     }
     private normal(tower: StructureTower) {

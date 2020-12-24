@@ -33,7 +33,7 @@ export function getBodyConfig(
         1800: [],
         2300: [],
         5600: [],
-        10000: []
+        10000: [],
     };
     // 遍历空配置项，用传入的 bodySet 依次生成配置项
     Object.keys(config).map((level, index) => {
@@ -66,7 +66,7 @@ export const assignPrototype = function(
             Object.defineProperty(obj1.prototype, key.split('Getter')[0], {
                 get: obj2.prototype[key],
                 enumerable: false,
-                configurable: true
+                configurable: true,
             });
         } else obj1.prototype[key] = obj2.prototype[key];
     });
@@ -89,15 +89,16 @@ export function stateScanner() {
     Memory['stats'].bucket = Game.cpu.bucket;
 }
 
-
 export function requestEnergy(
     structureId: string,
-    roomName: string
+    roomName: string,
+    isTop: boolean = false
 ) {
     pushCarrierTask(
         `request/${structureId}/${RESOURCE_ENERGY}`,
         roomName,
-        structureId
+        structureId,
+        isTop
     );
     // console.log(`requestEneryge ${storageId} ${structureId}`);
 }
@@ -154,7 +155,7 @@ export function buildRoad(from: RoomPosition, to: RoomPosition) {
                     }
                 });
                 return costs;
-            }
+            },
         }
     );
     for (const i in path.path) {

@@ -20,7 +20,6 @@ function loop() {
     Memory.MinerRemoteSource = [];
     global.porterTasksTaken = [];
     mount();
-    roleSpawn();
     for (let name in Game.creeps) {
         // console.log(name);
 
@@ -82,6 +81,7 @@ function loop() {
 
         if (t) {
             t.work();
+            
             drawType(creep);
         }
     }
@@ -89,6 +89,9 @@ function loop() {
     Object.values(Game.structures).forEach((v) => {
         if (v.work) {
             v.work();
+        }
+        if (v.structureType == STRUCTURE_SPAWN) {
+            roleSpawn(v as StructureSpawn);
         }
     });
     if (Game.cpu.bucket == 10000 && Memory['towerStat'] == 'normal') {
@@ -128,6 +131,6 @@ function drawType(creep: Creep) {
         color: '#2196F3',
         font: 0.3,
         stroke: '#000000',
-        strokeWidth: 0.05,
+        strokeWidth: 0.05
     });
 }
