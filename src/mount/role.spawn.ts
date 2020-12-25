@@ -4,7 +4,7 @@ import {
     getScoutFirstAvailableFlag,
     setMinerUnavailableFlag,
     setReserverUnavailableFlag,
-    setScoutUnavailableFlag
+    setScoutUnavailableFlag,
 } from 'flag';
 import { pushCarrierTask, pushSpawnTask } from '../task.manager';
 import { getSourceFlags, requestEnergy } from 'utils';
@@ -63,7 +63,6 @@ export default function(spawn: StructureSpawn) {
             available = 300;
         }
 
-        console.log(Porter, spawn.room.name);
         if (Porter < PorterNumber) {
             pushCarrier(available, spawn);
 
