@@ -25,6 +25,7 @@ export default class towerExt extends StructureTower implements structure {
             filter: (it) => {
                 return (
                     filte(it) &&
+                    it.pos.isOnEdge() &&
                     (it.body.find((it) => {
                         return it.type == ATTACK;
                     }) ||

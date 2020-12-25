@@ -4072,7 +4072,7 @@ interface PowerEffect {
  */
 interface RoomPosition {
     readonly prototype: RoomPosition;
-
+    isOnEdge(): boolean;
     /**
      * The name of the room.
      */
