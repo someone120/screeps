@@ -15,6 +15,7 @@ module.exports.loop = require('debuger').warpLoop(
 
 function loop() {
     Memory.type = {};
+    Memory.lockSource = [];
     Memory.ScoutRemoteSource = [];
     Memory.ReserverRemoteSource = [];
     Memory.MinerRemoteSource = [];
@@ -45,6 +46,9 @@ function loop() {
                 default:
                     break;
             }
+        }
+        if (creep.memory.sourceID) {
+            Memory.lockSource.push(creep.memory.sourceID);
         }
         if (creep.memory.parentTaskRaw) {
             global.porterTasksTaken.push(creep.memory.parentTaskRaw);
@@ -81,7 +85,7 @@ function loop() {
 
         if (t) {
             t.work();
-            
+
             drawType(creep);
         }
     }
@@ -131,6 +135,6 @@ function drawType(creep: Creep) {
         color: '#2196F3',
         font: 0.3,
         stroke: '#000000',
-        strokeWidth: 0.05
+        strokeWidth: 0.05,
     });
 }
