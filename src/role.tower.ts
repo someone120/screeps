@@ -31,6 +31,9 @@ export default class towerExt extends StructureTower implements structure {
                     }) ||
                         it.body.find((it) => {
                             return it.type == WORK;
+                        }) ||
+                        it.body.find((it) => {
+                            return it.type == RANGED_ATTACK;
                         }))
                 );
             },
