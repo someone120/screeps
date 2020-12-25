@@ -1,6 +1,6 @@
 import { structure } from 'base';
 import { pushCarrierTask } from 'task.manager';
-import { filter } from 'whiteList';
+import { filter as filte } from 'whiteList';
 import { assignPrototype, requestEnergy, WHITE_LIST } from './utils';
 export default class towerExt extends StructureTower implements structure {
     public work(): void {
@@ -23,7 +23,15 @@ export default class towerExt extends StructureTower implements structure {
     private find(tower: StructureTower) {
         return tower.room.find(FIND_HOSTILE_CREEPS, {
             filter: (it) => {
-                return filter;
+                return (
+                    filte(it) &&
+                    (it.body.find((it) => {
+                        return it.type == ATTACK;
+                    }) ||
+                        it.body.find((it) => {
+                            return it.type == WORK;
+                        }))
+                );
             },
         });
     }
@@ -52,27 +60,23 @@ export default class towerExt extends StructureTower implements structure {
                 return creep.hitsMax - creep.hits > 0;
             },
         });
-        let hurtBuild = tower.room
-            .find(FIND_STRUCTURES, {
-                filter: (structure) => {
-                    return (
-                        structure.hits < 25000 &&
-                        structure.hitsMax - structure.hits > 0
-                    );
-                },
-            })
-            .sort((a, b) => {
-                return a.hitsMax - a.hits - (b.hitsMax - b.hits);
-            });
+        let hurtBuild = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+            filter: (structure) => {
+                return (
+                    structure.hits < 25000 &&
+                    structure.hitsMax - structure.hits > 0
+                );
+            },
+        });
         if (hurtCreep.length > 0) {
             tower.heal(hurtCreep[0]);
-        } else if (hurtBuild.length > 0) {
-            tower.repair(hurtBuild[0]);
+        } else if (hurtBuild) {
+            tower.repair(hurtBuild);
         }
     }
     private less(tower: StructureTower) {
         let attack = this.pos.findClosestByRange(FIND_HOSTILE_CREEPS, {
-            filter: filter,
+            filter: filte,
         });
         tower.attack(attack);
     }

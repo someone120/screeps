@@ -165,7 +165,7 @@ export function supply(creep: Creep): boolean {
         return false;
     }
     let target = Game.getObjectById(creep.memory.task.p[0]) as Structure;
-    if (!target.store) {
+    if (!target || !target.store) {
         return true;
     }
     if (
