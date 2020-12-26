@@ -1,7 +1,6 @@
 import { structure } from 'base';
-import { pushCarrierTask } from 'task.manager';
 import { filter as filte } from 'whiteList';
-import { assignPrototype, requestEnergy, WHITE_LIST } from './utils';
+import { assignPrototype, requestEnergy } from './utils';
 export default class towerExt extends StructureTower implements structure {
     public work(): void {
         this.check(this);
@@ -20,8 +19,14 @@ export default class towerExt extends StructureTower implements structure {
                 break;
         }
     }
-    private find(tower: StructureTower) {
-        return tower.room.find(FIND_HOSTILE_CREEPS, {
+    private find(tower: StructureTower): Creep {
+        if (
+            global.TowerTarget &&
+            Game.getObjectById(global.TowerTarget).room.name == tower.room.name
+        ) {
+            return Game.getObjectById(global.TowerTarget);
+        }
+        let result = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS, {
             filter: (it) => {
                 return (
                     filte(it) &&
@@ -38,15 +43,35 @@ export default class towerExt extends StructureTower implements structure {
                 );
             },
         });
+        global.TowerTarget = result.id;
+        return result;
     }
     private check(tower: StructureTower) {
         if (Game.time % 5 != 0) {
             return;
         }
         let creeps = this.find(tower);
-        if (creeps.length == 0) {
+        if (!creeps) {
             Memory['towerStat'] = 'normal';
-        } else if (creeps.length >= 4) {
+        } else if (
+            tower.room.find(FIND_HOSTILE_CREEPS, {
+                filter: (it) => {
+                    return (
+                        filte(it) &&
+                        it.pos.isOnEdge() &&
+                        (it.body.find((it) => {
+                            return it.type == ATTACK;
+                        }) ||
+                            it.body.find((it) => {
+                                return it.type == WORK;
+                            }) ||
+                            it.body.find((it) => {
+                                return it.type == RANGED_ATTACK;
+                            }))
+                    );
+                },
+            }).length >= 4
+        ) {
             Memory['towerStat'] = 'beAttack';
         } else {
             Memory['towerStat'] = 'less';
