@@ -7,11 +7,9 @@ import { Visualizer } from 'Visualizer';
 import { roles } from 'classes';
 import _ from 'lodash';
 
-module.exports.loop = require('debuger').warpLoop(
-    ErrorMapper.wrapLoop(() => {
-        loop();
-    })
-);
+module.exports.loop = ErrorMapper.wrapLoop(() => {
+    loop();
+});
 
 function loop() {
     Memory.type = {};

@@ -198,12 +198,15 @@ export function getQuote(RoomName: string): string {
     return '《ⁿᵉᵛᵉʳᵐⁱⁿᵈ》';
 }
 
-export function getSourceLink(): StructureLink {
-    return new RoomPosition(17, 7, 'W28S15')
-        .lookFor(LOOK_STRUCTURES)
-        .find((it) => {
+export function getSourceLink(
+    RoomName: string,
+    pos: RoomPosition
+): StructureLink {
+    return pos.findInRange(FIND_STRUCTURES, 1, {
+        filter: (it) => {
             return it.structureType == STRUCTURE_LINK;
-        }) as StructureLink;
+        },
+    })[0] as StructureLink;
 }
 export function getStorageLink(RoomName: string): StructureLink {
     return Game.getObjectById('5fbb9840b800f334cd02ab43');

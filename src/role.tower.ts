@@ -19,42 +19,12 @@ export default class towerExt extends StructureTower implements structure {
                 break;
         }
     }
-    private find(tower: StructureTower): Creep {
-        if (!global.TowerTarget) {
-            global.TowerTarget = {};
-        }
-        if (
-            global.TowerTarget[tower.room.name] &&
-            Game.getObjectById(global.TowerTarget[tower.room.name]).room.name ==
-                tower.room.name
-        ) {
-            return Game.getObjectById(global.TowerTarget[tower.room.name]);
-        }
-        let result = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS, {
-            filter: (it) => {
-                return (
-                    filte(it) &&
-                    it.pos.isOnEdge() &&
-                    (it.body.find((it) => {
-                        return it.type == ATTACK;
-                    }) ||
-                        it.body.find((it) => {
-                            return it.type == WORK;
-                        }) ||
-                        it.body.find((it) => {
-                            return it.type == RANGED_ATTACK;
-                        }))
-                );
-            },
-        });
-        global.TowerTarget[tower.room.name] = result.id;
-        return result;
-    }
+
     private check(tower: StructureTower) {
         if (Game.time % 5 != 0) {
             return;
         }
-        let creeps = this.find(tower);
+        let creeps = find(tower);
         if (!creeps) {
             Memory['towerStat'] = 'normal';
         } else if (
@@ -119,4 +89,36 @@ export default class towerExt extends StructureTower implements structure {
 }
 export function mountTower() {
     assignPrototype(StructureTower, towerExt);
+}
+export function find(tower: StructureTower): Creep {
+    if (!global.TowerTarget) {
+        global.TowerTarget = {};
+    }
+    if (
+        global.TowerTarget[tower.room.name] &&
+        Game.getObjectById(global.TowerTarget[tower.room.name]).room.name ==
+            tower.room.name
+    ) {
+        return Game.getObjectById(global.TowerTarget[tower.room.name]);
+    }
+    let result = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS, {
+        filter: (it) => {
+            return (
+                filte(it) &&
+                it.pos.isOnEdge() &&
+                it.body.find((it) => {
+                    return (
+                        it.type == WORK ||
+                        it.type == RANGED_ATTACK ||
+                        it.type == ATTACK ||
+                        it.type == CLAIM
+                    );
+                })
+            );
+        },
+    });
+    if (result) {
+        global.TowerTarget[tower.room.name] = result.id;
+        return result;
+    }
 }

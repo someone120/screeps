@@ -53,6 +53,9 @@ export default class spawnExt extends StructureSpawn implements structure {
                 this.spawning.setDirections([TOP]);
             }
         }
+        if (!Memory.spawnTask) {
+            Memory.spawnTask = {};
+        }
         if (!Memory.spawnTask[this.room.name]) {
             Memory.spawnTask[this.room.name] = [];
         }

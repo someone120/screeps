@@ -18,11 +18,20 @@ export class harvester extends Creep implements creepExt {
         } else if (mine == OK) {
             this.memory.standed = true;
             this.room.addRestrictedPos(this.name, this.pos);
-            if (this.room.controller.level >= 5) {
+            if (
+                this.room.controller.level >= 5 ||
+                getSourceLink(this.room.name, this.pos)
+            ) {
                 if (
-                    getSourceLink().store.getFreeCapacity(RESOURCE_ENERGY) > 0
+                    getSourceLink(
+                        this.room.name,
+                        this.pos
+                    ).store.getFreeCapacity(RESOURCE_ENERGY) > 0
                 ) {
-                    this.transfer(getSourceLink(), RESOURCE_ENERGY);
+                    this.transfer(
+                        getSourceLink(this.room.name, this.pos),
+                        RESOURCE_ENERGY
+                    );
                 }
                 const container = this.pos
                     .lookFor(LOOK_STRUCTURES)

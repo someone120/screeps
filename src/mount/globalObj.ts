@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { random } from 'lodash';
 import { pushCarrierTask, pushSpawnTask } from 'task.manager';
+import { find } from '../role.tower';
 import { buildRoad, encodee } from 'utils';
 import { add, remove } from 'whiteList';
 export default {
@@ -17,8 +18,9 @@ export default {
                 return;
             }
             Memory.spawnTask['Spawn1'].unshift(task);
-        }
+        },
     },
+    find: find,
     remote: {
         addPassRoom(roomName: string): boolean {
             if (!Memory.bypassRooms) Memory.bypassRooms = [];
@@ -31,7 +33,7 @@ export default {
         delPassRoom(roomName: string): boolean {
             if (!Memory.bypassRooms) Memory.bypassRooms = [];
             if (Memory.bypassRooms.includes(roomName)) {
-                _.pull(roomName)
+                _.pull(roomName);
                 return true;
             }
             return false;
@@ -63,12 +65,12 @@ export default {
                 );
                 Memory.spawnTask['Spawn1'].unshift(task);
             }
-        }
+        },
     },
     pushCarrierTaskk: pushCarrierTask,
     pushSpawnTaskk: pushSpawnTask,
-    WhiteList:{
-        add:add,
-        remove:remove
-    }
+    WhiteList: {
+        add: add,
+        remove: remove,
+    },
 };

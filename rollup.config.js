@@ -20,18 +20,18 @@ const pluginBeforeBuild =
               targets: [
                   {
                       src: 'dist/main.js',
-                      dest: config.copyPath
+                      dest: config.copyPath,
                   },
                   {
                       src: 'dist/main.js.map',
                       dest: config.copyPath,
                       rename: (name) => name + '.map.js',
                       transform: (contents) =>
-                          `module.exports = ${contents.toString()};`
-                  }
+                          `module.exports = ${contents.toString()};`,
+                  },
               ],
               hook: 'writeBundle',
-              verbose: true
+              verbose: true,
           })
         : // 更新 .map 到 .map.js 并上传
           screeps({ config, dryRun: !config });
@@ -41,17 +41,9 @@ export default {
     output: {
         file: 'dist/main.js',
         format: 'cjs',
-        sourcemap: true
+        sourcemap: true,
     },
     plugins: [
-        copy({
-            targets: [
-                {
-                    src: 'src/debuger.js',
-                    dest: 'dist/'
-                }
-            ]
-        }),
         // 清除上次编译成果
         clear({ targets: ['dist'] }),
         // 打包依赖
@@ -61,6 +53,6 @@ export default {
         // 编译 ts
         typescript({ tsconfig: './tsconfig.json' }),
         // 执行上传或者复制L
-        pluginBeforeBuild
-    ]
+        pluginBeforeBuild,
+    ],
 };
