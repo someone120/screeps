@@ -20,11 +20,15 @@ export default class towerExt extends StructureTower implements structure {
         }
     }
     private find(tower: StructureTower): Creep {
+        if (!global.TowerTarget) {
+            global.TowerTarget = {};
+        }
         if (
-            global.TowerTarget &&
-            Game.getObjectById(global.TowerTarget).room.name == tower.room.name
+            global.TowerTarget[tower.room.name] &&
+            Game.getObjectById(global.TowerTarget[tower.room.name]).room.name ==
+                tower.room.name
         ) {
-            return Game.getObjectById(global.TowerTarget);
+            return Game.getObjectById(global.TowerTarget[tower.room.name]);
         }
         let result = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS, {
             filter: (it) => {
@@ -43,7 +47,7 @@ export default class towerExt extends StructureTower implements structure {
                 );
             },
         });
-        global.TowerTarget = result.id;
+        global.TowerTarget[tower.room.name] = result.id;
         return result;
     }
     private check(tower: StructureTower) {

@@ -124,7 +124,7 @@ declare module NodeJS {
         porterTasksTaken: String[];
         // 是否已经挂载拓展
         hasExtension: boolean;
-        TowerTarget: Id<Creep>;
+        TowerTarget: { [RoomName: string]: Id<Creep> };
         // 全局的路径缓存
         // Creep 在执行远程寻路时会优先检查该缓存
         routeCache: {
