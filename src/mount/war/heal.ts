@@ -1,6 +1,6 @@
 import { creepExt } from '../../base';
 class healer extends Creep implements creepExt {
-    task: string;
+    
     type: Number = 11;
     work() {
         let follow = Game.creeps[this.memory.followName];

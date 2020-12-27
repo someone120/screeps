@@ -66,29 +66,33 @@ export function pushSpawnTask(
     }
 }
 const tasks: {
-    [TaskName: string]: { task: ((creep) => boolean)[]; paramLenget: number };
+    [TaskName: string]: {
+        task: ((creep: Creep) => boolean)[];
+        paramLenget: number;
+    };
 } = {
     TransferMineral: { task: [withdraw, transfer], paramLenget: 4 },
-    request: { task: [supply], paramLenget: 2 },
+    request: { task: [supply], paramLenget: 2 }
 };
 
 /** 转移资源
  * 需要两个参数，p[0]为目标，p[1]为需要的资源。
  */
 export function transfer(creep: Creep): boolean {
-    let obj = Game.getObjectById<Structure>(creep.memory.task.p[0]);
+    let obj = Game.getObjectById<Structure>(creep.memory.task!.p[0]);
     if (!obj || !obj.store) {
-        creep.memory.index--;
+        creep.memory.index!--;
         return true;
     }
     const result = creep.transfer(
         obj,
-        creep.memory.task.p[1] as ResourceConstant
+        creep.memory.task!.p[1] as ResourceConstant
     );
     if (
         result != ERR_NOT_IN_RANGE ||
-        obj.store.getFreeCapacity(creep.memory.task.p[1] as ResourceConstant) ==
-            0
+        obj.store.getFreeCapacity(
+            creep.memory.task!.p[1] as ResourceConstant
+        ) == 0
     ) {
         return true;
     }
@@ -100,12 +104,12 @@ export function transfer(creep: Creep): boolean {
  * 需要两个参数，p[0]为目标，p[1]为需要的资源。
  */
 export function withdraw(creep: Creep): boolean {
-    let obj = Game.getObjectById<Structure>(creep.memory.task.p[0]);
+    let obj = Game.getObjectById<Structure>(creep.memory.task!.p[0]);
     if (!obj || !obj.store) {
         return true;
     }
     if (
-        creep.withdraw(obj, creep.memory.task.p[1] as ResourceConstant) !=
+        creep.withdraw(obj, creep.memory.task!.p[1] as ResourceConstant) !=
         ERR_NOT_IN_RANGE
     ) {
         return true;
@@ -115,10 +119,10 @@ export function withdraw(creep: Creep): boolean {
 }
 
 export function prepare(creep: Creep): boolean {
-    let task = creep.memory.parentTaskRaw.split('/');
+    let task = creep.memory.parentTaskRaw!.split('/');
 
     creep.memory.parentTask = task.shift();
-    creep.memory.task = { type: creep.memory.parentTask, p: task };
+    creep.memory.task! = { type: creep.memory.parentTask!, p: task };
 
     return true;
 }
@@ -128,34 +132,38 @@ export function prepare(creep: Creep): boolean {
  * 在没有所需要的资源会自动寻找
  */
 export function supply(creep: Creep): boolean {
-    if (creep.store[creep.memory.task.p[1]] <= 0) {
+    if (creep.store[creep.memory.task!.p[1] as ResourceConstant] <= 0) {
         let target: StructureContainer | StructureStorage | Resource =
             creep.room.storage &&
-            creep.room.storage.store[creep.memory.task.p[1]] > 0
+            creep.room.storage.store[
+                creep.memory.task!.p[1] as ResourceConstant
+            ] > 0
                 ? creep.room.storage
                 : (creep.pos.findClosestByRange(FIND_STRUCTURES, {
                       filter: (it) => {
                           return (
                               it.structureType == STRUCTURE_CONTAINER &&
-                              it.store[creep.memory.task.p[1]] > 0
+                              it.store[
+                                  creep.memory.task!.p[1] as ResourceConstant
+                              ] > 0
                           );
-                      },
+                      }
                   }) as StructureContainer) ||
                   creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {
                       filter: (it) => {
-                          return it.resourceType == creep.memory.task.p[1];
-                      },
+                          return it.resourceType == creep.memory.task!.p[1];
+                      }
                   });
         if (target) {
             if (isContainer(target)) {
                 creep.withdraw(
                     target,
-                    creep.memory.task.p[1] as ResourceConstant
+                    creep.memory.task!.p[1] as ResourceConstant
                 );
             } else if (isStorage(target)) {
                 creep.withdraw(
                     target,
-                    creep.memory.task.p[1] as ResourceConstant
+                    creep.memory.task!.p[1] as ResourceConstant
                 );
             } else {
                 creep.pickup(target);
@@ -164,12 +172,12 @@ export function supply(creep: Creep): boolean {
         }
         return false;
     }
-    let target = Game.getObjectById(creep.memory.task.p[0]) as Structure;
+    let target = Game.getObjectById(creep.memory.task!.p[0]) as Structure;
     if (!target || !target.store) {
         return true;
     }
     if (
-        creep.transfer(target, creep.memory.task.p[1] as ResourceConstant) ==
+        creep.transfer(target, creep.memory.task!.p[1] as ResourceConstant) ==
         ERR_NOT_IN_RANGE
     ) {
         creep.goTo(target.pos);
@@ -183,11 +191,11 @@ export function doing(creep: Creep) {
     if (!creep.memory.parentTaskRaw) {
         return;
     }
-    if (!creep.memory.parentTask || !creep.memory.task) {
+    if (!creep.memory.parentTask || !creep.memory.task!) {
         prepare(creep);
         // if (
-        //     creep.memory.task.p.length !=
-        //     tasks[creep.memory.parentTask].paramLenget
+        //     creep.memory.task!.p.length !=
+        //     tasks[creep.memory.parentTask!].paramLenget
         // ) {
         //     Game.notify(`获取到的参数和所需要的不同！
         //     RAW：${creep.memory.parentTaskRaw}`);
@@ -195,12 +203,12 @@ export function doing(creep: Creep) {
         //         creep.memory.parentTaskRaw
         //     );
         //     console.log(
-        //         `${creep.name} ${creep.memory.parentTaskRaw} ${creep.memory.task.p}`
+        //         `${creep.name} ${creep.memory.parentTaskRaw} ${creep.memory.task!.p}`
         //     );
 
         //     if (index != -1) global.porterTasksTaken.splice(index, 1);
         //     creep.memory.parentTask = null;
-        //     creep.memory.task = null;
+        //     creep.memory.task! = null;
         //     creep.memory.parentTaskRaw = null;
         // }
         // return;
@@ -211,11 +219,11 @@ export function doing(creep: Creep) {
     }
     //获取到的参数数不符合所需要的参数数就清除并log
     if (
-        tasks[creep.memory.parentTask] &&
-        tasks[creep.memory.parentTask].task[creep.memory.index]
+        tasks[creep.memory.parentTask!] &&
+        tasks[creep.memory.parentTask!].task[creep.memory.index]
     ) {
-        if (tasks[creep.memory.parentTask].task[creep.memory.index](creep)) {
-            creep.memory.task.p.shift();
+        if (tasks[creep.memory.parentTask!].task[creep.memory.index](creep)) {
+            creep.memory.task!.p.shift();
 
             creep.memory.index++;
         }

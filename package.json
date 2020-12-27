@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "rollup -cw --environment DEST:main",
+    "start": "rollup -cw --environment DEST:main&&rollup -cw --environment DEST:small",
     "local": "rollup -cw --environment DEST:local",
     "build": "rollup -cw",
-    "once": "rollup -c --environment DEST:main",
+    "once": "rollup -c --environment DEST:main&&rollup -c --environment DEST:small",
     "test": "npm run test-unit",
     "test-unit": "rollup -c rollup.test-unit-config.ts && mocha dist/test-unit.bundle.js"
   },

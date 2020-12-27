@@ -2,7 +2,7 @@ import { getSourceFlags } from 'utils';
 import { creepExt } from 'base';
 import { object } from 'lodash';
 export class builder extends Creep implements creepExt {
-    task: string;
+    
     type: Number = 1;
     /** @param {Creep} this **/
     work() {
@@ -73,11 +73,11 @@ export class builder extends Creep implements creepExt {
             if (Game.rooms[this.memory['roomID']].storage) {
                 if (
                     this.withdraw(
-                        Game.rooms[this.memory['roomID']].storage,
+                        Game.rooms[this.memory['roomID']].storage!,
                         RESOURCE_ENERGY
                     ) == ERR_NOT_IN_RANGE
                 ) {
-                    this.goTo(Game.rooms[this.memory['roomID']].storage.pos);
+                    this.goTo(Game.rooms[this.memory['roomID']].storage!.pos);
                 }
             }
         }

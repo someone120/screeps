@@ -1,12 +1,11 @@
 import { creepExt } from 'base';
 
 export class Mineraler extends Creep implements creepExt {
-    task: string;
     type: Number = 10;
     work(): void {
         if (
             Game.rooms[this.memory.roomID].controller &&
-            Game.rooms[this.memory.roomID].controller.level >= 6
+            Game.rooms[this.memory.roomID].controller!.level >= 6
         ) {
             let mineral = this.room.find(FIND_MINERALS);
             const result = this.harvest(mineral[0]);

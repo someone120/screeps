@@ -1,7 +1,7 @@
 import { creepExt } from 'base';
 import { getSourceFlags } from 'utils';
 export class Repairer extends Creep implements creepExt {
-    task: string;
+
     type: Number = 4;
     work() {
         let flag = getSourceFlags();
@@ -32,7 +32,7 @@ export class Repairer extends Creep implements creepExt {
                     const source1 = this.pos.findClosestByRange(
                         FIND_DROPPED_RESOURCES
                     );
-                    if (this.pickup(source1) == ERR_NOT_IN_RANGE) {
+                    if (source1&&this.pickup(source1) == ERR_NOT_IN_RANGE) {
                         this.goTo(source1.pos);
                     }
                 }

@@ -71,7 +71,7 @@ export default class PositionExtension extends RoomPosition {
         return result;
     }
     public intersection(...p: RoomPosition[][]): RoomPosition[] {
-        let result = [];
+        let result:RoomPosition[] = [];
         for (const i of p) {
             for (const j of p) {
                 if (i == j) continue;
@@ -85,7 +85,7 @@ export default class PositionExtension extends RoomPosition {
     }
 }
 function unique(origin: RoomPosition[]) {
-    let temp = {};
+    let temp:{[a:number]:boolean} = {};
     return origin
         .reverse()
         .filter((item) =>

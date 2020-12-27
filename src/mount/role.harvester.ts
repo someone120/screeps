@@ -3,14 +3,15 @@ import { pushSpawnTask } from 'task.manager';
 import { getSourceLink } from 'utils';
 // import { getSourceLink } from 'utils';
 //获取energy
-export class harvester extends Creep implements creepExt {
-    task: string;
+export class harvester extends Creep implements creepExt {;
     type: Number = 0;
     work() {
+        if (!this.memory.sourceID) {
+            this.memory.sourceID = this.room.sources[0].id;
+        }
         let target = Game.getObjectById<Source>(this.memory.sourceID);
         if (!target) {
-            this.memory.sourceID = this.room.sources[0].id;
-            target = this.room.sources[0];
+            return
         }
         const mine = this.harvest(target);
         if (mine == ERR_NOT_IN_RANGE) {
@@ -19,7 +20,7 @@ export class harvester extends Creep implements creepExt {
             this.memory.standed = true;
             this.room.addRestrictedPos(this.name, this.pos);
             if (
-                this.room.controller.level >= 5 ||
+                this.room.controller!.level >= 5 ||
                 getSourceLink(this.room.name, this.pos)
             ) {
                 if (
@@ -70,7 +71,7 @@ export class harvester extends Creep implements creepExt {
                 }
             }
         }
-        if (this.ticksToLive < 300) {
+        if (this.ticksToLive&&this.ticksToLive < 300) {
             this.room.removeRestrictedPos(this.name);
             let available = this.room.energyCapacityAvailable;
             if (available >= 10000) {
@@ -109,9 +110,9 @@ export class harvester extends Creep implements creepExt {
             Memory.spawnTask[this.room.name].unshift(task);
             this.memory.isSend = true;
         }
-        if (this.ticksToLive < 10) {
+        if (this.ticksToLive&&this.ticksToLive < 10) {
             this.room.unlockSource(
-                Game.getObjectById<Source>(this.memory.sourceID)
+                this.memory.sourceID as Id<Source>
             );
         }
         if (this.store.getFreeCapacity(RESOURCE_ENERGY) == 0) {

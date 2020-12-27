@@ -1,16 +1,19 @@
 interface Memory {
+    stats: any;
     rooms: {
         [roomName: string]: RoomMemory;
     };
+    destoryNext?: string;
     bypassRooms: string[];
     lockSource: string[];
+    towerStat: string;
     freeSpaceCount: any;
     porterTasker: { [name: string]: string[] };
     spawnTask: { [name: string]: string[] };
     ReserverRemoteSource: string[];
     MinerRemoteSource: string[];
     ScoutRemoteSource: string[];
-    lessWallId: { [roomName: string]: { id: Id<StructureWall>; ttl: number } };
+    lessWallId?: { [roomName: string]: { id: Id<StructureWall>; ttl: number } };
     type: { [name: string]: number[] };
     beScoutRoom: string[];
     WHITE_LIST: string[];
@@ -23,13 +26,13 @@ interface posExt {
 }
 
 interface Room {
-    findUnlockSource(id: Source[]): Source;
-    unlockSource(id: Source);
-    lockSource(id: Source);
+    findUnlockSource(id: Id<Source>[]): Id<Source>|undefined;
+    unlockSource(id: Id<Source>): void;
+    lockSource(id: Id<Source>): void;
     addRestrictedPos(creepName: string, pos: RoomPosition): void;
     removeRestrictedPos(creepName: string): void;
-    unserializePos(arg0: any);
-    getRestrictedPos();
+    unserializePos(posStr: string): RoomPosition | undefined;
+    getRestrictedPos(): { [creepName: string]: string };
     serializePos(pos: RoomPosition): string;
     sources: Source[];
 }
@@ -41,6 +44,7 @@ interface Structure {
 interface CreepMemory {
     parentTaskRaw?: string;
     sourceID?: string;
+    building?:boolean
     protectRoomId?: string;
     type: number;
     remoteSource?: boolean;
@@ -53,7 +57,7 @@ interface CreepMemory {
     prePos?: string;
     farMove?: {
         // 序列化之后的路径信息
-        path?: string;
+        path?: string|null;
         // 移动索引，标志 creep 现在走到的第几个位置
         index?: number;
         // 上一个位置信息，形如"14/4"，用于在 creep.move 返回 OK 时检查有没有撞墙
@@ -120,7 +124,8 @@ interface PowerCreep {
 declare module NodeJS {
     // 全局对象
     interface Global {
-        spawnTask: { [spawnName: string]: string };
+        RemoteFlag?: string[];
+        spawnTask?: { [spawnName: string]: string | undefined };
         porterTasksTaken: String[];
         // 是否已经挂载拓展
         hasExtension: boolean;

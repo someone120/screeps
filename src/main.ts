@@ -77,8 +77,8 @@ function loop() {
         if (creep.memory.type == -1) {
             continue;
         }
-        let t: creepExt = roles[creep.memory.type]
-            ? new roles[creep.memory.type](creep.id)
+        let t: creepExt | null = roles[creep.memory.type]
+            ? new roles[creep.memory.type]!(creep.id)
             : null;
 
         if (t) {
@@ -103,9 +103,6 @@ function loop() {
     // console.log(JSON.stringify(path));
     Visualizer.visuals();
     stateScanner();
-    if (Game.time % 10000 == 0) {
-        Game.cpu.halt();
-    }
 }
 
 /**
@@ -128,7 +125,7 @@ function autoClean() {
     }
 }
 function drawType(creep: Creep) {
-    let text = roles[creep.memory.type].name || '我也不懂';
+    let text = roles[creep.memory.type]!.name || '我也不懂';
     creep.room.visual.text(text, creep.pos.x, creep.pos.y + 0.5, {
         color: '#2196F3',
         font: 0.3,

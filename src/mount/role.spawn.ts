@@ -4,7 +4,7 @@ import {
     getScoutFirstAvailableFlag,
     setMinerUnavailableFlag,
     setReserverUnavailableFlag,
-    setScoutUnavailableFlag,
+    setScoutUnavailableFlag
 } from 'flag';
 import { pushCarrierTask, pushSpawnTask } from '../task.manager';
 import { getSourceFlags, requestEnergy } from 'utils';
@@ -65,26 +65,20 @@ export default function(spawn: StructureSpawn) {
 
         if (Porter < PorterNumber) {
             pushCarrier(available, spawn);
-
-            spawn.memory['send'] = true;
         }
         if (miners < spawn.room.sources.length) {
             pushHarvester(available, spawn);
-            spawn.memory['send'] = true;
         }
         if (builder < 2) {
             pushBuilder(available, spawn);
-            spawn.memory['send'] = true;
         }
         if (healer < 2) {
             pushRepairer(available, spawn);
-            spawn.memory['send'] = true;
         }
         if (Keeper < KeeperNumber) {
             pushUpgrader(available, spawn);
-            spawn.memory['send'] = true;
         }
-        if (energyTransfer < 1 && spawn.room.controller.level >= 6) {
+        if (energyTransfer < 1 && spawn.room.controller!.level >= 6) {
             let task = `energyTransfer ${available}`;
             if (!Memory.spawnTask[spawn.room.name]) {
                 Memory.spawnTask[spawn.room.name] = [];
@@ -108,7 +102,7 @@ export default function(spawn: StructureSpawn) {
             let flag = getMinerFirstAvailableFlag();
             if (flag) {
                 pushRemoteMiner(available, flag, spawn);
-                spawn.memory['send'] = true;
+
                 setMinerUnavailableFlag(flag);
             }
         }
@@ -123,13 +117,12 @@ export default function(spawn: StructureSpawn) {
             let flag = getReserverFirstAvailableFlag();
             if (flag) {
                 pushReserver(available, flag, spawn);
-                spawn.memory['send'] = true;
+
                 setReserverUnavailableFlag(flag);
             }
         }
         if (remoteCarrier < getSourceFlags().length * 3 && spawn.room.storage) {
             pushRemoteCarrier(available, spawn.room.storage.id, spawn);
-            spawn.memory['send'] = true;
         }
 
         // if (scout < Object.keys(Game.flags).length) {
@@ -145,7 +138,7 @@ export default function(spawn: StructureSpawn) {
         //         spawn.room.name
         //     );
         // }
-        if (spawn.room.controller.level >= 6 && MineralCreep < 1) {
+        if (spawn.room.controller!.level >= 6 && MineralCreep < 1) {
             pushSpawnTask(`Mineraler ${available}`, spawn.room.name);
         }
         if (getSourceFlags() && Protectors < getSourceFlags().length) {
@@ -171,7 +164,11 @@ function pushRemoteCarrier(i: Number, storage: string, spawn: StructureSpawn) {
     pushSpawnTask(`RemoteCarrier ${i} ${storage}`, spawn.room.name);
 }
 function pushHarvester(i: Number, spawn: StructureSpawn) {
-    const freeSource = spawn.room.findUnlockSource(spawn.room.sources);
+    const freeSource = spawn.room.findUnlockSource(
+        spawn.room.sources.map((it) => {
+            return it.id;
+        })
+    );
     if (!freeSource) {
         return;
     }
@@ -184,7 +181,7 @@ function pushHarvester(i: Number, spawn: StructureSpawn) {
     if (!global['spawnTask']) {
         global['spawnTask'] = {};
     }
-    let task = `Harvester ${i} ${freeSource.id}`;
+    let task = `Harvester ${i} ${freeSource}`;
     if (
         Memory.spawnTask[spawn.room.name].includes(task) ||
         _.map(global.spawnTask, 'spawnName').includes(task)

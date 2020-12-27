@@ -38,17 +38,14 @@ export default class spawnExt extends StructureSpawn implements structure {
         ) {
             Memory.type[this.room.name] = Array(12).fill(0);
         }
-        if (!global['spawnEnd']) {
-            global['spawnEnd'] = {};
-        }
         if (!this.spawning) {
-            this.memory['time'] = -1;
+            this.memory.time = -1;
         }
         if (this.spawning) {
-            if (!this.memory['time'] || this.memory['time'] == -1) {
-                this.memory['time'] = this.spawning.needTime + Game.time + 5;
+            if (!this.memory.time || this.memory.time == -1) {
+                this.memory.time = this.spawning.needTime + Game.time + 5;
             }
-            if (this.memory['time'] < Game.time) {
+            if (this.memory.time < Game.time) {
                 Memory['destoryNext'] = this.spawning.name;
                 this.spawning.setDirections([TOP]);
             }
@@ -59,15 +56,14 @@ export default class spawnExt extends StructureSpawn implements structure {
         if (!Memory.spawnTask[this.room.name]) {
             Memory.spawnTask[this.room.name] = [];
         }
-        if (!global['spawnTask']) {
-            global['spawnTask'] = {};
+        if (!global.spawnTask) {
+            global.spawnTask = {};
         }
-        if (!global['spawnTask'][this.name]) {
-            global['spawnTask'][this.name] = getTask(
-                Memory.spawnTask[this.room.name]
-            );
+        if (!global.spawnTask[this.name]) {
+            const newLocal = getTask(Memory.spawnTask[this.room.name]);
+            global.spawnTask[this.name] = newLocal;
         } else {
-            const type = global['spawnTask'][this.name].split(' ');
+            const type = global.spawnTask[this.name]!.split(' ');
             if (
                 ((Memory.type[this.room.name][0] <= 0 ||
                     Memory.type[this.room.name][2] <= 0) &&
@@ -76,28 +72,28 @@ export default class spawnExt extends StructureSpawn implements structure {
                 type[0] == 'Reserver'
             ) {
                 // 挺简单的，是吧？
-                delete global['spawnTask'][this.name];
+                delete global.spawnTask[this.name];
 
-                global['spawnTask'][this.name] = getTask(
+                global.spawnTask[this.name] = getTask(
                     Memory.spawnTask[this.room.name]
                 );
             }
             const result = parseTask(
-                global['spawnTask'][this.name],
+                global.spawnTask[this.name]!,
                 this,
                 this.room.name
             );
             if (result == OK) {
-                delete global['spawnTask'][this.name];
+                delete global.spawnTask[this.name];
             }
             this.room.visual.text(
-                global['spawnTask'][this.name],
+                global.spawnTask[this.name]!,
                 this.pos.x,
                 this.pos.y - 0.5,
                 {
                     font: 0.3,
                     stroke: '#000000',
-                    strokeWidth: 0.05,
+                    strokeWidth: 0.05
                 }
             );
             if (this.spawning) {
@@ -114,7 +110,7 @@ export default class spawnExt extends StructureSpawn implements structure {
                         font: 0.3,
                         stroke: '#000000',
                         strokeWidth: 0.05,
-                        align: 'left',
+                        align: 'left'
                     }
                 );
             }
@@ -137,17 +133,18 @@ function spawnNewHarvester(
     sourceID: string
 ): Number {
     let result = spawn.spawnCreep(
-        bodySet.harvester[i + ''],
+        bodySet.harvester[
+            i as 300 | 550 | 800 | 1300 | 1800 | 2300 | 5600 | 10000
+        ],
         `Miner@${Game.time}`,
         {
-            memory: { type: 0, roomID: roomID, sourceID: sourceID },
+            memory: { type: 0, roomID: roomID, sourceID: sourceID }
         }
     );
-    if (result == OK) {
-        spawn.memory['send'] = false;
-        console.log(`[SPAWN]采集者 Miner@${Game.time} 对应矿点 ${sourceID}`);
-        spawn.room.lockSource(Game.getObjectById<Source>(sourceID));
-    }
+
+    console.log(`[SPAWN]采集者 Miner@${Game.time} 对应矿点 ${sourceID}`);
+    spawn.room.lockSource(sourceID as Id<Source>);
+
     return result;
 }
 function spawnNewBuilder(
@@ -156,15 +153,14 @@ function spawnNewBuilder(
     roomID: string
 ): Number {
     let result = spawn.spawnCreep(
-        bodySet.worker[i + ''],
+        bodySet.worker[
+            i as 300 | 550 | 800 | 1300 | 1800 | 2300 | 5600 | 10000
+        ],
         `Builder@${Game.time}`,
         {
-            memory: { type: 4, roomID: roomID },
+            memory: { type: 4, roomID: roomID }
         }
     );
-    if (result == OK) {
-        spawn.memory['send'] = false;
-    }
     return result;
 }
 function spawnNewCarrier(
@@ -173,15 +169,14 @@ function spawnNewCarrier(
     roomID: string
 ): Number {
     let result = spawn.spawnCreep(
-        bodySet.manager[i + ''],
+        bodySet.manager[
+            i as 300 | 550 | 800 | 1300 | 1800 | 2300 | 5600 | 10000
+        ],
         `Carrier@${Game.time}`,
         {
-            memory: { type: 2, roomID: roomID },
+            memory: { type: 2, roomID: roomID }
         }
     );
-    if (result == OK) {
-        spawn.memory['send'] = false;
-    }
     return result;
 }
 function spawnNewReserver(
@@ -191,15 +186,14 @@ function spawnNewReserver(
     flagName: string
 ): Number {
     let result = spawn.spawnCreep(
-        bodySet.reserver[i + ''],
+        bodySet.reserver[
+            i as 300 | 550 | 800 | 1300 | 1800 | 2300 | 5600 | 10000
+        ],
         `reserver@${Game.time}`,
         {
-            memory: { type: 6, roomID: roomID, flagName: flagName },
+            memory: { type: 6, roomID: roomID, flagName: flagName }
         }
     );
-    if (result == OK) {
-        spawn.memory['send'] = false;
-    }
     return result;
 }
 function spawnNewRemoteMiner(
@@ -209,15 +203,14 @@ function spawnNewRemoteMiner(
     flagName: string
 ): Number {
     let result = spawn.spawnCreep(
-        bodySet.remoteHarvester[i + ''],
+        bodySet.remoteHarvester[
+            i as 300 | 550 | 800 | 1300 | 1800 | 2300 | 5600 | 10000
+        ],
         `RemoteMiner@${Game.time}`,
         {
-            memory: { type: 5, roomID: roomID, flagName: flagName },
+            memory: { type: 5, roomID: roomID, flagName: flagName }
         }
     );
-    if (result == OK) {
-        spawn.memory['send'] = false;
-    }
     return result;
 }
 function spawnNewRemoteCarrier(
@@ -226,15 +219,14 @@ function spawnNewRemoteCarrier(
     roomID: string
 ): Number {
     let result = spawn.spawnCreep(
-        bodySet.manager[i + ''],
+        bodySet.manager[
+            i as 300 | 550 | 800 | 1300 | 1800 | 2300 | 5600 | 10000
+        ],
         `RemoteCarrier@${Game.time}`,
         {
-            memory: { type: 7, roomID: roomID },
+            memory: { type: 7, roomID: roomID }
         }
     );
-    if (result == OK) {
-        spawn.memory['send'] = false;
-    }
     return result;
 }
 function spawnNewUpgrader(
@@ -243,22 +235,25 @@ function spawnNewUpgrader(
     roomID: string
 ): Number {
     let result = spawn.spawnCreep(
-        bodySet.upgrader[i + ''],
+        bodySet.upgrader[
+            i as 300 | 550 | 800 | 1300 | 1800 | 2300 | 5600 | 10000
+        ],
         `Upgrader@${Game.time}`,
         {
-            memory: { type: 3, roomID: roomID },
+            memory: { type: 3, roomID: roomID }
         }
     );
-    if (result == OK) {
-        spawn.memory['send'] = false;
-    }
     return result;
 }
-function getTask(tasks: string[]): string {
+function getTask(tasks: string[]): string | undefined {
     return tasks.shift();
 }
-function parseTask(tasks: string, spawn: StructureSpawn, roomID): Number {
-    let result: Number;
+function parseTask(
+    tasks: string,
+    spawn: StructureSpawn,
+    roomID: string
+): Number {
+    let result: Number | undefined;
     let split = tasks.split(' ');
     if (!spawn.spawning) {
         switch (split[0]) {
@@ -307,61 +302,82 @@ function parseTask(tasks: string, spawn: StructureSpawn, roomID): Number {
                 break;
             case 'energyTransfer':
                 result = spawn.spawnCreep(
-                    bodySet.manager[split[1]],
+                    bodySet.manager[
+                        parseInt(split[1]) as
+                            | 300
+                            | 550
+                            | 800
+                            | 1300
+                            | 1800
+                            | 2300
+                            | 5600
+                            | 10000
+                    ],
                     `energyTransfer@${Game.time}`,
                     {
                         memory: { type: 8, roomID: roomID },
-                        directions: [BOTTOM],
+                        directions: [BOTTOM]
                     }
                 );
                 break;
-            case 'Scout':
-                let d: {
-                    pos: posExt;
-                    remoteSource: boolean;
-                    flagName?: string;
-                };
-                if (split[2]) {
-                    d = JSON.parse(split[2]);
-                }
-                result = spawn.spawnCreep([MOVE], `Scout@${Game.time}`, {
-                    memory: {
-                        type: 9,
-                        roomID: roomID,
-                        pos: d.pos,
-                        remoteSource: d.remoteSource,
-                        flagName: d.flagName,
-                    },
-                });
-                break;
             case 'Mineraler':
                 result = spawn.spawnCreep(
-                    bodySet.worker[split[1]],
+                    bodySet.worker[
+                        parseInt(split[1]) as
+                            | 300
+                            | 550
+                            | 800
+                            | 1300
+                            | 1800
+                            | 2300
+                            | 5600
+                            | 10000
+                    ],
                     `Mineraler@${Game.time}`,
                     {
-                        memory: { type: 10, roomID: roomID },
+                        memory: { type: 10, roomID: roomID }
                     }
                 );
                 break;
             case 'WallPainter':
                 result = spawn.spawnCreep(
-                    bodySet.worker[split[1]],
+                    bodySet.worker[
+                        parseInt(split[1]) as
+                            | 300
+                            | 550
+                            | 800
+                            | 1300
+                            | 1800
+                            | 2300
+                            | 5600
+                            | 10000
+                    ],
                     `WallPainter@${Game.time}`,
                     {
-                        memory: { type: 11, roomID: roomID },
+                        memory: { type: 11, roomID: roomID }
                     }
                 );
                 break;
             case 'Protector':
                 result = spawn.spawnCreep(
-                    bodySet.attacker[split[1]],
+                    bodySet.attacker[
+                        parseInt(split[1]) as
+                            | 300
+                            | 550
+                            | 800
+                            | 1300
+                            | 1800
+                            | 2300
+                            | 5600
+                            | 10000
+                    ],
                     `Protector@${Game.time}`,
                     {
                         memory: {
                             type: 12,
                             roomID: roomID,
-                            protectRoomId: split[2],
-                        },
+                            protectRoomId: split[2]
+                        }
                     }
                 );
                 break;
@@ -369,7 +385,7 @@ function parseTask(tasks: string, spawn: StructureSpawn, roomID): Number {
     } else {
         result = ERR_BUSY;
     }
-    return result;
+    return result || OK;
 }
 export function mountSpawn() {
     assignPrototype(StructureSpawn, spawnExt);

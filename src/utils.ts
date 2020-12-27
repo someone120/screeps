@@ -33,10 +33,11 @@ export function getBodyConfig(
         1800: [],
         2300: [],
         5600: [],
-        10000: [],
+        10000: []
     };
     // 遍历空配置项，用传入的 bodySet 依次生成配置项
     Object.keys(config).map((level, index) => {
+        //@ts-ignore
         config[level] = calcBodyPart(bodySets[index]);
     });
 
@@ -47,9 +48,11 @@ export function calcBodyPart(bodySet: BodySet): BodyPartConstant[] {
     // 把身体配置项拓展成如下形式的二维数组
     // [ [ TOUGH ], [ WORK, WORK ], [ MOVE, MOVE, MOVE ] ]
     const bodys = Object.keys(bodySet).map((type) =>
+        //@ts-ignore
         Array(bodySet[type]).fill(type)
     );
     // 把二维数组展平
+    //@ts-ignore
     return [].concat(...bodys);
 }
 export function getOppositeDirection(
@@ -66,7 +69,7 @@ export const assignPrototype = function(
             Object.defineProperty(obj1.prototype, key.split('Getter')[0], {
                 get: obj2.prototype[key],
                 enumerable: false,
-                configurable: true,
+                configurable: true
             });
         } else obj1.prototype[key] = obj2.prototype[key];
     });
@@ -76,17 +79,17 @@ export function stateScanner() {
     // 每 20 tick 运行一次
     if (Game.time % 10) return;
 
-    if (!Memory['stats']) Memory['stats'] = {};
+    if (!Memory.stats) Memory.stats = {};
 
     // 统计 GCL / GPL 的升级百分比和等级
-    Memory['stats'].gcl = (Game.gcl.progress / Game.gcl.progressTotal) * 100;
-    Memory['stats'].gclLevel = Game.gcl.level;
-    Memory['stats'].gpl = (Game.gpl.progress / Game.gpl.progressTotal) * 100;
-    Memory['stats'].gplLevel = Game.gpl.level;
+    Memory.stats.gcl = (Game.gcl.progress / Game.gcl.progressTotal) * 100;
+    Memory.stats.gclLevel = Game.gcl.level;
+    Memory.stats.gpl = (Game.gpl.progress / Game.gpl.progressTotal) * 100;
+    Memory.stats.gplLevel = Game.gpl.level;
     // CPU 的当前使用量
-    Memory['stats'].cpu = Game.cpu.getUsed();
+    Memory.stats.cpu = Game.cpu.getUsed();
     // bucket 当前剩余量
-    Memory['stats'].bucket = Game.cpu.bucket;
+    Memory.stats.bucket = Game.cpu.bucket;
 }
 
 export function requestEnergy(
@@ -106,14 +109,14 @@ export function requestEnergy(
  * 检测是不是Container
  * @param target 目标
  */
-export function isContainer(target): target is StructureContainer {
+export function isContainer(target: AnyStructure): target is StructureContainer {
     return target.structureType && target.structureType == STRUCTURE_CONTAINER;
 }
 /**
  * 检测是不是Storage
  * @param target 目标
  */
-export function isStorage(target): target is StructureStorage {
+export function isStorage(target:AnyStructure): target is StructureStorage {
     return target.structureType && target.structureType == STRUCTURE_STORAGE;
 }
 export function buildRoad(from: RoomPosition, to: RoomPosition) {
@@ -121,6 +124,7 @@ export function buildRoad(from: RoomPosition, to: RoomPosition) {
         from,
         { pos: to, range: 1 },
         {
+        //@ts-ignore
             roomCallback: (roomName) => {
                 let room = Game.rooms[roomName];
                 if (!room) return;
@@ -155,7 +159,7 @@ export function buildRoad(from: RoomPosition, to: RoomPosition) {
                     }
                 });
                 return costs;
-            },
+            }
         }
     );
     for (const i in path.path) {
@@ -172,17 +176,17 @@ export function encodee(text: string): string {
 
 export function getSourceFlags(): Flag[] {
     let result = [];
-    if (global['RemoteFlag']) {
-        global['RemoteFlag'].forEach((v) => {
+    if (global.RemoteFlag) {
+        global.RemoteFlag.forEach((v) => {
             result.push(Game.flags[v]);
         });
     } else {
-        global['RemoteFlag'] = [];
+        global.RemoteFlag = [];
         for (const key in Game.flags) {
             if (Object.prototype.hasOwnProperty.call(Game.flags, key)) {
                 const element = Game.flags[key];
                 if (element.name.split('_')[0] == 'RemoteSource') {
-                    global['RemoteFlag'].push(key);
+                    global.RemoteFlag.push(key);
                     result.push(element);
                 }
             }
@@ -191,7 +195,7 @@ export function getSourceFlags(): Flag[] {
     return result;
 }
 export function cleanCache() {
-    global['RemoteFlag'] = undefined;
+    global.RemoteFlag = undefined;
 }
 
 export function getQuote(RoomName: string): string {
@@ -205,9 +209,9 @@ export function getSourceLink(
     return pos.findInRange(FIND_STRUCTURES, 1, {
         filter: (it) => {
             return it.structureType == STRUCTURE_LINK;
-        },
+        }
     })[0] as StructureLink;
 }
-export function getStorageLink(RoomName: string): StructureLink {
+export function getStorageLink(RoomName: string): StructureLink | null {
     return Game.getObjectById('5fbb9840b800f334cd02ab43');
 }

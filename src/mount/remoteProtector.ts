@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { filter } from 'whiteList';
 import { creepExt } from 'base';
 import { unlockRoom } from './cache/room/protect';
@@ -48,6 +49,6 @@ export class remoteProtector extends Creep implements creepExt {
             this.heal(this);
         }
     }
-    task: string;
+    
     type: Number = 12;
 }

@@ -31,25 +31,25 @@ class RoomExt extends Room {
         return source._freeSpaceCount;
     }
 
-    lockSource(id: Source) {
-        if (!Memory.lockSource.includes(id.id)) {
-            Memory.lockSource.push(id.id);
+    lockSource(id: Id<Source>) {
+        if (!Memory.lockSource.includes(id)) {
+            Memory.lockSource.push(id);
         }
     }
 
-    unlockSource(id: Source) {
-        if (Memory.lockSource.includes(id.id)) {
-            _.pull(Memory.lockSource, id.id);
+    unlockSource(id: Id<Source>) {
+        if (Memory.lockSource.includes(id)) {
+            _.pull(Memory.lockSource, id);
         }
     }
 
-    findUnlockSource(ids: Source[]): Source {
+    findUnlockSource(ids: Id<Source>[]): Id<Source>|undefined {
         if (!Memory.lockSource) {
             Memory.lockSource = [];
             return undefined;
         }
         for (const id of ids) {
-            if (!Memory.lockSource.includes(id.id)) {
+            if (!Memory.lockSource.includes(id)) {
                 return id;
             }
         }

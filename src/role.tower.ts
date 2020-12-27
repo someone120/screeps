@@ -4,7 +4,7 @@ import { assignPrototype, requestEnergy } from './utils';
 export default class towerExt extends StructureTower implements structure {
     public work(): void {
         this.check(this);
-        switch (Memory['towerStat']) {
+        switch (Memory.towerStat) {
             case 'beAttack':
                 this.more(this);
                 break;
@@ -26,13 +26,13 @@ export default class towerExt extends StructureTower implements structure {
         }
         let creeps = find(tower);
         if (!creeps) {
-            Memory['towerStat'] = 'normal';
+            Memory.towerStat = 'normal';
         } else if (
             tower.room.find(FIND_HOSTILE_CREEPS, {
                 filter: (it) => {
                     return (
                         filte(it) &&
-                        it.pos.isOnEdge() &&
+                        !it.pos.isOnEdge() &&
                         (it.body.find((it) => {
                             return it.type == ATTACK;
                         }) ||
@@ -49,9 +49,6 @@ export default class towerExt extends StructureTower implements structure {
             Memory['towerStat'] = 'beAttack';
         } else {
             Memory['towerStat'] = 'less';
-        }
-        if (Game.time % 50 == 0) {
-            global[`towerRequest${tower.id}`] = false;
         }
         if (tower.store.getFreeCapacity(RESOURCE_ENERGY) > 10) {
             requestEnergy(this.id, this.room.name, true);
@@ -78,10 +75,8 @@ export default class towerExt extends StructureTower implements structure {
         }
     }
     private less(tower: StructureTower) {
-        let attack = this.pos.findClosestByRange(FIND_HOSTILE_CREEPS, {
-            filter: filte,
-        });
-        tower.attack(attack);
+        let target = find(tower);
+        if (target) tower.attack(target);
     }
     private more(tower: StructureTower) {
         this.less(tower);
@@ -90,16 +85,17 @@ export default class towerExt extends StructureTower implements structure {
 export function mountTower() {
     assignPrototype(StructureTower, towerExt);
 }
-export function find(tower: StructureTower): Creep {
+export function find(tower: StructureTower): Creep | undefined {
     if (!global.TowerTarget) {
         global.TowerTarget = {};
     }
     if (
         global.TowerTarget[tower.room.name] &&
-        Game.getObjectById(global.TowerTarget[tower.room.name]).room.name ==
+        Game.getObjectById(global.TowerTarget[tower.room.name]) &&
+        Game.getObjectById(global.TowerTarget[tower.room.name])!!.room.name ==
             tower.room.name
     ) {
-        return Game.getObjectById(global.TowerTarget[tower.room.name]);
+        return Game.getObjectById(global.TowerTarget[tower.room.name])!!;
     }
     let result = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS, {
         filter: (it) => {

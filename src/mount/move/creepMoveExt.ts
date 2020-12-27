@@ -1,3 +1,4 @@
+//@ts-nocheck
 import _ from 'lodash';
 import { getOppositeDirection } from 'utils';
 
@@ -13,7 +14,7 @@ export class creepMoveExt extends Creep {
                 {
                     reusePath: 20,
                     ignoreCreeps: true,
-                    costCallback: (roomName, costMatrix) => {
+                    costCallback: (roomName:string, costMatrix:CostMatrix) => {
                         if (roomName === this.room.name) {
                             // 避开房间中的禁止通行点
                             const restrictedPos = this.room.getRestrictedPos();
@@ -26,7 +27,7 @@ export class creepMoveExt extends Creep {
                                 }
                                 const pos = this.room.unserializePos(
                                     restrictedPos[creepName]
-                                );
+                                )!;
                                 costMatrix.set(pos.x, pos.y, 0xff);
                             }
                         }

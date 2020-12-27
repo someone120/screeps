@@ -1,6 +1,6 @@
 import { creepExt } from 'base';
 import { doing } from 'task.manager';
-function getTask(roomName: string): string {
+function getTask(roomName: string): string | undefined{
     if (!Memory.porterTasker) {
         Memory.porterTasker = {};
     }
@@ -9,11 +9,12 @@ function getTask(roomName: string): string {
         return undefined;
     }
     let task = Memory.porterTasker[roomName].shift();
-    global.porterTasksTaken.push(task);
-    return task;
+    if (task) {
+        global.porterTasksTaken.push(task);
+    }
+    return undefined;
 }
 export class Carrier extends Creep implements creepExt {
-    task: string;
     type: Number = 2;
     work() {
         if (this.memory.parentTaskRaw || this.memory.parentTask) {

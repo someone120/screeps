@@ -1,3 +1,4 @@
+//@ts-nocheck
 import _ from 'lodash';
 import { rootCertificates } from 'tls';
 const TEXT_COLOR = '#c9c9c9';

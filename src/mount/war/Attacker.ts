@@ -1,6 +1,6 @@
 import { creepExt } from '../../base';
 export class attacker extends Creep implements creepExt {
-    task: string;
+    
     type: Number = 10;
     work() {
         let flag =

@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import _ from 'lodash';
 import { random } from 'lodash';
 import { pushCarrierTask, pushSpawnTask } from 'task.manager';

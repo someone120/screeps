@@ -1,3 +1,4 @@
+//@ts-nocheck
 import {
     getMinerFirstAvailableFlag,
     setMinerAvailableFlag,
@@ -5,7 +6,7 @@ import {
 } from 'flag';
 import { creepExt } from 'base';
 export class remoteMiner extends Creep implements creepExt {
-    task: string;
+    
     type: Number = 5;
     work(): void {
         let source = Game.flags[this.memory.flagName];

@@ -1,7 +1,8 @@
+//@ts-nocheck
 import { creepExt } from 'base';
 import { getSourceFlags } from 'utils';
 export class RemoteCarrier extends Creep implements creepExt {
-    task: string;
+    
     type: Number = 7;
     work(): void {
         let flags = getSourceFlags();

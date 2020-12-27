@@ -1,9 +1,10 @@
+//@ts-nocheck
 import { getQuote } from 'utils';
 import { creepExt } from 'base';
 import { getReserverFirstAvailableFlag, setReserverAvailableFlag } from 'flag';
 import { pushSpawnTask } from 'task.manager';
 export class reserve extends Creep implements creepExt {
-    task: string;
+    
     type: Number = 6;
     work(): void {
         if (this.ticksToLive <= 10 && this.memory['flagName']) {

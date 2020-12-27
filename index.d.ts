@@ -3393,7 +3393,9 @@ interface RoomMemory {
     isLockByProtect?: boolean;
     source?: Id<Source>[];
 }
-interface SpawnMemory {}
+interface SpawnMemory {
+    time:number
+}
 
 declare const Memory: Memory;
 /**
