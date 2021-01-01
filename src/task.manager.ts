@@ -132,7 +132,7 @@ export function prepare(creep: Creep): boolean {
  * 在没有所需要的资源会自动寻找
  */
 export function supply(creep: Creep): boolean {
-    if (creep.store[creep.memory.task!.p[1] as ResourceConstant] <= 0) {
+    if (creep.store.getUsedCapacity(creep.memory.task!.p[1] as ResourceConstant) < 50) {
         let target: StructureContainer | StructureStorage | Resource =
             creep.room.storage &&
             creep.room.storage.store[
@@ -155,34 +155,36 @@ export function supply(creep: Creep): boolean {
                       }
                   });
         if (target) {
+            let result: ScreepsReturnCode;
             if (isContainer(target)) {
-                creep.withdraw(
+                result = creep.withdraw(
                     target,
                     creep.memory.task!.p[1] as ResourceConstant
                 );
             } else if (isStorage(target)) {
-                creep.withdraw(
+                result = creep.withdraw(
                     target,
                     creep.memory.task!.p[1] as ResourceConstant
                 );
             } else {
-                creep.pickup(target);
+                result = creep.pickup(target);
             }
             creep.goTo(target.pos);
         }
         return false;
     }
     let target = Game.getObjectById(creep.memory.task!.p[0]) as Structure;
-    if (!target || !target.store) {
-        return true;
-    }
+   
+    const result = creep.transfer(target, creep.memory.task!.p[1] as ResourceConstant);
     if (
-        creep.transfer(target, creep.memory.task!.p[1] as ResourceConstant) ==
+        result ==
         ERR_NOT_IN_RANGE
     ) {
         creep.goTo(target.pos);
         return false;
     }
+    console.log(result);
+    
     return true;
 }
 
@@ -230,7 +232,7 @@ export function doing(creep: Creep) {
     } else {
         // 在做完任务后清除任务
         let index = global.porterTasksTaken.indexOf(creep.memory.parentTaskRaw);
-        // console.log(`${creep.name} ${creep.memory.parentTaskRaw}`);
+        console.log(`${creep.name} ${creep.memory.parentTaskRaw}`);
 
         if (index != -1) global.porterTasksTaken.splice(index, 1);
         delete creep.memory.parentTask;

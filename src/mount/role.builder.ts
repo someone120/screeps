@@ -2,7 +2,6 @@ import { getSourceFlags } from 'utils';
 import { creepExt } from 'base';
 import { object } from 'lodash';
 export class builder extends Creep implements creepExt {
-    
     type: Number = 1;
     /** @param {Creep} this **/
     work() {
@@ -46,7 +45,7 @@ export class builder extends Creep implements creepExt {
                             structure.structureType == STRUCTURE_CONTAINER &&
                             structure.store.energy > 0
                         );
-                    },
+                    }
                 }
             ) as StructureContainer[];
             if (source2.length != 0) {
@@ -61,7 +60,7 @@ export class builder extends Creep implements creepExt {
                 {
                     filter: (it) => {
                         return it.resourceType == RESOURCE_ENERGY;
-                    },
+                    }
                 }
             );
             if (source1.length) {
@@ -70,7 +69,13 @@ export class builder extends Creep implements creepExt {
                 }
                 return;
             }
-            if (Game.rooms[this.memory['roomID']].storage) {
+            if (
+                Game.rooms[this.memory['roomID']] &&
+                Game.rooms[this.memory['roomID']].storage &&
+                Game.rooms[this.memory['roomID']].storage!.store[
+                    RESOURCE_ENERGY
+                ] > 0
+            ) {
                 if (
                     this.withdraw(
                         Game.rooms[this.memory['roomID']].storage!,

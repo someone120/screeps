@@ -153,11 +153,8 @@ export default function(spawn: StructureSpawn) {
             });
         }
     }
-    if (spawn.room.energyCapacityAvailable - spawn.room.energyAvailable > 0) {
-        requestEnergy(
-            spawn.room.storage ? spawn.room.storage.id : '',
-            spawn.id
-        );
+    if (spawn.store[RESOURCE_ENERGY] < 300) {
+        requestEnergy(spawn.id, spawn.room.name, true);
     }
 }
 function pushRemoteCarrier(i: Number, storage: string, spawn: StructureSpawn) {

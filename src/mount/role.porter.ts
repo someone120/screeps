@@ -12,7 +12,7 @@ function getTask(roomName: string): string | undefined{
     if (task) {
         global.porterTasksTaken.push(task);
     }
-    return undefined;
+    return task;
 }
 export class Carrier extends Creep implements creepExt {
     type: Number = 2;

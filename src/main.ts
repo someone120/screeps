@@ -2,10 +2,11 @@ import roleSpawn from 'mount/role.spawn';
 import { creepExt } from 'base';
 import { ErrorMapper } from 'errorMapping';
 import mount from 'mount/mount';
-import { stateScanner } from 'utils';
+import { argCpu, stateScanner } from 'utils';
 import { Visualizer } from 'Visualizer';
 import { roles } from 'classes';
 import _ from 'lodash';
+import { memory } from 'console';
 
 module.exports.loop = ErrorMapper.wrapLoop(() => {
     loop();
@@ -52,7 +53,7 @@ function loop() {
             global.porterTasksTaken.push(creep.memory.parentTaskRaw);
         }
         if (
-            Game.cpu.bucket < 200 &&
+            Game.cpu.bucket < Memory.argCpu.argCpu &&
             Game.time % 2 == 1 &&
             !_.map(creep.body, 'type').includes(CLAIM) &&
             creep.body.length < 5
@@ -61,7 +62,7 @@ function loop() {
             continue;
         }
         if (
-            Game.cpu.bucket < 200 &&
+            Game.cpu.bucket < Memory.argCpu.argCpu &&
             Game.time % 2 == 0 &&
             !_.map(creep.body, 'type').includes(CLAIM) &&
             creep.body.length > 5
@@ -103,6 +104,10 @@ function loop() {
     // console.log(JSON.stringify(path));
     Visualizer.visuals();
     stateScanner();
+    if (!Memory.argCpu) {
+        Memory.argCpu = { argCpu: 0, ticks: 0 };
+    }
+    Memory.argCpu = argCpu(Memory.argCpu, Game.cpu.getUsed());
 }
 
 /**
@@ -130,6 +135,6 @@ function drawType(creep: Creep) {
         color: '#2196F3',
         font: 0.3,
         stroke: '#000000',
-        strokeWidth: 0.05,
+        strokeWidth: 0.05
     });
 }

@@ -109,14 +109,16 @@ export function requestEnergy(
  * 检测是不是Container
  * @param target 目标
  */
-export function isContainer(target: AnyStructure): target is StructureContainer {
+export function isContainer(
+    target: AnyStructure
+): target is StructureContainer {
     return target.structureType && target.structureType == STRUCTURE_CONTAINER;
 }
 /**
  * 检测是不是Storage
  * @param target 目标
  */
-export function isStorage(target:AnyStructure): target is StructureStorage {
+export function isStorage(target: AnyStructure): target is StructureStorage {
     return target.structureType && target.structureType == STRUCTURE_STORAGE;
 }
 export function buildRoad(from: RoomPosition, to: RoomPosition) {
@@ -124,7 +126,7 @@ export function buildRoad(from: RoomPosition, to: RoomPosition) {
         from,
         { pos: to, range: 1 },
         {
-        //@ts-ignore
+            //@ts-ignore
             roomCallback: (roomName) => {
                 let room = Game.rooms[roomName];
                 if (!room) return;
@@ -176,17 +178,17 @@ export function encodee(text: string): string {
 
 export function getSourceFlags(): Flag[] {
     let result = [];
-    if (global.RemoteFlag) {
-        global.RemoteFlag.forEach((v) => {
+    if (global.RemoteFlag && global.RemoteFlag.ttl < Game.time) {
+        global.RemoteFlag.name.forEach((v) => {
             result.push(Game.flags[v]);
         });
     } else {
-        global.RemoteFlag = [];
+        global.RemoteFlag = { name: [], ttl: Game.time + 500 };
         for (const key in Game.flags) {
             if (Object.prototype.hasOwnProperty.call(Game.flags, key)) {
                 const element = Game.flags[key];
                 if (element.name.split('_')[0] == 'RemoteSource') {
-                    global.RemoteFlag.push(key);
+                    global.RemoteFlag.name.push(key);
                     result.push(element);
                 }
             }
@@ -214,4 +216,16 @@ export function getSourceLink(
 }
 export function getStorageLink(RoomName: string): StructureLink | null {
     return Game.getObjectById('5fbb9840b800f334cd02ab43');
+}
+
+export function argCpu(
+    arg: { argCpu: number; ticks: number },
+    nowCpu: number
+): { argCpu: number; ticks: number } {
+    return arg.ticks > 1000
+        ? { argCpu: nowCpu, ticks: 1 }
+        : {
+              argCpu: (arg.argCpu * arg.ticks + nowCpu) / arg.ticks + 1,
+              ticks: arg.ticks + 1
+          };
 }

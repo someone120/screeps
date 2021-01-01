@@ -1,12 +1,14 @@
 import { creepExt } from 'base';
 import { getSourceFlags } from 'utils';
 export class Repairer extends Creep implements creepExt {
-
     type: Number = 4;
     work() {
         let flag = getSourceFlags();
         if (this.store.getUsedCapacity(RESOURCE_ENERGY) == 0) {
-            if (this.room.storage) {
+            if (
+                this.room.storage &&
+                this.room.storage.store[RESOURCE_ENERGY] > 0
+            ) {
                 if (
                     this.withdraw(this.room.storage, RESOURCE_ENERGY) ==
                     ERR_NOT_IN_RANGE
@@ -20,7 +22,7 @@ export class Repairer extends Creep implements creepExt {
                             structure.structureType == STRUCTURE_CONTAINER &&
                             structure.store.energy > 0
                         );
-                    },
+                    }
                 });
 
                 if (source2) {
@@ -32,7 +34,7 @@ export class Repairer extends Creep implements creepExt {
                     const source1 = this.pos.findClosestByRange(
                         FIND_DROPPED_RESOURCES
                     );
-                    if (source1&&this.pickup(source1) == ERR_NOT_IN_RANGE) {
+                    if (source1 && this.pickup(source1) == ERR_NOT_IN_RANGE) {
                         this.goTo(source1.pos);
                     }
                 }
@@ -45,7 +47,7 @@ export class Repairer extends Creep implements creepExt {
                         it.hitsMax - it.hits > 0 &&
                         it.structureType != STRUCTURE_WALL
                     );
-                },
+                }
             });
             if (target) {
                 let res = this.repair(target);
@@ -63,7 +65,7 @@ export class Repairer extends Creep implements creepExt {
                             it.hitsMax - it.hits > 0 &&
                             it.structureType != STRUCTURE_WALL
                         );
-                    },
+                    }
                 }
             );
             if (targets.length > 0) {
@@ -88,7 +90,7 @@ export class Repairer extends Creep implements creepExt {
                                 it.structureType != STRUCTURE_WALL &&
                                 it.structureType != STRUCTURE_INVADER_CORE
                             );
-                        },
+                        }
                     })
                 );
             });
@@ -96,7 +98,10 @@ export class Repairer extends Creep implements creepExt {
             if (targets.length > 0) {
                 let target = targets[0];
                 let res = this.repair(target);
-                if (res == ERR_NOT_IN_RANGE) {
+                if (res == OK) {
+                    this.memory.standed = true;
+                    this.room.addRestrictedPos(this.name, this.pos);
+                } else if (res == ERR_NOT_IN_RANGE) {
                     this.goTo(target.pos);
                 }
                 return;
@@ -123,7 +128,7 @@ export class Repairer extends Creep implements creepExt {
                     it.hitsMax - it.hits > 0 &&
                     it.structureType != STRUCTURE_WALL
                 );
-            },
+            }
         });
         if (needRepair.length <= 1) {
             Memory.type[this.memory.roomID][4]--;

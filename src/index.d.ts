@@ -16,6 +16,7 @@ interface Memory {
     lessWallId?: { [roomName: string]: { id: Id<StructureWall>; ttl: number } };
     type: { [name: string]: number[] };
     beScoutRoom: string[];
+    argCpu:{argCpu:number,ticks:number}
     WHITE_LIST: string[];
 }
 
@@ -124,7 +125,7 @@ interface PowerCreep {
 declare module NodeJS {
     // 全局对象
     interface Global {
-        RemoteFlag?: string[];
+        RemoteFlag?: {name:string[],ttl:number};
         spawnTask?: { [spawnName: string]: string | undefined };
         porterTasksTaken: String[];
         // 是否已经挂载拓展

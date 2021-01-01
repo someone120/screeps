@@ -1,4 +1,4 @@
-import { getQuote } from 'utils';
+import { getQuote, isContainer, isStorage } from 'utils';
 import { creepExt } from 'base';
 export class Upgrader extends Creep implements creepExt {
     type: Number = 3;
@@ -29,58 +29,32 @@ export class Upgrader extends Creep implements creepExt {
                 this.room.addRestrictedPos(this.name, this.pos);
             }
         } else {
-            let source2 =
-                Game.rooms[this.memory['roomID']].controller!.pos.findInRange(
-                    FIND_STRUCTURES,
-                    3,
-                    {
-                        filter: (it) => {
-                            return (
-                                it.structureType == STRUCTURE_LINK &&
-                                it.store[RESOURCE_ENERGY] > 0
-                            );
-                        }
-                    }
-                ) ||
-                (Game.rooms[this.memory['roomID']].storage &&
-                    Game.rooms[this.memory['roomID']].storage!.store[
-                        RESOURCE_ENERGY
-                    ] > 0)
-                    ? Game.rooms[this.memory['roomID']].storage
-                    : null;
-            if (!source2) {
-                const source2 = Game.rooms[this.memory['roomID']].find(
-                    FIND_STRUCTURES,
-                    {
-                        filter: (structure) => {
-                            return (
-                                structure.structureType ==
-                                    STRUCTURE_CONTAINER &&
-                                structure.store.energy > 0
-                            );
-                        }
-                    }
-                ) as StructureContainer[];
-                source2.sort((a, b) => {
-                    return b.store.energy - a.store.energy;
-                });
-                if (source2.length != 0) {
-                    const result = this.withdraw(source2[0], RESOURCE_ENERGY);
-                    if (result == ERR_NOT_IN_RANGE) {
-                        this.goTo(source2[0].pos);
-                    }
+            let target: StructureContainer | StructureStorage | Resource =
+                this.room.storage &&
+                this.room.storage.store[RESOURCE_ENERGY] > 0
+                    ? this.room.storage
+                    : (this.pos.findClosestByRange(FIND_STRUCTURES, {
+                          filter: (it) => {
+                              return (
+                                  it.structureType == STRUCTURE_CONTAINER &&
+                                  it.store[RESOURCE_ENERGY] > 0
+                              );
+                          }
+                      }) as StructureContainer) ||
+                      this.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {
+                          filter: (it) => {
+                              return it.resourceType == RESOURCE_ENERGY;
+                          }
+                      });
+            if (target) {
+                if (isContainer(target)) {
+                    this.withdraw(target, RESOURCE_ENERGY);
+                } else if (isStorage(target)) {
+                    this.withdraw(target, RESOURCE_ENERGY);
                 } else {
-                    const source1 = Game.rooms[this.memory['roomID']].find(
-                        FIND_DROPPED_RESOURCES
-                    )[0];
-                    if (this.pickup(source1) == ERR_NOT_IN_RANGE) {
-                        this.goTo(source1.pos);
-                    }
+                    this.pickup(target);
                 }
-                return;
-            }
-            if (this.withdraw(source2, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                this.goTo(source2.pos);
+                this.goTo(target.pos);
             }
         }
     }

@@ -101,7 +101,7 @@ export function find(tower: StructureTower): Creep | undefined {
         filter: (it) => {
             return (
                 filte(it) &&
-                it.pos.isOnEdge() &&
+                !it.pos.isOnEdge() &&
                 it.body.find((it) => {
                     return (
                         it.type == WORK ||

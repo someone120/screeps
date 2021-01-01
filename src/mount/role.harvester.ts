@@ -19,30 +19,30 @@ export class harvester extends Creep implements creepExt {;
         } else if (mine == OK) {
             this.memory.standed = true;
             this.room.addRestrictedPos(this.name, this.pos);
-            if (
-                this.room.controller!.level >= 5 ||
-                getSourceLink(this.room.name, this.pos)
-            ) {
-                if (
-                    getSourceLink(
-                        this.room.name,
-                        this.pos
-                    ).store.getFreeCapacity(RESOURCE_ENERGY) > 0
-                ) {
-                    this.transfer(
-                        getSourceLink(this.room.name, this.pos),
-                        RESOURCE_ENERGY
-                    );
-                }
-                const container = this.pos
-                    .lookFor(LOOK_STRUCTURES)
-                    .find((it) => {
-                        return it.structureType == STRUCTURE_CONTAINER;
-                    });
-                if (container) {
-                    container.destroy();
-                }
-            } else {
+            // if (
+            //     this.room.controller!.level >= 5 ||
+            //     getSourceLink(this.room.name, this.pos)
+            // ) {
+            //     if (
+            //         getSourceLink(
+            //             this.room.name,
+            //             this.pos
+            //         ).store.getFreeCapacity(RESOURCE_ENERGY) > 0
+            //     ) {
+            //         this.transfer(
+            //             getSourceLink(this.room.name, this.pos),
+            //             RESOURCE_ENERGY
+            //         );
+            //     }
+            //     const container = this.pos
+            //         .lookFor(LOOK_STRUCTURES)
+            //         .find((it) => {
+            //             return it.structureType == STRUCTURE_CONTAINER;
+            //         });
+            //     if (container) {
+            //         container.destroy();
+            //     }
+            // } else {
                 const container = this.pos
                     .lookFor(LOOK_STRUCTURES)
                     .find((it) => {
@@ -68,7 +68,7 @@ export class harvester extends Creep implements creepExt {;
                             this.build(construct[0]);
                         }
                     }
-                }
+                // }
             }
         }
         if (this.ticksToLive&&this.ticksToLive < 300) {
