@@ -24,9 +24,10 @@ export class Manager extends Creep implements creepExt {
         }
         let pos = this.pos.intersection(
             this.room.storage!.pos.getFreeSpace(),
-            link!.pos.getFreeSpace(),
-            spawn.pos.getFreeSpace()
+            link!.pos.getFreeSpace()
         );
+        console.log(pos);
+        
         this.memory.standed = true;
         this.room.addRestrictedPos(this.name, this.pos);
         if (this.store.getUsedCapacity() > 0) {

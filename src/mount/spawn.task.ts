@@ -46,8 +46,7 @@ export default class spawnExt extends StructureSpawn implements structure {
                 this.memory.time = this.spawning.needTime + Game.time + 5;
             }
             if (this.memory.time < Game.time) {
-                Memory['destoryNext'] = this.spawning.name;
-                this.spawning.setDirections([TOP]);
+                this.spawning.cancel()
             }
         }
         if (!Memory.spawnTask) {
@@ -315,8 +314,7 @@ function parseTask(
                     ],
                     `energyTransfer@${Game.time}`,
                     {
-                        memory: { type: 8, roomID: roomID },
-                        directions: [BOTTOM]
+                        memory: { type: 8, roomID: roomID }
                     }
                 );
                 break;

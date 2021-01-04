@@ -4302,6 +4302,7 @@ interface RoomPosition {
     lookFor<T extends keyof AllLookAtTypes>(type: T): Array<AllLookAtTypes[T]>;
     getFreeSpace(): RoomPosition[];
     intersection(...p: RoomPosition[][]): RoomPosition[];
+    serializePos(): string
 }
 
 interface RoomPositionConstructor extends _Constructor<RoomPosition> {

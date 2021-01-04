@@ -132,28 +132,36 @@ export function prepare(creep: Creep): boolean {
  * 在没有所需要的资源会自动寻找
  */
 export function supply(creep: Creep): boolean {
-    if (creep.store.getUsedCapacity(creep.memory.task!.p[1] as ResourceConstant) < 50) {
-        let target: StructureContainer | StructureStorage | Resource =
-            creep.room.storage &&
-            creep.room.storage.store[
-                creep.memory.task!.p[1] as ResourceConstant
-            ] > 0
-                ? creep.room.storage
-                : (creep.pos.findClosestByRange(FIND_STRUCTURES, {
+    if (
+        creep.store.getUsedCapacity(
+            creep.memory.task!.p[1] as ResourceConstant
+        ) < 50
+    ) {
+        let target:
+            | StructureContainer
+            | StructureStorage
+            | Resource
+            | undefined =
+            Memory.towerStat == 'normal'
+                ? creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {
+                      filter: (it) => {
+                          return it.resourceType == RESOURCE_ENERGY;
+                      }
+                  }) ||
+                  (creep.pos.findClosestByRange(FIND_STRUCTURES, {
                       filter: (it) => {
                           return (
                               it.structureType == STRUCTURE_CONTAINER &&
-                              it.store[
-                                  creep.memory.task!.p[1] as ResourceConstant
-                              ] > 0
+                              it.store[RESOURCE_ENERGY] > 0
                           );
                       }
                   }) as StructureContainer) ||
-                  creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {
-                      filter: (it) => {
-                          return it.resourceType == creep.memory.task!.p[1];
-                      }
-                  });
+                  (creep.room.storage &&
+                  creep.room.storage.store[RESOURCE_ENERGY] > 0
+                      ? creep.room.storage
+                      : undefined)
+                : creep.room.storage;
+
         if (target) {
             let result: ScreepsReturnCode;
             if (isContainer(target)) {
@@ -174,17 +182,17 @@ export function supply(creep: Creep): boolean {
         return false;
     }
     let target = Game.getObjectById(creep.memory.task!.p[0]) as Structure;
-   
-    const result = creep.transfer(target, creep.memory.task!.p[1] as ResourceConstant);
-    if (
-        result ==
-        ERR_NOT_IN_RANGE
-    ) {
+
+    const result = creep.transfer(
+        target,
+        creep.memory.task!.p[1] as ResourceConstant
+    );
+    if (result == ERR_NOT_IN_RANGE) {
         creep.goTo(target.pos);
         return false;
     }
     console.log(result);
-    
+
     return true;
 }
 

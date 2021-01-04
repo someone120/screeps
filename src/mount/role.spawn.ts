@@ -78,7 +78,7 @@ export default function(spawn: StructureSpawn) {
         if (Keeper < KeeperNumber) {
             pushUpgrader(available, spawn);
         }
-        if (energyTransfer < 1 && spawn.room.controller!.level >= 6) {
+        if (energyTransfer < 1 && spawn.room.controller!.level >= 5) {
             let task = `energyTransfer ${available}`;
             if (!Memory.spawnTask[spawn.room.name]) {
                 Memory.spawnTask[spawn.room.name] = [];

@@ -29,23 +29,29 @@ export class Upgrader extends Creep implements creepExt {
                 this.room.addRestrictedPos(this.name, this.pos);
             }
         } else {
-            let target: StructureContainer | StructureStorage | Resource =
-                this.room.storage &&
-                this.room.storage.store[RESOURCE_ENERGY] > 0
-                    ? this.room.storage
-                    : (this.pos.findClosestByRange(FIND_STRUCTURES, {
-                          filter: (it) => {
-                              return (
-                                  it.structureType == STRUCTURE_CONTAINER &&
-                                  it.store[RESOURCE_ENERGY] > 0
-                              );
-                          }
-                      }) as StructureContainer) ||
-                      this.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {
-                          filter: (it) => {
-                              return it.resourceType == RESOURCE_ENERGY;
-                          }
-                      });
+            
+                let target:
+                    | StructureContainer
+                    | StructureStorage
+                    | Resource
+                    | undefined =
+                    this.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {
+                        filter: (it) => {
+                            return it.resourceType == RESOURCE_ENERGY;
+                        }
+                    }) ||
+                    (this.pos.findClosestByRange(FIND_STRUCTURES, {
+                        filter: (it) => {
+                            return (
+                                it.structureType == STRUCTURE_CONTAINER &&
+                                it.store[RESOURCE_ENERGY] > 0
+                            );
+                        }
+                    }) as StructureContainer) ||
+                    (this.room.storage &&
+                    this.room.storage.store[RESOURCE_ENERGY] > 0
+                        ? this.room.storage
+                        : undefined);
             if (target) {
                 if (isContainer(target)) {
                     this.withdraw(target, RESOURCE_ENERGY);

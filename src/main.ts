@@ -7,7 +7,7 @@ import { Visualizer } from 'Visualizer';
 import { roles } from 'classes';
 import _ from 'lodash';
 import { memory } from 'console';
-
+const saying = 'Open the skylight and speak brightly.'.split(' ');
 module.exports.loop = ErrorMapper.wrapLoop(() => {
     loop();
 });
@@ -19,6 +19,9 @@ function loop() {
     Memory.ReserverRemoteSource = [];
     Memory.MinerRemoteSource = [];
     global.porterTasksTaken = [];
+    if (!Memory.argCpu) {
+        Memory.argCpu = { argCpu: 0, ticks: 0 };
+    }
     mount();
     for (let name in Game.creeps) {
         // console.log(name);
@@ -78,6 +81,11 @@ function loop() {
         if (creep.memory.type == -1) {
             continue;
         }
+        if (creep.memory.type == -2) {
+            creep.say(saying[Game.time % saying.length], true);
+
+            continue;
+        }
         let t: creepExt | null = roles[creep.memory.type]
             ? new roles[creep.memory.type]!(creep.id)
             : null;
@@ -104,9 +112,7 @@ function loop() {
     // console.log(JSON.stringify(path));
     Visualizer.visuals();
     stateScanner();
-    if (!Memory.argCpu) {
-        Memory.argCpu = { argCpu: 0, ticks: 0 };
-    }
+
     Memory.argCpu = argCpu(Memory.argCpu, Game.cpu.getUsed());
 }
 

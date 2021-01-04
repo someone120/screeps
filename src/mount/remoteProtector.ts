@@ -5,9 +5,11 @@ import { unlockRoom } from './cache/room/protect';
 
 export class remoteProtector extends Creep implements creepExt {
     work(): void {
+        this.say('🤺',true)
+
         if (this.ticksToLive < 10) {
             unlockRoom(this.memory.protectRoomId);
-            this.suicide();
+
         }
         const protectRoom: Room = Game.rooms[this.memory.protectRoomId];
         if (!protectRoom) {
@@ -23,7 +25,7 @@ export class remoteProtector extends Creep implements creepExt {
         });
         if (enemyCreep.length > 0) {
             if (this.attack(enemyCreep[0]) == ERR_NOT_IN_RANGE) {
-                this.farMoveTo(enemyCreep[0].pos,1);
+                this.goTo(enemyCreep[0].pos);
             }
             return;
         }
@@ -32,7 +34,7 @@ export class remoteProtector extends Creep implements creepExt {
         });
         if (enemyStr.length > 0) {
             if (this.attack(enemyStr[0]) == ERR_NOT_IN_RANGE) {
-                this.farMoveTo(enemyStr[0].pos,1);
+                this.goTo(enemyStr[0].pos);
             }
             return;
         }
@@ -42,7 +44,7 @@ export class remoteProtector extends Creep implements creepExt {
             this.pos.y <= 1 ||
             this.pos.y >= 48
         ) {
-            this.farMoveTo(protectRoom.getPositionAt(20, 20),1);
+            this.goTo(protectRoom.getPositionAt(20, 20),1);
             return;
         }
         if (this.hitsMax - this.hits > 0) {

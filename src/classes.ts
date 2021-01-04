@@ -25,5 +25,6 @@ export const roles = [
     Scort,
     Mineraler,
     WallPainter,
-    remoteProtector
+    remoteProtector,
+    attacker
 ];
