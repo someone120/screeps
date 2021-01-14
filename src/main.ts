@@ -27,6 +27,9 @@ function loop() {
         // console.log(name);
 
         let creep = Game.creeps[name];
+        if (creep.spawning) {
+            continue;
+        }
         if (
             !Memory.type[creep.memory.roomID] ||
             Memory.type[creep.memory.roomID].length <= 0

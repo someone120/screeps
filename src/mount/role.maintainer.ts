@@ -110,11 +110,22 @@ export class Repairer extends Creep implements creepExt {
             // if (!global['all']) global['all'] = target.length;
             // if (Memory.type[this.memory.roomID][4] == 1) console.log(global['all'] - target.length + ":" + global['all']);
         }
-        let constructions = Game.rooms[this.memory['roomID']].find(
+        
+        let targets = Game.rooms[this.memory['roomID']].find(
             FIND_CONSTRUCTION_SITES
         );
+        flag = Object.values(Game.flags);
+        flag.find((it) => {
+            if (it.room) {
+                let t = it.room.find(FIND_CONSTRUCTION_SITES);
+                if (t.length > 0) {
+                    targets = targets.concat(t);
+                    return;
+                }
+            }
+        });
         if (
-            ~~(constructions.length * 2.5) > Memory.type[this.memory.roomID][1]
+            ~~(targets.length * 2.5) > Memory.type[this.memory.roomID][1]
         ) {
             Memory.type[this.memory.roomID][1]++;
             Memory.type[this.memory.roomID][4]--;

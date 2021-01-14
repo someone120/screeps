@@ -29,29 +29,28 @@ export class Upgrader extends Creep implements creepExt {
                 this.room.addRestrictedPos(this.name, this.pos);
             }
         } else {
-            
-                let target:
-                    | StructureContainer
-                    | StructureStorage
-                    | Resource
-                    | undefined =
-                    this.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {
-                        filter: (it) => {
-                            return it.resourceType == RESOURCE_ENERGY;
-                        }
-                    }) ||
-                    (this.pos.findClosestByRange(FIND_STRUCTURES, {
-                        filter: (it) => {
-                            return (
-                                it.structureType == STRUCTURE_CONTAINER &&
-                                it.store[RESOURCE_ENERGY] > 0
-                            );
-                        }
-                    }) as StructureContainer) ||
-                    (this.room.storage &&
-                    this.room.storage.store[RESOURCE_ENERGY] > 0
-                        ? this.room.storage
-                        : undefined);
+            let target:
+                | StructureContainer
+                | StructureStorage
+                | Resource
+                | undefined =
+                this.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {
+                    filter: (it) => {
+                        return it.resourceType == RESOURCE_ENERGY;
+                    }
+                }) ||
+                (this.pos.findClosestByRange(FIND_STRUCTURES, {
+                    filter: (it) => {
+                        return (
+                            it.structureType == STRUCTURE_CONTAINER &&
+                            it.store[RESOURCE_ENERGY] > 0
+                        );
+                    }
+                }) as StructureContainer) ||
+                (this.room.storage &&
+                this.room.storage.store[RESOURCE_ENERGY] > 0
+                    ? this.room.storage
+                    : undefined);
             if (target) {
                 if (isContainer(target)) {
                     this.withdraw(target, RESOURCE_ENERGY);
@@ -62,6 +61,28 @@ export class Upgrader extends Creep implements creepExt {
                 }
                 this.goTo(target.pos);
             }
+        }
+        let targets = Game.rooms[this.memory['roomID']].find(
+            FIND_CONSTRUCTION_SITES
+        );
+        let flag = Object.values(Game.flags);
+        flag.find((it) => {
+            if (it.room) {
+                let t = it.room.find(FIND_CONSTRUCTION_SITES);
+                if (t.length > 0) {
+                    targets = targets.concat(t);
+                    return;
+                }
+            }
+        });
+        if (
+            ~~(targets.length * 2.5) > Memory.type[this.memory.roomID][1] &&
+            Memory.type[this.memory.roomID][3] > 1
+        ) {
+            Memory.type[this.memory.roomID][1]++;
+            Memory.type[this.memory.roomID][3]--;
+            this.memory.type = 1;
+            return;
         }
     }
 }

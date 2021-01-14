@@ -4,7 +4,6 @@ import { creepExt } from 'base';
 import { getReserverFirstAvailableFlag, setReserverAvailableFlag } from 'flag';
 import { pushSpawnTask } from 'task.manager';
 export class reserve extends Creep implements creepExt {
-    
     type: Number = 6;
     work(): void {
         if (this.ticksToLive <= 10 && this.memory['flagName']) {
@@ -34,7 +33,8 @@ export class reserve extends Creep implements creepExt {
                 }
                 if (
                     this.room.controller.reservation &&
-                    this.room.controller.reservation.username != 'someone120'
+                    this.room.controller.reservation.username !=
+                        this.owner.username
                 ) {
                     if (this.attackController(controller) == ERR_NOT_IN_RANGE) {
                         this.farMoveTo(controller.pos, 1);

@@ -77,15 +77,20 @@ export class WallPainter extends Creep implements creepExt {
                 }
             }
         ) as StructureWall[];
-        wall.sort((a, b) => {
-            return a.hits - b.hits;
-        });
-        if (!Memory.lessWallId) {
-            Memory.lessWallId = {};
+        if (wall && wall.length > 0) {
+            wall.sort((a, b) => {
+                return a.hits - b.hits;
+            });
+            if (!Memory.lessWallId) {
+                
+                Memory.lessWallId = {};
+            }
+            Memory.lessWallId[this.memory['roomID']] = {
+                id: wall[0].id,
+                ttl: Game.time + 300
+            };
+        }else{
+            this.memory.type=1
         }
-        Memory.lessWallId[this.memory['roomID']] = {
-            id: wall[0].id,
-            ttl: Game.time + 300
-        };
     }
 }

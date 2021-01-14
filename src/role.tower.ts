@@ -43,7 +43,7 @@ export default class towerExt extends StructureTower implements structure {
                                 return it.type == RANGED_ATTACK;
                             }))
                     );
-                },
+                }
             }).length >= 4
         ) {
             Memory['towerStat'] = 'beAttack';
@@ -58,20 +58,22 @@ export default class towerExt extends StructureTower implements structure {
         let hurtCreep = tower.room.find(FIND_MY_CREEPS, {
             filter: (creep) => {
                 return creep.hitsMax - creep.hits > 0;
-            },
+            }
         });
-        let hurtBuild = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-            filter: (structure) => {
-                return (
-                    structure.hits < 25000 &&
-                    structure.hitsMax - structure.hits > 0
-                );
-            },
-        });
+        
         if (hurtCreep.length > 0) {
             tower.heal(hurtCreep[0]);
-        } else if (hurtBuild) {
-            tower.repair(hurtBuild);
+        } else {
+            let hurtBuild = tower.room.find(FIND_STRUCTURES, {
+                filter: (structure) => {
+                    return (
+                        structure.hits < 25000 &&
+                        structure.hitsMax - structure.hits > 0
+                    );
+                }
+            });
+            hurtBuild.sort((a, b) => a.hits - b.hits);
+            tower.repair(hurtBuild[0]);
         }
     }
     private less(tower: StructureTower) {
@@ -111,7 +113,7 @@ export function find(tower: StructureTower): Creep | undefined {
                     );
                 })
             );
-        },
+        }
     });
     if (result) {
         global.TowerTarget[tower.room.name] = result.id;

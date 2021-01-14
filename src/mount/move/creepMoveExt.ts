@@ -31,12 +31,12 @@ export class creepMoveExt extends Creep {
                                 costMatrix.set(pos.x, pos.y, 0xff);
                             }
                         }
-                        for (let i = 0; i <= 49; i++) {
-                            costMatrix.set(0, i, 0xff);
-                            costMatrix.set(i, 0, 0xff);
-                            costMatrix.set(49, i, 0xff);
-                            costMatrix.set(i, 49, 0xff);
-                        }
+                        // for (let i = 0; i <= 49; i++) {
+                        //     costMatrix.set(0, i, 0xff);
+                        //     costMatrix.set(i, 0, 0xff);
+                        //     costMatrix.set(49, i, 0xff);
+                        //     costMatrix.set(i, 49, 0xff);
+                        // }
                         return costMatrix;
                     },
                 },

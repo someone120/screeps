@@ -46,7 +46,7 @@ export default class spawnExt extends StructureSpawn implements structure {
                 this.memory.time = this.spawning.needTime + Game.time + 5;
             }
             if (this.memory.time < Game.time) {
-                this.spawning.cancel()
+                this.spawning.cancel();
             }
         }
         if (!Memory.spawnTask) {
@@ -68,7 +68,7 @@ export default class spawnExt extends StructureSpawn implements structure {
                     Memory.type[this.room.name][2] <= 0) &&
                     parseInt(type[1]) > 300) ||
                 parseInt(type[1]) > available ||
-                type[0] == 'Reserver'
+                (type[0] == 'Reserver' && parseInt(type[1]) <= 550)
             ) {
                 // 挺简单的，是吧？
                 delete global.spawnTask[this.name];

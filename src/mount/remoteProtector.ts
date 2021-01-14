@@ -6,6 +6,7 @@ import { unlockRoom } from './cache/room/protect';
 export class remoteProtector extends Creep implements creepExt {
     work(): void {
         this.say('🤺',true)
+        this.room.addRestrictedPos(this.name,this.pos)
 
         if (this.ticksToLive < 10) {
             unlockRoom(this.memory.protectRoomId);
@@ -50,6 +51,7 @@ export class remoteProtector extends Creep implements creepExt {
         if (this.hitsMax - this.hits > 0) {
             this.heal(this);
         }
+        this.room.addRestrictedPos(this.name,this.pos)
     }
     
     type: Number = 12;
