@@ -1,4 +1,5 @@
 import { structure } from 'base';
+import globalObj from 'mount/globalObj';
 import { filter as filte } from 'whiteList';
 import { assignPrototype, requestEnergy } from './utils';
 export default class towerExt extends StructureTower implements structure {
@@ -24,7 +25,7 @@ export default class towerExt extends StructureTower implements structure {
         if (Game.time % 5 != 0) {
             return;
         }
-        let creeps = find(tower);
+        let creeps = Game.getObjectById(global.TowerTarget[this.room.name])|| find(tower);
         if (!creeps) {
             Memory.towerStat = 'normal';
         } else if (
