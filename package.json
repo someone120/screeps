@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "rollup -cw --environment DEST:main",
+    "start": "rollup -cw --environment DEST:main&&rollup -cw --environment DEST:small",
     "local": "rollup -cw --environment DEST:local",
     "build": "rollup -cw",
-    "once": "rollup -c --environment DEST:main",
+    "once": "rollup -c --environment DEST:main&&rollup -c --environment DEST:small",
+    "test": "npm run test-unit",
     "test-unit": "rollup -c rollup.test-unit-config.ts && mocha dist/test-unit.bundle.js"
   },
   "author": "",
@@ -36,15 +37,11 @@
     "rollup-plugin-typescript2": "^0.27.1",
     "screeps-multimeter": "^1.11.0",
     "screeps-server-mockup": "^1.5.1",
+    "sinon": "^9.2.1",
     "typescript": "^4.0.3"
   },
   "dependencies": {
     "js-base64": "^3.5.2",
     "source-map": "^0.6.1"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -e $GIT_PARAMS"
-    }
   }
 }

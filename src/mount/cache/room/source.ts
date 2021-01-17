@@ -1,29 +1,61 @@
+import _ from 'lodash';
 import { assignPrototype } from 'utils';
-
-export function freeSpaceCount(source: Source): number {
-    if (source._freeSpaceCount == undefined) {
-        if (Memory.freeSpaceCount == undefined) {
-            let freeSpaceCount = 0;
-            [source.pos.x - 1, source.pos.x, source.pos.x + 1].forEach((x) => {
-                [source.pos.y - 1, source.pos.y, source.pos.y + 1].forEach(
-                    (y) => {
-                        if (
-                            new RoomPosition(x, y, source.pos.roomName).lookFor(
-                                LOOK_CREEPS
-                            ).length > 0
-                        )
-                            freeSpaceCount++;
+class RoomExt extends Room {
+    freeSpaceCount(source: Source): number {
+        if (source._freeSpaceCount == undefined) {
+            if (Memory.freeSpaceCount == undefined) {
+                let freeSpaceCount = 0;
+                [source.pos.x - 1, source.pos.x, source.pos.x + 1].forEach(
+                    (x) => {
+                        [
+                            source.pos.y - 1,
+                            source.pos.y,
+                            source.pos.y + 1,
+                        ].forEach((y) => {
+                            if (
+                                new RoomPosition(
+                                    x,
+                                    y,
+                                    source.pos.roomName
+                                ).lookFor(LOOK_CREEPS).length > 0
+                            )
+                                freeSpaceCount++;
+                        }, source);
                     },
                     source
                 );
-            }, source);
-            Memory.freeSpaceCount = freeSpaceCount;
+                Memory.freeSpaceCount = freeSpaceCount;
+            }
+            source._freeSpaceCount = Memory.freeSpaceCount;
         }
-        source._freeSpaceCount = Memory.freeSpaceCount;
+        return source._freeSpaceCount;
     }
-    return source._freeSpaceCount;
-}
 
+    lockSource(id: Id<Source>) {
+        if (!Memory.lockSource.includes(id)) {
+            Memory.lockSource.push(id);
+        }
+    }
+
+    unlockSource(id: Id<Source>) {
+        if (Memory.lockSource.includes(id)) {
+            _.pull(Memory.lockSource, id);
+        }
+    }
+
+    findUnlockSource(ids: Id<Source>[]): Id<Source>|undefined {
+        if (!Memory.lockSource) {
+            Memory.lockSource = [];
+            return undefined;
+        }
+        for (const id of ids) {
+            if (!Memory.lockSource.includes(id)) {
+                return id;
+            }
+        }
+        return undefined;
+    }
+}
 export function mountSource() {
     Object.defineProperty(Room.prototype, 'sources', {
         get: function() {
@@ -40,6 +72,7 @@ export function mountSource() {
             return this._sources;
         },
         enumerable: false,
-        configurable: true
+        configurable: true,
     });
+    assignPrototype(Room, RoomExt);
 }

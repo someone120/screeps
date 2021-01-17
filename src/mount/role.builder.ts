@@ -2,7 +2,6 @@ import { getSourceFlags } from 'utils';
 import { creepExt } from 'base';
 import { object } from 'lodash';
 export class builder extends Creep implements creepExt {
-    task: string;
     type: Number = 1;
     /** @param {Creep} this **/
     work() {
@@ -29,8 +28,12 @@ export class builder extends Creep implements creepExt {
         });
         if (this.memory['building']) {
             if (targets.length >= 0) {
-                if (this.build(targets[0]) == ERR_NOT_IN_RANGE) {
+                const result = this.build(targets[0]);
+                if (result == ERR_NOT_IN_RANGE) {
                     this.goTo(targets[0].pos);
+                }
+                if (result == OK) {
+                    this.room.addRestrictedPos(this.name, this.pos);
                 }
             }
         } else {
@@ -66,14 +69,20 @@ export class builder extends Creep implements creepExt {
                 }
                 return;
             }
-            if (Game.rooms[this.memory['roomID']].storage) {
+            if (
+                Game.rooms[this.memory['roomID']] &&
+                Game.rooms[this.memory['roomID']].storage &&
+                Game.rooms[this.memory['roomID']].storage!.store[
+                    RESOURCE_ENERGY
+                ] > 0
+            ) {
                 if (
                     this.withdraw(
-                        Game.rooms[this.memory['roomID']].storage,
+                        Game.rooms[this.memory['roomID']].storage!,
                         RESOURCE_ENERGY
                     ) == ERR_NOT_IN_RANGE
                 ) {
-                    this.goTo(Game.rooms[this.memory['roomID']].storage.pos);
+                    this.goTo(Game.rooms[this.memory['roomID']].storage!.pos);
                 }
             }
         }

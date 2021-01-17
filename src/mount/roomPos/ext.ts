@@ -5,10 +5,13 @@ import _ from 'lodash';
  */
 export default class PositionExtension extends RoomPosition {
     /**
-     * 获取当前位置目标方向的 pos 对象
+     * 获取当前位置目标方向的 this 对象
      *
      * @param direction 目标方向
      */
+    public isOnEdge(): boolean {
+        return this.x <= 1 || this.x >= 48 || this.y <= 1 || this.y >= 48;
+    }
     public directionToPos(
         direction: DirectionConstant
     ): RoomPosition | undefined {
@@ -26,7 +29,7 @@ export default class PositionExtension extends RoomPosition {
             else targetX--;
         }
 
-        // 如果要移动到另一个房间的话就返回空，否则返回目标 pos
+        // 如果要移动到另一个房间的话就返回空，否则返回目标 this
         if (targetX < 0 || targetY > 49 || targetX > 49 || targetY < 0)
             return undefined;
         else return new RoomPosition(targetX, targetY, this.roomName);
@@ -68,24 +71,34 @@ export default class PositionExtension extends RoomPosition {
         return result;
     }
     public intersection(...p: RoomPosition[][]): RoomPosition[] {
-        let result = [];
+        let result: RoomPosition[] = [];
         for (const i of p) {
             for (const j of p) {
                 if (i == j) continue;
                 result = result.concat(
-                    i.filter((v) => j.findIndex((it) => it.isEqualTo(v)) != -1)
+                    i.filter(
+                        (v) =>
+                            j.findIndex((it) => {
+                                return it.isEqualTo(v);
+                            }) != -1
+                    )
                 ); // [2]
             }
         }
         result = unique(result);
         return result;
     }
+    public serializePos(): string {
+        return `${this.x}/${this.y}/${this.roomName}`;
+    }
 }
 function unique(origin: RoomPosition[]) {
-    let temp = {};
+    let temp: { [a: string]: boolean } = {};
     return origin
         .reverse()
         .filter((item) =>
-            (item.x ^ item.y) in temp ? false : (temp[item.x ^ item.y] = true)
+            item.serializePos() in temp
+                ? false
+                : (temp[item.serializePos()] = true)
         );
 }

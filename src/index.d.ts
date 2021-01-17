@@ -1,17 +1,23 @@
 interface Memory {
+    stats: any;
     rooms: {
         [roomName: string]: RoomMemory;
     };
-    bypassRooms: any;
+    destoryNext?: string;
+    bypassRooms: string[];
+    lockSource: string[];
+    towerStat: string;
     freeSpaceCount: any;
-    porterTasker: string[];
+    porterTasker: { [name: string]: string[] };
     spawnTask: { [name: string]: string[] };
     ReserverRemoteSource: string[];
     MinerRemoteSource: string[];
     ScoutRemoteSource: string[];
-    lessWallId: { [roomName: string]: { id: Id<StructureWall>; ttl: number } };
+    lessWallId?: { [roomName: string]: { id: Id<StructureWall>; ttl: number } };
     type: { [name: string]: number[] };
     beScoutRoom: string[];
+    argCpu:{argCpu:number,ticks:number}
+    WHITE_LIST: string[];
 }
 
 interface posExt {
@@ -21,11 +27,14 @@ interface posExt {
 }
 
 interface Room {
+    findUnlockSource(id: Id<Source>[]): Id<Source>|undefined;
+    unlockSource(id: Id<Source>): void;
+    lockSource(id: Id<Source>): void;
     addRestrictedPos(creepName: string, pos: RoomPosition): void;
     removeRestrictedPos(creepName: string): void;
-    unserializePos(arg0: any);
-    getRestrictedPos();
-    serializePos(pos: RoomPosition);
+    unserializePos(posStr: string): RoomPosition | undefined;
+    getRestrictedPos(): { [creepName: string]: string };
+    serializePos(pos: RoomPosition): string;
     sources: Source[];
 }
 
@@ -35,16 +44,28 @@ interface Structure {
 
 interface CreepMemory {
     parentTaskRaw?: string;
+    sourceID?: string;
+    building?:boolean
     protectRoomId?: string;
     type: number;
     remoteSource?: boolean;
     pos?: any;
     roomID: string;
     standed?: boolean;
+    isSend?: boolean;
     _move?: any;
     disableCross?: any;
     prePos?: string;
-    farMove?: any;
+    farMove?: {
+        // 序列化之后的路径信息
+        path?: string|null;
+        // 移动索引，标志 creep 现在走到的第几个位置
+        index?: number;
+        // 上一个位置信息，形如"14/4"，用于在 creep.move 返回 OK 时检查有没有撞墙
+        prePos?: string;
+        // 缓存路径的目标，该目标发生变化时刷新路径, 形如"14/4E14S1"
+        targetPos?: string;
+    };
     flagName?: string;
     index?: number;
     task?: {
@@ -104,10 +125,12 @@ interface PowerCreep {
 declare module NodeJS {
     // 全局对象
     interface Global {
-        spawnTask: { [spawnName: string]: string };
+        RemoteFlag?: {name:string[],ttl:number};
+        spawnTask?: { [spawnName: string]: string | undefined };
         porterTasksTaken: String[];
         // 是否已经挂载拓展
         hasExtension: boolean;
+        TowerTarget: { [RoomName: string]: Id<Creep> };
         // 全局的路径缓存
         // Creep 在执行远程寻路时会优先检查该缓存
         routeCache: {

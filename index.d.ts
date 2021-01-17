@@ -3393,7 +3393,9 @@ interface RoomMemory {
     isLockByProtect?: boolean;
     source?: Id<Source>[];
 }
-interface SpawnMemory {}
+interface SpawnMemory {
+    time:number
+}
 
 declare const Memory: Memory;
 /**
@@ -4072,7 +4074,7 @@ interface PowerEffect {
  */
 interface RoomPosition {
     readonly prototype: RoomPosition;
-
+    isOnEdge(): boolean;
     /**
      * The name of the room.
      */
@@ -4300,6 +4302,7 @@ interface RoomPosition {
     lookFor<T extends keyof AllLookAtTypes>(type: T): Array<AllLookAtTypes[T]>;
     getFreeSpace(): RoomPosition[];
     intersection(...p: RoomPosition[][]): RoomPosition[];
+    serializePos(): string
 }
 
 interface RoomPositionConstructor extends _Constructor<RoomPosition> {

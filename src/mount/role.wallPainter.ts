@@ -1,30 +1,66 @@
 import { creepExt } from 'base';
+import { isContainer, isStorage } from 'utils';
 
 export class WallPainter extends Creep implements creepExt {
-    task: string;
+    task: string | undefined;
     type: Number = 11;
     work() {
         if (this.store.getUsedCapacity() == 0) {
-            if (
-                this.withdraw(
-                    Game.rooms[this.memory['roomID']].storage,
-                    RESOURCE_ENERGY
-                ) == ERR_NOT_IN_RANGE
-            ) {
-                this.goTo(Game.rooms[this.memory['roomID']].storage.pos);
+            let target:
+                | StructureContainer
+                | StructureStorage
+                | Resource
+                | undefined =
+                this.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {
+                    filter: (it) => {
+                        return it.resourceType == RESOURCE_ENERGY;
+                    }
+                }) ||
+                (this.pos.findClosestByRange(FIND_STRUCTURES, {
+                    filter: (it) => {
+                        return (
+                            it.structureType == STRUCTURE_CONTAINER &&
+                            it.store[RESOURCE_ENERGY] > 0
+                        );
+                    }
+                }) as StructureContainer) ||
+                (this.room.storage &&
+                this.room.storage.store[RESOURCE_ENERGY] > 0
+                    ? this.room.storage
+                    : undefined);
+            console.log(target);
+
+            if (target) {
+                if (isContainer(target)) {
+                    this.withdraw(target, RESOURCE_ENERGY);
+                } else if (isStorage(target)) {
+                    this.withdraw(target, RESOURCE_ENERGY);
+                } else {
+                    this.pickup(target);
+                }
+                this.goTo(target.pos);
             }
+            this.memory.standed = false;
+
             return;
         }
-        if (Memory.lessWallId[this.memory['roomID']]) {
+        if (Memory.lessWallId && Memory.lessWallId[this.memory['roomID']]) {
             let wall = Game.getObjectById<StructureWall>(
                 Memory.lessWallId[this.memory['roomID']].id
             );
+            if (!wall) {
+                return;
+            }
             let res = this.repair(wall);
             if (res == ERR_NOT_IN_RANGE) {
                 this.goTo(wall.pos);
             }
+            if (res == OK) {
+                this.memory.standed = true;
+                this.room.addRestrictedPos(this.name, this.pos);
+            }
             if (Game.time > Memory.lessWallId[this.memory['roomID']].ttl) {
-                Memory.lessWallId[this.memory['roomID']] = undefined;
+                delete Memory.lessWallId[this.memory['roomID']];
             }
             this.say('粉刷本领强~');
             return;
@@ -41,12 +77,20 @@ export class WallPainter extends Creep implements creepExt {
                 }
             }
         ) as StructureWall[];
-        wall.sort((a, b) => {
-            return a.hits - b.hits;
-        });
-        Memory.lessWallId[this.memory['roomID']] = {
-            id: wall[0].id,
-            ttl: Game.time + 300
-        };
+        if (wall && wall.length > 0) {
+            wall.sort((a, b) => {
+                return a.hits - b.hits;
+            });
+            if (!Memory.lessWallId) {
+                
+                Memory.lessWallId = {};
+            }
+            Memory.lessWallId[this.memory['roomID']] = {
+                id: wall[0].id,
+                ttl: Game.time + 300
+            };
+        }else{
+            this.memory.type=1
+        }
     }
 }

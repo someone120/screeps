@@ -3,16 +3,31 @@ import _ from 'lodash';
 import { getStorageLink } from 'utils';
 
 export class Manager extends Creep implements creepExt {
-    task: string;
+    
     type: Number = 8;
     work() {
         let link = getStorageLink(this.room.name);
-        const spawn = this.pos.findClosestByRange(FIND_MY_SPAWNS);
+        const spawn = this.pos.findClosestByRange(FIND_MY_SPAWNS)!;
+        if (
+            spawn.store[RESOURCE_ENERGY] < 300 &&
+            this.store.getUsedCapacity(RESOURCE_ENERGY) !== 0
+        ) {
+            let result = this.transfer(spawn, RESOURCE_ENERGY);
+            if (result == OK) return;
+        }
+        if (
+            spawn.store[RESOURCE_ENERGY] < 300 &&
+            this.store.getUsedCapacity(RESOURCE_ENERGY) === 0
+        ) {
+            let result = this.withdraw(this.room.storage!, RESOURCE_ENERGY);
+            if (result == OK) return;
+        }
         let pos = this.pos.intersection(
-            this.room.storage.pos.getFreeSpace(),
-            link.pos.getFreeSpace(),
-            spawn.pos.getFreeSpace()
+            this.room.storage!.pos.getFreeSpace(),
+            link!.pos.getFreeSpace()
         );
+        console.log(pos);
+        
         this.memory.standed = true;
         this.room.addRestrictedPos(this.name, this.pos);
         if (this.store.getUsedCapacity() > 0) {
@@ -20,7 +35,7 @@ export class Manager extends Creep implements creepExt {
                 if (Object.prototype.hasOwnProperty.call(this.store, res)) {
                     if (
                         this.transfer(
-                            this.room.storage,
+                            this.room.storage!,
                             res as ResourceConstant
                         ) == ERR_NOT_IN_RANGE
                     ) {
@@ -37,7 +52,7 @@ export class Manager extends Creep implements creepExt {
             return;
         }
 
-        if (this.ticksToLive < 500) {
+        if (this.ticksToLive&&this.ticksToLive < 500) {
             spawn.renewCreep(this);
         }
     }

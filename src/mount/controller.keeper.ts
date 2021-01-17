@@ -1,7 +1,6 @@
-import { getQuote } from 'utils';
+import { getQuote, isContainer, isStorage } from 'utils';
 import { creepExt } from 'base';
 export class Upgrader extends Creep implements creepExt {
-    task: string;
     type: Number = 3;
     work() {
         if (this.memory['building'] && this.store[RESOURCE_ENERGY] == 0) {
@@ -13,54 +12,77 @@ export class Upgrader extends Creep implements creepExt {
             this.say('🚧 build');
         }
         if (this.memory['building']) {
-            let targets = Game.rooms[this.memory['roomID']].controller;
+            let targets = Game.rooms[this.memory['roomID']].controller!;
             const text = getQuote(
-                Game.rooms[this.memory['roomID']].controller.id
+                Game.rooms[this.memory['roomID']].controller!.id
             );
             if (!(targets.sign && targets.sign.text == text)) {
                 if (this.signController(targets, text) == ERR_NOT_IN_RANGE) {
                     this.goTo(targets.pos);
                 }
             }
-            if (this.upgradeController(targets) == ERR_NOT_IN_RANGE) {
+            const result = this.upgradeController(targets);
+            if (result == ERR_NOT_IN_RANGE) {
                 this.goTo(targets.pos, { range: 3 });
             }
-        } else {
-            let source2 = Game.rooms[this.memory['roomID']].storage;
-            if (!source2) {
-                const source2 = Game.rooms[this.memory['roomID']].find(
-                    FIND_STRUCTURES,
-                    {
-                        filter: (structure) => {
-                            return (
-                                structure.structureType ==
-                                    STRUCTURE_CONTAINER &&
-                                structure.store.energy > 0
-                            );
-                        }
-                    }
-                ) as StructureContainer[];
-                source2.sort((a, b) => {
-                    return b.store.energy - a.store.energy;
-                });
-                if (source2.length != 0) {
-                    const result = this.withdraw(source2[0], RESOURCE_ENERGY);
-                    if (result == ERR_NOT_IN_RANGE) {
-                        this.goTo(source2[0].pos);
-                    }
-                } else {
-                    const source1 = Game.rooms[this.memory['roomID']].find(
-                        FIND_DROPPED_RESOURCES
-                    )[0];
-                    if (this.pickup(source1) == ERR_NOT_IN_RANGE) {
-                        this.goTo(source1.pos);
-                    }
-                }
-            } else if (
-                this.withdraw(source2, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE
-            ) {
-                this.goTo(source2.pos);
+            if (result == OK) {
+                this.room.addRestrictedPos(this.name, this.pos);
             }
+        } else {
+            let target:
+                | StructureContainer
+                | StructureStorage
+                | Resource
+                | undefined =
+                this.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {
+                    filter: (it) => {
+                        return it.resourceType == RESOURCE_ENERGY;
+                    }
+                }) ||
+                (this.pos.findClosestByRange(FIND_STRUCTURES, {
+                    filter: (it) => {
+                        return (
+                            it.structureType == STRUCTURE_CONTAINER &&
+                            it.store[RESOURCE_ENERGY] > 0
+                        );
+                    }
+                }) as StructureContainer) ||
+                (this.room.storage &&
+                this.room.storage.store[RESOURCE_ENERGY] > 0
+                    ? this.room.storage
+                    : undefined);
+            if (target) {
+                if (isContainer(target)) {
+                    this.withdraw(target, RESOURCE_ENERGY);
+                } else if (isStorage(target)) {
+                    this.withdraw(target, RESOURCE_ENERGY);
+                } else {
+                    this.pickup(target);
+                }
+                this.goTo(target.pos);
+            }
+        }
+        let targets = Game.rooms[this.memory['roomID']].find(
+            FIND_CONSTRUCTION_SITES
+        );
+        let flag = Object.values(Game.flags);
+        flag.find((it) => {
+            if (it.room) {
+                let t = it.room.find(FIND_CONSTRUCTION_SITES);
+                if (t.length > 0) {
+                    targets = targets.concat(t);
+                    return;
+                }
+            }
+        });
+        if (
+            ~~(targets.length * 2.5) > Memory.type[this.memory.roomID][1] &&
+            Memory.type[this.memory.roomID][3] > 1
+        ) {
+            Memory.type[this.memory.roomID][1]++;
+            Memory.type[this.memory.roomID][3]--;
+            this.memory.type = 1;
+            return;
         }
     }
 }

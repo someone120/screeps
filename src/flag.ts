@@ -1,6 +1,6 @@
 import { getSourceFlags } from 'utils';
 
-export function getReserverFirstAvailableFlag(): string {
+export function getReserverFirstAvailableFlag(): string|undefined {
     if (!Memory.ReserverRemoteSource) {
         Memory.ReserverRemoteSource = [];
     }
@@ -27,7 +27,7 @@ export function setReserverAvailableFlag(name: string) {
     }
     Memory.ReserverRemoteSource.splice(index, 1);
 }
-export function getMinerFirstAvailableFlag(): string {
+export function getMinerFirstAvailableFlag(): string|undefined {
     if (!Memory.MinerRemoteSource) {
         Memory.MinerRemoteSource = [];
     }
@@ -54,7 +54,7 @@ export function setMinerAvailableFlag(name: string) {
     }
     Memory.MinerRemoteSource.splice(index, 1);
 }
-export function getScoutFirstAvailableFlag(): string {
+export function getScoutFirstAvailableFlag(): string|undefined {
     if (!Memory.ScoutRemoteSource) {
         Memory.ScoutRemoteSource = [];
     }

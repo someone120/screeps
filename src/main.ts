@@ -2,23 +2,34 @@ import roleSpawn from 'mount/role.spawn';
 import { creepExt } from 'base';
 import { ErrorMapper } from 'errorMapping';
 import mount from 'mount/mount';
-import { stateScanner } from 'utils';
+import { argCpu, stateScanner } from 'utils';
 import { Visualizer } from 'Visualizer';
 import { roles } from 'classes';
-
+import _ from 'lodash';
+import { memory } from 'console';
+const saying = 'Open the skylight and speak brightly.'.split(' ');
 module.exports.loop = ErrorMapper.wrapLoop(() => {
     loop();
 });
 
-export function checkQuantity(creeps: { [creepName: string]: Creep }) {
-    if (Game.time % 10 != 0) {
-        return;
-    }
+function loop() {
     Memory.type = {};
+    Memory.lockSource = [];
     Memory.ScoutRemoteSource = [];
     Memory.ReserverRemoteSource = [];
     Memory.MinerRemoteSource = [];
-    Object.values(creeps).forEach((creep) => {
+    global.porterTasksTaken = [];
+    if (!Memory.argCpu) {
+        Memory.argCpu = { argCpu: 0, ticks: 0 };
+    }
+    mount();
+    for (let name in Game.creeps) {
+        // console.log(name);
+
+        let creep = Game.creeps[name];
+        if (creep.spawning) {
+            continue;
+        }
         if (
             !Memory.type[creep.memory.roomID] ||
             Memory.type[creep.memory.roomID].length <= 0
@@ -41,45 +52,71 @@ export function checkQuantity(creeps: { [creepName: string]: Creep }) {
                     break;
             }
         }
-    });
-}
-function loop() {
-    mount();
-    roleSpawn();
-    checkQuantity(Game.creeps);
-    for (let name in Game.creeps) {
-        // console.log(name);
-        let creep = Game.creeps[name];
+        if (creep.memory.sourceID) {
+            Memory.lockSource.push(creep.memory.sourceID);
+        }
+        if (creep.memory.parentTaskRaw) {
+            global.porterTasksTaken.push(creep.memory.parentTaskRaw);
+        }
+        if (
+            Game.cpu.bucket < Memory.argCpu.argCpu &&
+            Game.time % 2 == 1 &&
+            !_.map(creep.body, 'type').includes(CLAIM) &&
+            creep.body.length < 5
+        ) {
+            creep.say('🛏️');
+            continue;
+        }
+        if (
+            Game.cpu.bucket < Memory.argCpu.argCpu &&
+            Game.time % 2 == 0 &&
+            !_.map(creep.body, 'type').includes(CLAIM) &&
+            creep.body.length > 5
+        ) {
+            creep.say('🛏️');
+            continue;
+        }
         if (Memory['destoryNext'] && Memory['destoryNext'] == name) {
             creep.suicide();
-            Memory['destoryNext'] = null;
+            delete Memory['destoryNext'];
             continue;
         }
         if (creep.memory.type == -1) {
             continue;
         }
-        let t: creepExt = new roles[creep.memory.type](creep.id);
-        drawType(creep);
-        if (t) t.work();
+        if (creep.memory.type == -2) {
+            creep.say(saying[Game.time % saying.length], true);
+
+            continue;
+        }
+        let t: creepExt | null = roles[creep.memory.type]
+            ? new roles[creep.memory.type]!(creep.id)
+            : null;
+
+        if (t) {
+            t.work();
+
+            drawType(creep);
+        }
     }
     autoClean();
     Object.values(Game.structures).forEach((v) => {
         if (v.work) {
-            if (v.structureType == STRUCTURE_CONTAINER) console.log(v.id);
-
             v.work();
         }
+        if (v.structureType == STRUCTURE_SPAWN) {
+            roleSpawn(v as StructureSpawn);
+        }
     });
-    if (Game.cpu.bucket >= 9000 && Memory['towerStat'] == 'normal') {
+    if (Game.cpu.bucket == 10000 && Memory['towerStat'] == 'normal') {
         Game.cpu.generatePixel();
     }
     // let path=PathFinder.search(RoomPosition(4,17, 'W33N42'),{pos:RoomPosition(21,26, 'W33N42'),range:1})
     // console.log(JSON.stringify(path));
     Visualizer.visuals();
     stateScanner();
-    if (Game.time % 10000 == 0) {
-        Game.cpu.halt();
-    }
+
+    Memory.argCpu = argCpu(Memory.argCpu, Game.cpu.getUsed());
 }
 
 /**
@@ -102,7 +139,7 @@ function autoClean() {
     }
 }
 function drawType(creep: Creep) {
-    let text = roles[creep.memory.type].name || '我也不懂';
+    let text = roles[creep.memory.type]!.name || '我也不懂';
     creep.room.visual.text(text, creep.pos.x, creep.pos.y + 0.5, {
         color: '#2196F3',
         font: 0.3,

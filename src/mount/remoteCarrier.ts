@@ -1,7 +1,8 @@
+//@ts-nocheck
 import { creepExt } from 'base';
 import { getSourceFlags } from 'utils';
 export class RemoteCarrier extends Creep implements creepExt {
-    task: string;
+    
     type: Number = 7;
     work(): void {
         let flags = getSourceFlags();
@@ -10,12 +11,12 @@ export class RemoteCarrier extends Creep implements creepExt {
             if (targets) {
                 const result = this.transfer(targets, RESOURCE_ENERGY);
                 if (result == ERR_NOT_IN_RANGE) {
-                    this.goTo(targets.pos);
+                    this.farMoveTo(targets.pos);
                 }
             }
         } else {
             let source2: StructureContainer[] = [];
-            
+
             flags.forEach((v) => {
                 if (v.room) {
                     source2 = source2.concat(
@@ -36,10 +37,10 @@ export class RemoteCarrier extends Creep implements creepExt {
                     return b.store.energy - a.store.energy;
                 });
                 // console.log(source2[0].id);
-                
+
                 const result = this.withdraw(source2[0], RESOURCE_ENERGY);
                 if (result == ERR_NOT_IN_RANGE) {
-                    this.goTo(source2[0].pos);
+                    this.farMoveTo(source2[0].pos);
                     return;
                 }
             }
@@ -54,7 +55,7 @@ export class RemoteCarrier extends Creep implements creepExt {
                     return b.amount - a.amount;
                 });
                 if (this.pickup(source[0]) == ERR_NOT_IN_RANGE) {
-                    this.goTo(source[0].pos);
+                    this.farMoveTo(source[0].pos);
                     return;
                 }
             }

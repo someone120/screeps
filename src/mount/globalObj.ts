@@ -1,6 +1,11 @@
+//@ts-nocheck
+
+import _ from 'lodash';
 import { random } from 'lodash';
 import { pushCarrierTask, pushSpawnTask } from 'task.manager';
+import { find } from '../role.tower';
 import { buildRoad, encodee } from 'utils';
+import { add, remove } from 'whiteList';
 export default {
     buildRoadd(from: RoomPosition, to: RoomPosition) {
         buildRoad(from, to);
@@ -15,9 +20,26 @@ export default {
                 return;
             }
             Memory.spawnTask['Spawn1'].unshift(task);
-        }
+        },
     },
+    find: find,
     remote: {
+        addPassRoom(roomName: string): boolean {
+            if (!Memory.bypassRooms) Memory.bypassRooms = [];
+            if (Memory.bypassRooms.includes(roomName)) {
+                return false;
+            }
+            Memory.bypassRooms.push(roomName);
+            return true;
+        },
+        delPassRoom(roomName: string): boolean {
+            if (!Memory.bypassRooms) Memory.bypassRooms = [];
+            if (Memory.bypassRooms.includes(roomName)) {
+                _.pull(roomName);
+                return true;
+            }
+            return false;
+        },
         scout(roomName: string) {
             if (Game.rooms[roomName]) {
                 Game.rooms[roomName].sources.forEach((it) => {
@@ -45,8 +67,12 @@ export default {
                 );
                 Memory.spawnTask['Spawn1'].unshift(task);
             }
-        }
+        },
     },
     pushCarrierTaskk: pushCarrierTask,
-    pushSpawnTaskk: pushSpawnTask
+    pushSpawnTaskk: pushSpawnTask,
+    WhiteList: {
+        add: add,
+        remove: remove,
+    },
 };

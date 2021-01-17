@@ -1,10 +1,11 @@
-
 import { structure } from 'base';
-import { assignPrototype, requestEnergy, WHITE_LIST } from './utils';
+import globalObj from 'mount/globalObj';
+import { filter as filte } from 'whiteList';
+import { assignPrototype, requestEnergy } from './utils';
 export default class towerExt extends StructureTower implements structure {
     public work(): void {
         this.check(this);
-        switch (Memory['towerStat']) {
+        switch (Memory.towerStat) {
             case 'beAttack':
                 this.more(this);
                 break;
@@ -19,53 +20,39 @@ export default class towerExt extends StructureTower implements structure {
                 break;
         }
     }
-    private find(tower: StructureTower) {
-        return tower.room.find(FIND_HOSTILE_CREEPS,{
-            filter:(it)=>{
-                return !WHITE_LIST.includes(it.owner.username)
-            }
-        });
-    }
+
     private check(tower: StructureTower) {
         if (Game.time % 5 != 0) {
             return;
         }
-        let creeps = this.find(tower);
-        if (creeps.length == 0) {
-            Memory['towerStat'] = 'normal';
-        } else if (creeps.length >= 4) {
+        let creeps = Game.getObjectById(global.TowerTarget?global.TowerTarget[this.room.name]:'' as Id<Creep>)|| find(tower);
+        if (!creeps) {
+            Memory.towerStat = 'normal';
+        } else if (
+            tower.room.find(FIND_HOSTILE_CREEPS, {
+                filter: (it) => {
+                    return (
+                        filte(it) &&
+                        !it.pos.isOnEdge() &&
+                        (it.body.find((it) => {
+                            return it.type == ATTACK;
+                        }) ||
+                            it.body.find((it) => {
+                                return it.type == WORK;
+                            }) ||
+                            it.body.find((it) => {
+                                return it.type == RANGED_ATTACK;
+                            }))
+                    );
+                }
+            }).length >= 4
+        ) {
             Memory['towerStat'] = 'beAttack';
         } else {
             Memory['towerStat'] = 'less';
         }
-        if (Game.time % 50 == 0) {
-            global[`towerRequest${tower.id}`] = false;
-        }
-        if (
-            tower.store.getFreeCapacity(RESOURCE_ENERGY) > 20 &&
-            Memory['towerStat'] == 'normal'
-        ) {
-            requestEnergy(
-                this.room.storage ? this.room.storage.id : '',
-                this.id
-            );
-        } else if (
-            tower.store.getFreeCapacity(RESOURCE_ENERGY) > 20 &&
-            Memory['towerStat'] != 'normal'
-        ) {
-            let task = `requestEneryge ${
-                this.room.storage ? this.room.storage.id : ''
-            } ${this.id}`;
-            if (
-                Memory.porterTasker.includes(task) ||
-                global.porterTasksTaken.includes(task)
-            ) {
-                return;
-            }
-            console.log(
-                `<p style="color: #8BC34A;">[${this.id}]发布了任务：${task}</p>`
-            );
-            Memory.porterTasker.unshift(task);
+        if (tower.store.getFreeCapacity(RESOURCE_ENERGY) > 10) {
+            requestEnergy(this.id, this.room.name, true);
         }
     }
     private normal(tower: StructureTower) {
@@ -74,37 +61,63 @@ export default class towerExt extends StructureTower implements structure {
                 return creep.hitsMax - creep.hits > 0;
             }
         });
-        let hurtBuild = tower.room
-            .find(FIND_STRUCTURES, {
+        
+        if (hurtCreep.length > 0) {
+            tower.heal(hurtCreep[0]);
+        } else {
+            let hurtBuild = tower.room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
                     return (
                         structure.hits < 25000 &&
                         structure.hitsMax - structure.hits > 0
                     );
                 }
-            })
-            .sort((a, b) => {
-                return a.hitsMax - a.hits - (b.hitsMax - b.hits);
             });
-        if (hurtCreep.length > 0) {
-            tower.heal(hurtCreep[0]);
-        } else if (hurtBuild.length > 0) {
+            hurtBuild.sort((a, b) => a.hits - b.hits);
             tower.repair(hurtBuild[0]);
         }
     }
     private less(tower: StructureTower) {
-        let attack = this.pos.findClosestByRange(FIND_HOSTILE_CREEPS, {
-            filter: (creep) => {
-                return !WHITE_LIST.includes(creep.owner.username);
-            }
-        });
-        tower.attack(attack);
+        let target = find(tower);
+        if (target) tower.attack(target);
     }
     private more(tower: StructureTower) {
-        this.room.controller.activateSafeMode();
         this.less(tower);
     }
 }
 export function mountTower() {
     assignPrototype(StructureTower, towerExt);
+}
+export function find(tower: StructureTower): Creep | undefined {
+    if (!global.TowerTarget) {
+        global.TowerTarget = {};
+    }
+    if (
+        global.TowerTarget[tower.room.name] &&
+        Game.getObjectById(global.TowerTarget[tower.room.name]) &&
+        Game.getObjectById(global.TowerTarget[tower.room.name])!!.room.name ==
+            tower.room.name
+    ) {
+        return Game.getObjectById(global.TowerTarget[tower.room.name])!!;
+    }
+    let result = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS, {
+        filter: (it) => {
+            return (
+                filte(it) &&
+                !it.pos.isOnEdge() &&
+                it.body.find((it) => {
+                    return (
+                        it.type == WORK ||
+                        it.type == RANGED_ATTACK ||
+                        it.type == ATTACK ||
+                        it.type == CLAIM
+                    );
+                })
+            );
+        }
+    });
+    if (result) {
+        global.TowerTarget[tower.room.name] = result.id;
+        return result;
+    }
 }

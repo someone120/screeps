@@ -1,17 +1,19 @@
 import { encode } from 'js-base64';
-import { pushCarrierTask } from './task.manager';
+import { pushCarrierTask } from 'task.manager';
 export const WHITE_LIST = ['RaskVann'];
 
-// const quote: string[] = [
-//     '隐患险于明火，防范胜于救灾，责任重于泰山。',
-//     '就在前一个时期，从国外的一些宣传报道，有若干是跟我们的事实真相不相符合的。我想这个丝毫不能去影响我们对于香港问题的解决方针——就是我们的一国可以两制。',
-//     '那么因此，我曾经给香港的一些先生们讲过一句俗语叫：井水不犯河水。这个我认为是一种很恰当地可以表达我们一个国家两种制度是不变的方针。',
-//     '但是我想也无可讳言，确实国际上有些人想要把香港成为一个颠覆我们社会主义国家，来攻击我们共产党的领导的这样一个基地。',
-//     '所以后来我就念了两首诗，叫“苟利国家生死以，岂因祸福避趋之”，那麼所以我就到了北京。',
-//     '这个 engineering drawing 呢，我们就有几年用鸭嘴的笔，旁边一个小盒子。最痛苦的，就是鸭嘴笔把这个水弄到里面，描图的时候一下子就⋯然后就用刀片刮，这个就是描图是最痛苦的，而且这个效率 efficiency⋯',
-//     '我想这个问题发生了以后，我曾经在国内的时候发表过一个简短的讲话。之后我到拉丁美洲来进行访问之前没有发表过一个讲话。',
-//     '你们真的……我认为……遍地……你们有一个好，全世界跑到什么地方，你们比其他的西方记者啊跑得还快。但是呢问来问去的问题啊，都 too simple，啊，sometimes naive！懂了没啊？'
-// ];
+const quote: string[] = [
+    '隐患险于明火，防范胜于救灾，责任重于泰山。',
+    '就在前一个时期，从国外的一些宣传报道，有若干是跟我们的事实真相不相符合的。我想这个丝毫不能去影响我们对于香港问题的解决方针——就是我们的一国可以两制。',
+    '那么因此，我曾经给香港的一些先生们讲过一句俗语叫：井水不犯河水。这个我认为是一种很恰当地可以表达我们一个国家两种制度是不变的方针。',
+    '但是我想也无可讳言，确实国际上有些人想要把香港成为一个颠覆我们社会主义国家，来攻击我们共产党的领导的这样一个基地。',
+    '所以后来我就念了两首诗，叫“苟利国家生死以，岂因祸福避趋之”，那麼所以我就到了北京。',
+    '这个 engineering drawing 呢，我们就有几年用鸭嘴的笔，旁边一个小盒子。最痛苦的，就是鸭嘴笔把这个水弄到里面，描图的时候一下子就⋯然后就用刀片刮，这个就是描图是最痛苦的，而且这个效率 efficiency⋯',
+    '我想这个问题发生了以后，我曾经在国内的时候发表过一个简短的讲话。之后我到拉丁美洲来进行访问之前没有发表过一个讲话。',
+    '你们真的……我认为……遍地……你们有一个好，全世界跑到什么地方，你们比其他的西方记者啊跑得还快。但是呢问来问去的问题啊，都 too simple，啊，sometimes naive！懂了没啊？',
+    '聪明的小滑头，不要试图去打破第四面墙。',
+    '打开天窗说亮话吧。'
+];
 
 export function getBodyConfig(
     ...bodySets: [
@@ -37,6 +39,7 @@ export function getBodyConfig(
     };
     // 遍历空配置项，用传入的 bodySet 依次生成配置项
     Object.keys(config).map((level, index) => {
+        //@ts-ignore
         config[level] = calcBodyPart(bodySets[index]);
     });
 
@@ -47,9 +50,11 @@ export function calcBodyPart(bodySet: BodySet): BodyPartConstant[] {
     // 把身体配置项拓展成如下形式的二维数组
     // [ [ TOUGH ], [ WORK, WORK ], [ MOVE, MOVE, MOVE ] ]
     const bodys = Object.keys(bodySet).map((type) =>
+        //@ts-ignore
         Array(bodySet[type]).fill(type)
     );
     // 把二维数组展平
+    //@ts-ignore
     return [].concat(...bodys);
 }
 export function getOppositeDirection(
@@ -76,46 +81,44 @@ export function stateScanner() {
     // 每 20 tick 运行一次
     if (Game.time % 10) return;
 
-    if (!Memory['stats']) Memory['stats'] = {};
+    if (!Memory.stats) Memory.stats = {};
 
     // 统计 GCL / GPL 的升级百分比和等级
-    Memory['stats'].gcl = (Game.gcl.progress / Game.gcl.progressTotal) * 100;
-    Memory['stats'].gclLevel = Game.gcl.level;
-    Memory['stats'].gpl = (Game.gpl.progress / Game.gpl.progressTotal) * 100;
-    Memory['stats'].gplLevel = Game.gpl.level;
+    Memory.stats.gcl = (Game.gcl.progress / Game.gcl.progressTotal) * 100;
+    Memory.stats.gclLevel = Game.gcl.level;
+    Memory.stats.gpl = (Game.gpl.progress / Game.gpl.progressTotal) * 100;
+    Memory.stats.gplLevel = Game.gpl.level;
     // CPU 的当前使用量
-    Memory['stats'].cpu = Game.cpu.getUsed();
+    Memory.stats.cpu = Game.cpu.getUsed();
     // bucket 当前剩余量
-    Memory['stats'].bucket = Game.cpu.bucket;
+    Memory.stats.bucket = Game.cpu.bucket;
 }
 
-export function requestEnergyPos(
-    storageId: string,
+export function requestEnergy(
     structureId: string,
-    pos: RoomPosition
+    roomName: string,
+    isTop: boolean = false
 ) {
     pushCarrierTask(
-        `requestEneryge ${storageId} ${structureId} ${pos.x} ${pos.y}`,
-        structureId
+        `request/${structureId}/${RESOURCE_ENERGY}`,
+        roomName,
+        structureId,
+        isTop
     );
-    // console.log(`requestEneryge ${storageId} ${structureId}`);
-}
-export function requestEnergy(storageId: string, structureId: string) {
-    pushCarrierTask(`request/${structureId}/${RESOURCE_ENERGY}`, structureId);
     // console.log(`requestEneryge ${storageId} ${structureId}`);
 }
 /**
  * 检测是不是Container
  * @param target 目标
  */
-export function isContainer(target): target is StructureContainer {
+export function isContainer(target: any): target is StructureContainer {
     return target.structureType && target.structureType == STRUCTURE_CONTAINER;
 }
 /**
  * 检测是不是Storage
  * @param target 目标
  */
-export function isStorage(target): target is StructureStorage {
+export function isStorage(target: any): target is StructureStorage {
     return target.structureType && target.structureType == STRUCTURE_STORAGE;
 }
 export function buildRoad(from: RoomPosition, to: RoomPosition) {
@@ -123,6 +126,7 @@ export function buildRoad(from: RoomPosition, to: RoomPosition) {
         from,
         { pos: to, range: 1 },
         {
+            //@ts-ignore
             roomCallback: (roomName) => {
                 let room = Game.rooms[roomName];
                 if (!room) return;
@@ -174,17 +178,17 @@ export function encodee(text: string): string {
 
 export function getSourceFlags(): Flag[] {
     let result = [];
-    if (global['RemoteFlag']) {
-        global['RemoteFlag'].forEach((v) => {
+    if (global.RemoteFlag && global.RemoteFlag.ttl < Game.time) {
+        global.RemoteFlag.name.forEach((v) => {
             result.push(Game.flags[v]);
         });
     } else {
-        global['RemoteFlag'] = [];
+        global.RemoteFlag = { name: [], ttl: Game.time + 500 };
         for (const key in Game.flags) {
             if (Object.prototype.hasOwnProperty.call(Game.flags, key)) {
                 const element = Game.flags[key];
                 if (element.name.split('_')[0] == 'RemoteSource') {
-                    global['RemoteFlag'].push(key);
+                    global.RemoteFlag.name.push(key);
                     result.push(element);
                 }
             }
@@ -193,20 +197,45 @@ export function getSourceFlags(): Flag[] {
     return result;
 }
 export function cleanCache() {
-    global['RemoteFlag'] = undefined;
+    global.RemoteFlag = undefined;
 }
 
 export function getQuote(RoomName: string): string {
-    return '《ⁿᵉᵛᵉʳᵐⁱⁿᵈ》';
+    let i = 0;
+    RoomName.split('').forEach((it) => {
+        i += it.charCodeAt(0) ^ 114514;
+    });
+    return quote[i % quote.length];
 }
 
-export function getSourceLink(): StructureLink {
-    return new RoomPosition(17, 7, 'W28S15')
-        .lookFor(LOOK_STRUCTURES)
-        .find((it) => {
+export function getSourceLink(
+    RoomName: string,
+    pos: RoomPosition
+): StructureLink {
+    return pos.findInRange(FIND_STRUCTURES, 1, {
+        filter: (it) => {
             return it.structureType == STRUCTURE_LINK;
-        }) as StructureLink;
+        }
+    })[0] as StructureLink;
 }
-export function getStorageLink(RoomName: string): StructureLink {
-    return Game.getObjectById('5fbb9840b800f334cd02ab43');
+export function getStorageLink(RoomName: string): StructureLink | null {
+    return Game.rooms[RoomName].storage
+        ? (Game.rooms[RoomName].storage!.pos.findInRange(FIND_STRUCTURES, 1, {
+              filter: (it) => {
+                  return it.structureType == STRUCTURE_LINK;
+              }
+          })[0] as StructureLink)
+        : null;
+}
+
+export function argCpu(
+    arg: { argCpu: number; ticks: number },
+    nowCpu: number
+): { argCpu: number; ticks: number } {
+    return arg.ticks > 1000
+        ? { argCpu: nowCpu, ticks: 1 }
+        : {
+              argCpu: (arg.argCpu * arg.ticks + nowCpu) / (arg.ticks + 1),
+              ticks: arg.ticks + 1
+          };
 }

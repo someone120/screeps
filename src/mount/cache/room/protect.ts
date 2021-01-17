@@ -11,5 +11,6 @@ export function unlockRoom(roomName: string) {
 }
 export function roomStat(roomName: string): boolean {
 	if (Memory.rooms || Memory.rooms[roomName]) return false;
-	return !!Memory.rooms[roomName].isLockByProtect;
+	//@ts-ignore
+	return !!(Memory.rooms[roomName].isLockByProtect);
 }
