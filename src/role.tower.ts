@@ -25,7 +25,7 @@ export default class towerExt extends StructureTower implements structure {
         if (Game.time % 5 != 0) {
             return;
         }
-        let creeps = Game.getObjectById(global.TowerTarget[this.room.name])|| find(tower);
+        let creeps = Game.getObjectById(global.TowerTarget?global.TowerTarget[this.room.name]:'' as Id<Creep>)|| find(tower);
         if (!creeps) {
             Memory.towerStat = 'normal';
         } else if (
