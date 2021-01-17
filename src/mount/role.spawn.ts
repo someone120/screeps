@@ -138,7 +138,11 @@ export default function(spawn: StructureSpawn) {
         //         spawn.room.name
         //     );
         // }
-        if (spawn.room.controller!.level >= 6 && MineralCreep < 1) {
+        if (
+            spawn.room.controller!.level >= 6 &&
+            MineralCreep < 1 &&
+            spawn.room.find(FIND_MINERALS)[0].mineralAmount > 0
+        ) {
             pushSpawnTask(`Mineraler ${available}`, spawn.room.name);
         }
         if (getSourceFlags() && Protectors < getSourceFlags().length) {
