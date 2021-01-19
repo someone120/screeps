@@ -6,7 +6,7 @@ interface Memory {
     destoryNext?: string;
     bypassRooms: string[];
     lockSource: string[];
-    towerStat: string;
+    towerStat: {[room:string]:string};
     freeSpaceCount: any;
     porterTasker: { [name: string]: string[] };
     spawnTask: { [name: string]: string[] };
