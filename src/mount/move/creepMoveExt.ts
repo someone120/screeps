@@ -13,7 +13,6 @@ export class creepMoveExt extends Creep {
             _.assign(
                 {
                     reusePath: 20,
-                    ignoreCreeps: true,
                     costCallback: (roomName:string, costMatrix:CostMatrix) => {
                         if (roomName === this.room.name) {
                             // 避开房间中的禁止通行点
@@ -29,6 +28,9 @@ export class creepMoveExt extends Creep {
                                     restrictedPos[creepName]
                                 )!;
                                 costMatrix.set(pos.x, pos.y, 0xff);
+                                this.room.find(FIND_MY_CREEPS).forEach((it)=>{
+                                    costMatrix.set(it.pos.x, it.pos.y, 0xff);
+                                })
                             }
                         }
                         // for (let i = 0; i <= 49; i++) {
@@ -141,6 +143,7 @@ export class creepMoveExt extends Creep {
                                 !struct.my)
                         )
                             costs.set(struct.pos.x, struct.pos.y, 0xff);
+                            
                     });
 
                     // 避开房间中的禁止通行点

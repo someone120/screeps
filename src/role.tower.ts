@@ -116,13 +116,14 @@ export function find(tower: StructureTower): Creep | undefined | null {
         filter: (it) => {
             return (
                 filte(it) &&
-                !it.pos.isOnEdge() &&
+                !it.pos.isOnEdge(2) &&
                 it.body.find((it) => {
                     return (
                         it.type == WORK ||
                         it.type == RANGED_ATTACK ||
                         it.type == ATTACK ||
-                        it.type == CLAIM
+                        it.type == CLAIM ||
+                        it.type == HEAL
                     );
                 })
             );
