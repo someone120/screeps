@@ -28,7 +28,7 @@ export class WallPainter extends Creep implements creepExt {
                 this.room.storage.store[RESOURCE_ENERGY] > 0
                     ? this.room.storage
                     : undefined);
-            console.log(target);
+            // console.log(target);
 
             if (target) {
                 if (isContainer(target)) {

@@ -142,7 +142,7 @@ export function supply(creep: Creep): boolean {
             | StructureStorage
             | Resource
             | undefined =
-            Memory.towerStat == 'normal'
+            Memory.towerStat[creep.room.name] == 'normal'
                 ? creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {
                       filter: (it) => {
                           return it.resourceType == RESOURCE_ENERGY;
@@ -191,7 +191,7 @@ export function supply(creep: Creep): boolean {
         creep.goTo(target.pos);
         return false;
     }
-    console.log(result);
+    // console.log(result);
 
     return true;
 }
@@ -240,7 +240,7 @@ export function doing(creep: Creep) {
     } else {
         // 在做完任务后清除任务
         let index = global.porterTasksTaken.indexOf(creep.memory.parentTaskRaw);
-        console.log(`${creep.name} ${creep.memory.parentTaskRaw}`);
+        // console.log(`${creep.name} ${creep.memory.parentTaskRaw}`);
 
         if (index != -1) global.porterTasksTaken.splice(index, 1);
         delete creep.memory.parentTask;
