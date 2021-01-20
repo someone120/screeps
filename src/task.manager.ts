@@ -142,7 +142,8 @@ export function supply(creep: Creep): boolean {
             | StructureStorage
             | Resource
             | undefined =
-            Memory.towerStat[creep.room.name] == 'normal'
+            Memory.towerStat[creep.room.name] == 'normal' ||
+            !Memory.towerStat[creep.room.name]
                 ? creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {
                       filter: (it) => {
                           return it.resourceType == RESOURCE_ENERGY;

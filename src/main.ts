@@ -108,7 +108,12 @@ function loop() {
             roleSpawn(v as StructureSpawn);
         }
     });
-    if (Game.cpu.bucket == 10000 && Memory['towerStat'] == 'normal') {
+    if (
+        Game.cpu.bucket == 10000 &&
+        Object.values(Memory['towerStat']).find((it) => {
+            it == 'normal';
+        })
+    ) {
         Game.cpu.generatePixel();
     }
     // let path=PathFinder.search(RoomPosition(4,17, 'W33N42'),{pos:RoomPosition(21,26, 'W33N42'),range:1})
