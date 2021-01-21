@@ -3389,6 +3389,7 @@ interface CreepMemory {}
 interface FlagMemory {}
 interface PowerCreepMemory {}
 interface RoomMemory {
+    center?: number[];
     restrictedPos?: { [creepName: string]: string };
     isLockByProtect?: boolean;
     source?: Id<Source>[];

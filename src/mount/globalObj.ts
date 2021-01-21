@@ -7,6 +7,7 @@ import { find } from '../role.tower';
 import { buildRoad, encodee } from 'utils';
 import { add, remove } from 'whiteList';
 export default {
+    findBaseCenterPos,
     buildRoadd(from: RoomPosition, to: RoomPosition) {
         buildRoad(from, to);
     },
