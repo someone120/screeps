@@ -27,6 +27,7 @@ interface posExt {
 }
 
 interface Room {
+    mineral: Mineral;
     findUnlockSource(id: Id<Source>[]): Id<Source>|undefined;
     unlockSource(id: Id<Source>): void;
     lockSource(id: Id<Source>): void;
