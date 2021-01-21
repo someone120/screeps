@@ -23,7 +23,7 @@ const ROOM_MAX_SIZE = 50
  * @param baseSize 正方形基地的尺寸
  * @returns 所有满足条件的房间位置
  */
-export const findBaseCenterPos = function(roomName: string, baseSize: number = 11): RoomPosition[] {
+export function findBaseCenterPos(roomName: string, baseSize: number = 11): RoomPosition[] {
     const terrain = new Room.Terrain(roomName)
 
     let dp: DpNode[][] = Array(ROOM_MAX_SIZE).fill(undefined).map(_ => [])

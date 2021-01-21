@@ -6,8 +6,8 @@ import { pushCarrierTask, pushSpawnTask } from 'task.manager';
 import { find } from '../role.tower';
 import { buildRoad, encodee } from 'utils';
 import { add, remove } from 'whiteList';
+import {findBaseCenterPos} from 'autoPlan/planBasePos'
 export default {
-    findBaseCenterPos,
     buildRoadd(from: RoomPosition, to: RoomPosition) {
         buildRoad(from, to);
     },
@@ -21,7 +21,7 @@ export default {
                 return;
             }
             Memory.spawnTask['Spawn1'].unshift(task);
-        },
+        }
     },
     find: find,
     remote: {
@@ -68,12 +68,13 @@ export default {
                 );
                 Memory.spawnTask['Spawn1'].unshift(task);
             }
-        },
+        }
     },
     pushCarrierTaskk: pushCarrierTask,
     pushSpawnTaskk: pushSpawnTask,
     WhiteList: {
         add: add,
-        remove: remove,
+        remove: remove
     },
+    findBaseCenterPos
 };
