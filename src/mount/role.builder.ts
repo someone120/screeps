@@ -12,6 +12,7 @@ export class builder extends Creep implements creepExt {
         if (!this.memory['building'] && this.store.getFreeCapacity() == 0) {
             this.memory['building'] = true;
             this.say('🚧 build');
+            this.room.removeRestrictedPos(this.name);
         }
         let targets = Game.rooms[this.memory['roomID']].find(
             FIND_CONSTRUCTION_SITES
