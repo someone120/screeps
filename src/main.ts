@@ -1,7 +1,7 @@
-import roleSpawn from 'mount/role.spawn';
+import roleSpawn from 'mount/roles/role.spawn';
 import { creepExt } from 'base';
 import { ErrorMapper } from 'errorMapping';
-import mount from 'mount/mount';
+import mount from 'mount/roles/mount';
 import { argCpu, stateScanner } from 'utils';
 import { Visualizer } from 'Visualizer';
 import { roles } from 'classes';

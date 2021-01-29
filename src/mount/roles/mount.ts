@@ -1,14 +1,14 @@
 import globalObj from './globalObj';
 import _ from 'lodash';
 import { mountLink } from './role.link';
-import { mountSpawn } from './spawn.task';
+import { mountSpawn } from '../tasks/spawn.task';
 import { mountExtension } from './role.ext';
-import { mountTower } from 'role.tower';
-import { mountSource } from './cache/room/source';
-import { mountMove } from './move';
-import { mountRoom } from './room';
+import { mountTower } from 'mount/roles/role.tower';
+import { mountSource } from '../cache/room/source';
+import { mountMove } from '../move';
+import { mountRoom } from '../room';
 import { mountContainer } from './role.container';
-import roomPos from './roomPos';
+import roomPos from '../roomPos';
 export default function() {
     if (!global['hasExtension']) {
         console.log('[mount] 重新挂载拓展');

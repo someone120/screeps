@@ -1,16 +1,16 @@
-import { Carrier } from 'mount/role.porter';
-import { Upgrader } from 'mount/controller.keeper';
-import { RemoteCarrier } from 'mount/remoteCarrier';
-import { remoteMiner } from 'mount/remoteMiner';
-import { remoteProtector } from 'mount/remoteProtector';
-import { reserve } from 'mount/reserver';
-import { builder } from 'mount/role.builder';
-import { Manager } from 'mount/role.energyTransfer';
-import { harvester } from 'mount/role.harvester';
-import { Repairer } from 'mount/role.maintainer';
-import { Mineraler } from 'mount/role.mineral';
-import { Scort } from 'mount/role.scout';
-import { WallPainter } from 'mount/role.wallPainter';
+import { Carrier } from 'mount/roles/role.porter';
+import { Upgrader } from 'mount/roles/controller.keeper';
+import { RemoteCarrier } from 'mount/roles/remoteCarrier';
+import { remoteMiner } from 'mount/roles/remoteMiner';
+import { remoteProtector } from 'mount/roles/remoteProtector';
+import { reserve } from 'mount/roles/reserver';
+import { builder } from 'mount/roles/role.builder';
+import { Manager } from 'mount/roles/role.energyTransfer';
+import { harvester } from 'mount/roles/role.harvester';
+import { Repairer } from 'mount/roles/role.maintainer';
+import { Mineraler } from 'mount/roles/role.mineral';
+import { Scort } from 'mount/roles/role.scout';
+import { WallPainter } from 'mount/roles/role.wallPainter';
 import { attacker } from 'mount/war/Attacker';
 export const roles = [
     harvester,

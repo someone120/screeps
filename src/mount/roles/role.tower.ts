@@ -1,7 +1,7 @@
 import { structure } from 'base';
-import globalObj from 'mount/globalObj';
+import globalObj from './globalObj';
 import { filter as filte } from 'whiteList';
-import { assignPrototype, requestEnergy } from './utils';
+import { assignPrototype, requestEnergy } from '../../utils';
 export default class towerExt extends StructureTower implements structure {
     public work(): void {
         this.check(this);

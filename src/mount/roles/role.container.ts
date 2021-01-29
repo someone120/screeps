@@ -1,6 +1,6 @@
-import { pushCarrierTask } from 'task.manager';
+import { pushCarrierTask } from 'mount/tasks/task.manager';
 import { assignPrototype } from 'utils';
-import { base, structure } from './../base';
+import { base, structure } from 'base';
 
 export default class containerExt extends StructureContainer implements base {
     work() {

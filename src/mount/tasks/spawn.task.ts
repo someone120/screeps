@@ -1,6 +1,6 @@
 import { structure } from 'base';
 import { bodyConfigs as bodySet } from 'setting';
-import { pushCarrierTask } from 'task.manager';
+import { pushCarrierTask } from 'mount/tasks/task.manager';
 import { assignPrototype } from 'utils';
 export default class spawnExt extends StructureSpawn implements structure {
     work() {

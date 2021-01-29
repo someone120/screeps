@@ -1,5 +1,5 @@
 import { creepExt } from 'base';
-import { pushSpawnTask } from 'task.manager';
+import { pushSpawnTask } from 'mount/tasks/task.manager';
 import { getSourceLink, getStorageLink } from 'utils';
 // import { getSourceLink } from 'utils';
 //获取energy
