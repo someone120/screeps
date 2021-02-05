@@ -141,27 +141,24 @@ export function supply(creep: Creep): boolean {
             | StructureContainer
             | StructureStorage
             | Resource
-            | undefined =
-            Memory.towerStat[creep.room.name] == 'normal' ||
-            !Memory.towerStat[creep.room.name]
-                ? creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {
-                      filter: (it) => {
-                          return it.resourceType == RESOURCE_ENERGY;
-                      }
-                  }) ||
-                  (creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                      filter: (it) => {
-                          return (
-                              it.structureType == STRUCTURE_CONTAINER &&
-                              it.store[RESOURCE_ENERGY] > 0
-                          );
-                      }
-                  }) as StructureContainer) ||
-                  (creep.room.storage &&
-                  creep.room.storage.store[RESOURCE_ENERGY] > 0
-                      ? creep.room.storage
-                      : undefined)
-                : creep.room.storage;
+            | undefined = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {
+                filter: (it) => {
+                    return it.resourceType == RESOURCE_ENERGY;
+                }
+            }) ||
+            (creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                filter: (it) => {
+                    return (
+                        it.structureType == STRUCTURE_CONTAINER &&
+                        it.store[RESOURCE_ENERGY] > 0
+                    );
+                }
+            }) as StructureContainer) ||
+            (creep.room.storage &&
+                creep.room.storage.store[RESOURCE_ENERGY] > 0
+                ? creep.room.storage
+                : undefined)
+
 
         if (target) {
             let result: ScreepsReturnCode;

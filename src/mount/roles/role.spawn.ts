@@ -16,7 +16,7 @@ const KeeperNumber = 4;
 /**
  * 按照creep数量发送生成任务
  */
-export default function(spawn: StructureSpawn) {
+export default function (spawn: StructureSpawn) {
     if (!Memory.type) {
         Memory.type = {};
     }

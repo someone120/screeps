@@ -110,8 +110,8 @@ function loop() {
     });
     if (
         Game.cpu.bucket == 10000 &&
-        Object.values(Memory['towerStat']).find((it) => {
-            it == 'normal';
+        !Object.values(Memory['towerStat']).find((it) => {
+            it != 'normal';
         })
     ) {
         Game.cpu.generatePixel();
