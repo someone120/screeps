@@ -1,4 +1,4 @@
-import { pushSpawnTask } from 'task.manager';
+import { pushSpawnTask } from 'mount/tasks/task.manager';
 
 //TODO
 const functions: ((Room: Room, available: number) => boolean)[] = [

@@ -3389,6 +3389,7 @@ interface CreepMemory {}
 interface FlagMemory {}
 interface PowerCreepMemory {}
 interface RoomMemory {
+    center?: number[];
     restrictedPos?: { [creepName: string]: string };
     isLockByProtect?: boolean;
     source?: Id<Source>[];
@@ -4075,6 +4076,7 @@ interface PowerEffect {
 interface RoomPosition {
     readonly prototype: RoomPosition;
     isOnEdge(): boolean;
+    isOnEdge(i:number): boolean
     /**
      * The name of the room.
      */

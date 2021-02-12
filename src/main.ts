@@ -1,7 +1,7 @@
-import roleSpawn from 'mount/role.spawn';
+import roleSpawn from 'mount/roles/role.spawn';
 import { creepExt } from 'base';
 import { ErrorMapper } from 'errorMapping';
-import mount from 'mount/mount';
+import mount from 'mount/roles/mount';
 import { argCpu, stateScanner } from 'utils';
 import { Visualizer } from 'Visualizer';
 import { roles } from 'classes';
@@ -108,7 +108,12 @@ function loop() {
             roleSpawn(v as StructureSpawn);
         }
     });
-    if (Game.cpu.bucket == 10000 && Memory['towerStat'] == 'normal') {
+    if (
+        Game.cpu.bucket == 10000 &&
+        Object.values(Memory['towerStat']).find((it) => {
+            it == 'normal';
+        })
+    ) {
         Game.cpu.generatePixel();
     }
     // let path=PathFinder.search(RoomPosition(4,17, 'W33N42'),{pos:RoomPosition(21,26, 'W33N42'),range:1})

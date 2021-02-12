@@ -1,11 +1,14 @@
 import { structure } from 'base';
-import globalObj from 'mount/globalObj';
+import globalObj from './globalObj';
 import { filter as filte } from 'whiteList';
-import { assignPrototype, requestEnergy } from './utils';
+import { assignPrototype, requestEnergy } from '../../utils';
 export default class towerExt extends StructureTower implements structure {
     public work(): void {
         this.check(this);
-        switch (Memory.towerStat) {
+        if (!Memory.towerStat) {
+            Memory.towerStat={}
+        }
+        switch (Memory.towerStat[this.room.name]) {
             case 'beAttack':
                 this.more(this);
                 break;
@@ -25,15 +28,21 @@ export default class towerExt extends StructureTower implements structure {
         if (Game.time % 5 != 0) {
             return;
         }
-        let creeps = Game.getObjectById(global.TowerTarget?global.TowerTarget[this.room.name]:'' as Id<Creep>)|| find(tower);
+        let creeps =
+            Game.getObjectById(
+                global.TowerTarget
+                    ? global.TowerTarget[this.room.name]
+                    : ('' as Id<Creep>)
+            ) || find(tower);
+        console.log(creeps);
+
         if (!creeps) {
-            Memory.towerStat = 'normal';
+            Memory.towerStat[tower.room.name] = 'normal';
         } else if (
             tower.room.find(FIND_HOSTILE_CREEPS, {
                 filter: (it) => {
                     return (
                         filte(it) &&
-                        !it.pos.isOnEdge() &&
                         (it.body.find((it) => {
                             return it.type == ATTACK;
                         }) ||
@@ -47,9 +56,9 @@ export default class towerExt extends StructureTower implements structure {
                 }
             }).length >= 4
         ) {
-            Memory['towerStat'] = 'beAttack';
+            Memory['towerStat'][tower.room.name] = 'beAttack';
         } else {
-            Memory['towerStat'] = 'less';
+            Memory['towerStat'][tower.room.name] = 'less';
         }
         if (tower.store.getFreeCapacity(RESOURCE_ENERGY) > 10) {
             requestEnergy(this.id, this.room.name, true);
@@ -61,7 +70,7 @@ export default class towerExt extends StructureTower implements structure {
                 return creep.hitsMax - creep.hits > 0;
             }
         });
-        
+
         if (hurtCreep.length > 0) {
             tower.heal(hurtCreep[0]);
         } else {
@@ -88,29 +97,33 @@ export default class towerExt extends StructureTower implements structure {
 export function mountTower() {
     assignPrototype(StructureTower, towerExt);
 }
-export function find(tower: StructureTower): Creep | undefined {
+export function find(tower: StructureTower): Creep | undefined | null {
     if (!global.TowerTarget) {
         global.TowerTarget = {};
     }
+    console.log(tower.room.name);
+    
+    const target = Game.getObjectById(global.TowerTarget[tower.room.name]);
+    console.log(global.TowerTarget[tower.room.name],target);
+    
     if (
         global.TowerTarget[tower.room.name] &&
-        Game.getObjectById(global.TowerTarget[tower.room.name]) &&
-        Game.getObjectById(global.TowerTarget[tower.room.name])!!.room.name ==
-            tower.room.name
+        target
     ) {
-        return Game.getObjectById(global.TowerTarget[tower.room.name])!!;
+        return target;
     }
     let result = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS, {
         filter: (it) => {
             return (
                 filte(it) &&
-                !it.pos.isOnEdge() &&
+                !it.pos.isOnEdge(2) &&
                 it.body.find((it) => {
                     return (
                         it.type == WORK ||
                         it.type == RANGED_ATTACK ||
                         it.type == ATTACK ||
-                        it.type == CLAIM
+                        it.type == CLAIM ||
+                        it.type == HEAL
                     );
                 })
             );

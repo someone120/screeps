@@ -6,7 +6,7 @@ interface Memory {
     destoryNext?: string;
     bypassRooms: string[];
     lockSource: string[];
-    towerStat: string;
+    towerStat: {[room:string]:string};
     freeSpaceCount: any;
     porterTasker: { [name: string]: string[] };
     spawnTask: { [name: string]: string[] };
@@ -27,6 +27,7 @@ interface posExt {
 }
 
 interface Room {
+    mineral: Mineral;
     findUnlockSource(id: Id<Source>[]): Id<Source>|undefined;
     unlockSource(id: Id<Source>): void;
     lockSource(id: Id<Source>): void;

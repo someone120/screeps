@@ -9,8 +9,10 @@ export default class PositionExtension extends RoomPosition {
      *
      * @param direction 目标方向
      */
-    public isOnEdge(): boolean {
-        return this.x <= 1 || this.x >= 48 || this.y <= 1 || this.y >= 48;
+    isOnEdge(i: number=1): boolean {
+        return (
+            this.x <= i || this.x >= 49 - i || this.y <= i || this.y >= 49 - i
+        );
     }
     public directionToPos(
         direction: DirectionConstant

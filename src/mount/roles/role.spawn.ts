@@ -6,9 +6,9 @@ import {
     setReserverUnavailableFlag,
     setScoutUnavailableFlag
 } from 'flag';
-import { pushCarrierTask, pushSpawnTask } from '../task.manager';
+import { pushCarrierTask, pushSpawnTask } from '../tasks/task.manager';
 import { getSourceFlags, requestEnergy } from 'utils';
-import { lockRoom, roomStat } from './cache/room/protect';
+import { lockRoom, roomStat } from '../cache/room/protect';
 import _ from 'lodash';
 import { log } from 'util';
 const PorterNumber = 2;
@@ -138,7 +138,11 @@ export default function(spawn: StructureSpawn) {
         //         spawn.room.name
         //     );
         // }
-        if (spawn.room.controller!.level >= 6 && MineralCreep < 1) {
+        if (
+            spawn.room.controller!.level >= 6 &&
+            MineralCreep < 1 &&
+            spawn.room.find(FIND_MINERALS)[0].mineralAmount > 0
+        ) {
             pushSpawnTask(`Mineraler ${available}`, spawn.room.name);
         }
         if (getSourceFlags() && Protectors < getSourceFlags().length) {
