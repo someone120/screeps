@@ -1,4 +1,5 @@
 import { creepExt } from 'base';
+//@ts-ignore
 import _ from 'lodash';
 import { getStorageLink } from 'utils';
 
@@ -22,6 +23,8 @@ export class Manager extends Creep implements creepExt {
             let result = this.withdraw(this.room.storage!, RESOURCE_ENERGY);
             if (result == OK) return;
         }
+		if(!link||!this.room.storage)
+			return
         let pos = this.pos.intersection(
             this.room.storage!.pos.getFreeSpace(),
             link!.pos.getFreeSpace()
