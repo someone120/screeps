@@ -94,12 +94,11 @@ function loop() {
             : null;
 
 
-        ErrorMapper.wrapLoop(() => {
-            if (t) {
-                t!.work();
-                drawType(creep);
-            }
-        })()
+
+        if (t) {
+            t!.work();
+            drawType(creep);
+        }
 
         autoClean();
         Object.values(Game.structures).forEach((v) => {
