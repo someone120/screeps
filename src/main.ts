@@ -94,61 +94,62 @@ function loop() {
             : null;
 
         if (t) {
-            t.work();
-
-            drawType(creep);
+            ErrorMapper.wrapLoop(() =>  {
+                t!.work();
+                drawType(creep);
+            } )
         }
+        autoClean();
+        Object.values(Game.structures).forEach((v) => {
+            if (v.work) {
+                v.work();
+            }
+            if (v.structureType == STRUCTURE_SPAWN) {
+                roleSpawn(v as StructureSpawn);
+            }
+        });
+        if (
+            Game.cpu.bucket == 10000 &&
+            !Object.values(Memory['towerStat']).find((it) => {
+                it != 'normal';
+            })
+        ) {
+            Game.cpu.generatePixel();
+        }
+        // let path=PathFinder.search(RoomPosition(4,17, 'W33N42'),{pos:RoomPosition(21,26, 'W33N42'),range:1})
+        // console.log(JSON.stringify(path));
+        Visualizer.visuals();
+        stateScanner();
+
+        Memory.argCpu = argCpu(Memory.argCpu, Game.cpu.getUsed());
     }
-    autoClean();
-    Object.values(Game.structures).forEach((v) => {
-        if (v.work) {
-            v.work();
-        }
-        if (v.structureType == STRUCTURE_SPAWN) {
-            roleSpawn(v as StructureSpawn);
-        }
-    });
-    if (
-        Game.cpu.bucket == 10000 &&
-        !Object.values(Memory['towerStat']).find((it) => {
-            it != 'normal';
-        })
-    ) {
-        Game.cpu.generatePixel();
-    }
-    // let path=PathFinder.search(RoomPosition(4,17, 'W33N42'),{pos:RoomPosition(21,26, 'W33N42'),range:1})
-    // console.log(JSON.stringify(path));
-    Visualizer.visuals();
-    stateScanner();
 
-    Memory.argCpu = argCpu(Memory.argCpu, Game.cpu.getUsed());
-}
-
-/**
- * 自动清理死亡的creep内存
- */
-function autoClean() {
-    if (Game.time % 20 != 0) {
-        return;
-    }
-    for (let name in Memory.creeps) {
-        if (!Game.creeps[name]) {
-            delete Memory.creeps[name];
+    /**
+     * 自动清理死亡的creep内存
+     */
+    function autoClean() {
+        if (Game.time % 20 != 0) {
+            return;
         }
+        for (let name in Memory.creeps) {
+            if (!Game.creeps[name]) {
+                delete Memory.creeps[name];
+            }
 
-        for (const flagName in Memory.flags) {
-            if (!Game.flags[flagName]) {
-                delete Memory.flags[flagName];
+            for (const flagName in Memory.flags) {
+                if (!Game.flags[flagName]) {
+                    delete Memory.flags[flagName];
+                }
             }
         }
     }
-}
-function drawType(creep: Creep) {
-    let text = roles[creep.memory.type]!.name || '我也不懂';
-    creep.room.visual.text(text, creep.pos.x, creep.pos.y + 0.5, {
-        color: '#2196F3',
-        font: 0.3,
-        stroke: '#000000',
-        strokeWidth: 0.05
-    });
+    function drawType(creep: Creep) {
+        let text = roles[creep.memory.type]!.name || '我也不懂';
+        creep.room.visual.text(text, creep.pos.x, creep.pos.y + 0.5, {
+            color: '#2196F3',
+            font: 0.3,
+            stroke: '#000000',
+            strokeWidth: 0.05
+        });
+    }
 }
