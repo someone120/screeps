@@ -93,12 +93,14 @@ function loop() {
             ? new roles[creep.memory.type]!(creep.id)
             : null;
 
-        if (t) {
-            ErrorMapper.wrapLoop(() =>  {
+
+        ErrorMapper.wrapLoop(() => {
+            if (t) {
                 t!.work();
                 drawType(creep);
-            } )()
-        }
+            }
+        })()
+
         autoClean();
         Object.values(Game.structures).forEach((v) => {
             if (v.work) {
