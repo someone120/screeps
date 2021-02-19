@@ -97,7 +97,7 @@ function loop() {
             ErrorMapper.wrapLoop(() =>  {
                 t!.work();
                 drawType(creep);
-            } )
+            } )()
         }
         autoClean();
         Object.values(Game.structures).forEach((v) => {
