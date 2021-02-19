@@ -99,31 +99,31 @@ function loop() {
             t!.work();
             drawType(creep);
         }
-
-        autoClean();
-        Object.values(Game.structures).forEach((v) => {
-            if (v.work) {
-                v.work();
-            }
-            if (v.structureType == STRUCTURE_SPAWN) {
-                roleSpawn(v as StructureSpawn);
-            }
-        });
-        if (
-            Game.cpu.bucket == 10000 &&
-            !Object.values(Memory['towerStat']).find((it) => {
-                it != 'normal';
-            })
-        ) {
-            Game.cpu.generatePixel();
-        }
-        // let path=PathFinder.search(RoomPosition(4,17, 'W33N42'),{pos:RoomPosition(21,26, 'W33N42'),range:1})
-        // console.log(JSON.stringify(path));
-        Visualizer.visuals();
-        stateScanner();
-
-        Memory.argCpu = argCpu(Memory.argCpu, Game.cpu.getUsed());
     }
+    autoClean();
+    Object.values(Game.structures).forEach((v) => {
+        if (v.work) {
+            v.work();
+        }
+        if (v.structureType == STRUCTURE_SPAWN) {
+            roleSpawn(v as StructureSpawn);
+        }
+    });
+    if (
+        Game.cpu.bucket == 10000 &&
+        !Object.values(Memory['towerStat']).find((it) => {
+            it != 'normal';
+        })
+    ) {
+        Game.cpu.generatePixel();
+    }
+    // let path=PathFinder.search(RoomPosition(4,17, 'W33N42'),{pos:RoomPosition(21,26, 'W33N42'),range:1})
+    // console.log(JSON.stringify(path));
+    Visualizer.visuals();
+    stateScanner();
+
+    Memory.argCpu = argCpu(Memory.argCpu, Game.cpu.getUsed());
+
 
     /**
      * 自动清理死亡的creep内存
