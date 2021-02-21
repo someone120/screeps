@@ -176,6 +176,10 @@ export function supply(creep: Creep): boolean {
                 result = creep.pickup(target);
             }
             creep.goTo(target.pos);
+            target.room?.visual.circle(target.pos.x, target.pos.y, {
+                radius: 1,
+                fill: '#FF9800'
+            })
         }
         return false;
     }
@@ -187,6 +191,11 @@ export function supply(creep: Creep): boolean {
     );
     if (result == ERR_NOT_IN_RANGE) {
         creep.goTo(target.pos);
+        target.room?.visual.circle(target.pos.x, target.pos.y, {
+            radius: 1,
+            fill: '#8BC34A'
+        })
+
         return false;
     }
     // console.log(result);
