@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { getQuote } from 'utils';
 import { creepExt } from 'base';
 import { getReserverFirstAvailableFlag, setReserverAvailableFlag } from 'flag';
@@ -6,23 +5,23 @@ import { pushSpawnTask } from 'mount/tasks/task.manager';
 export class reserve extends Creep implements creepExt {
     type: Number = 6;
     work(): void {
-        if (this.ticksToLive <= 10 && this.memory['flagName']) {
-            setReserverAvailableFlag(this.memory['flagName']);
+        if (this.ticksToLive||1500 <= 10 && this.memory['flagName']) {
+            setReserverAvailableFlag(this.memory['flagName']!);
             this.suicide();
         }
-        let source = Game.flags[this.memory.flagName];
+        let source = Game.flags[this.memory.flagName!];
         if (!source) {
-            setReserverAvailableFlag(this.memory.flagName);
+            setReserverAvailableFlag(this.memory.flagName!);
             let flag = getReserverFirstAvailableFlag();
             this.memory.flagName = flag;
-            setReserverAvailableFlag(flag);
+            setReserverAvailableFlag(flag!);
         }
         if (source.room) {
             let controller = source.room.controller;
             if (!controller) {
                 this.farMoveTo(source.pos, 1);
             } else {
-                const text = getQuote(this.room.controller.id);
+                const text = getQuote(this.room.controller?.id?this.room.controller.id:'awa');
                 if (!(controller.sign && controller.sign.text == text)) {
                     if (
                         this.signController(controller, text) ==
@@ -32,8 +31,8 @@ export class reserve extends Creep implements creepExt {
                     }
                 }
                 if (
-                    this.room.controller.reservation &&
-                    this.room.controller.reservation.username !=
+                    this.room.controller!.reservation &&
+                    this.room.controller!.reservation.username !=
                         this.owner.username
                 ) {
                     if (this.attackController(controller) == ERR_NOT_IN_RANGE) {
@@ -50,7 +49,7 @@ export class reserve extends Creep implements creepExt {
         } else {
             this.farMoveTo(source.pos, 1);
         }
-        if (this.ticksToLive <= 100) {
+        if (this.ticksToLive||1500 <= 100) {
             let available = Game.spawns['Spawn1'].room.energyCapacityAvailable;
             if (available >= 10000) {
                 available = 10000;
