@@ -50,7 +50,8 @@ export class reserve extends Creep implements creepExt {
             this.farMoveTo(source.pos, 1);
         }
         if (this.ticksToLive||1500 <= 100) {
-            let available = Game.spawns['Spawn1'].room.energyCapacityAvailable;
+           
+            let available = Game.rooms[this.memory.roomID].energyCapacityAvailable;
             if (available >= 10000) {
                 available = 10000;
             } else if (available >= 5600) {
