@@ -60,7 +60,7 @@ export class Manager extends Creep implements creepExt {
                 } else if (available >= 300) {
                     available = 300;
                 }
-                pushSpawnTask(`energyTransfer ${available}`, this.memory.roomID, true);
+                pushSpawnTask(`energyTransfer ${available}`, this.memory.roomID, false);
             }
         }
     }
