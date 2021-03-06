@@ -220,7 +220,7 @@ export function getSourceLink(
 }
 export function getStorageLink(RoomName: string): StructureLink | null {
     return Game.rooms[RoomName].storage
-        ? (Game.rooms[RoomName].storage!.pos.findInRange(FIND_STRUCTURES, 1, {
+        ? (Game.rooms[RoomName].storage!.pos.findInRange(FIND_STRUCTURES, 2, {
               filter: (it) => {
                   return it.structureType == STRUCTURE_LINK;
               }
