@@ -11,7 +11,8 @@ export default class spawnExt extends StructureSpawn implements structure {
                 this.id
             );
         }
-        let available = this.room.energyCapacityAvailable;
+
+        let available = (Memory.type[this.room.name][2] == 0 || Memory.type[this.room.name][0] == 0) ? this.room.energyAvailable : this.room.energyCapacityAvailable;
         if (available >= 10000) {
             available = 10000;
         } else if (available >= 5600) {
@@ -26,7 +27,7 @@ export default class spawnExt extends StructureSpawn implements structure {
             available = 800;
         } else if (available >= 550) {
             available = 550;
-        } else if (available >= 300) {
+        } else  {
             available = 300;
         }
         if (!Memory.type) {

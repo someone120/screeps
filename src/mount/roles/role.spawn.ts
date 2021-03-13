@@ -56,7 +56,7 @@ export default function (spawn: StructureSpawn) {
             available = 800;
         } else if (available >= 550) {
             available = 550;
-        } else if (available >= 300) {
+        } else {
             available = 300;
         }
 
