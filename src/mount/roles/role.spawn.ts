@@ -27,7 +27,21 @@ export default function (spawn: StructureSpawn) {
         Memory.type[spawn.room.name] = Array(12).fill(0);
     }
     if (!spawn.spawning) {
-        let available = spawn.room.energyCapacityAvailable;
+        const miners = Memory.type[spawn.room.name][0];
+        const builder = Memory.type[spawn.room.name][1];
+        const Porter = Memory.type[spawn.room.name][2];
+        const Keeper = Memory.type[spawn.room.name][3];
+        const healer = Memory.type[spawn.room.name][4];
+        const remoteMiners = Memory.type[spawn.room.name][5];
+        const Reserver = Memory.type[spawn.room.name][6];
+        const remoteCarrier = Memory.type[spawn.room.name][7];
+        const energyTransfer = Memory.type[spawn.room.name][8];
+        const scout = Memory.type[spawn.room.name][9];
+        const MineralCreep = Memory.type[spawn.room.name][10];
+        const wallPainter = Memory.type[spawn.room.name][11];
+        const Protectors = Memory.type[spawn.room.name][12];
+
+        let available = (Porter == 0 || miners == 0) ? spawn.room.energyAvailable : spawn.room.energyCapacityAvailable;
         if (available >= 10000) {
             available = 10000;
         } else if (available >= 5600) {
@@ -45,23 +59,7 @@ export default function (spawn: StructureSpawn) {
         } else if (available >= 300) {
             available = 300;
         }
-        const miners = Memory.type[spawn.room.name][0];
-        const builder = Memory.type[spawn.room.name][1];
-        const Porter = Memory.type[spawn.room.name][2];
-        const Keeper = Memory.type[spawn.room.name][3];
-        const healer = Memory.type[spawn.room.name][4];
-        const remoteMiners = Memory.type[spawn.room.name][5];
-        const Reserver = Memory.type[spawn.room.name][6];
-        const remoteCarrier = Memory.type[spawn.room.name][7];
-        const energyTransfer = Memory.type[spawn.room.name][8];
-        const scout = Memory.type[spawn.room.name][9];
-        const MineralCreep = Memory.type[spawn.room.name][10];
-        const wallPainter = Memory.type[spawn.room.name][11];
-        const Protectors = Memory.type[spawn.room.name][12];
 
-        if (Porter == 0 || miners == 0) {
-            available = 300;
-        }
 
         if (Porter < PorterNumber) {
             pushCarrier(available, spawn);
