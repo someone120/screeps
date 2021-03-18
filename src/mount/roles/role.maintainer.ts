@@ -5,6 +5,7 @@ export class Repairer extends Creep implements creepExt {
     work() {
         let flag = getSourceFlags();
         if (this.store.getUsedCapacity(RESOURCE_ENERGY) == 0) {
+            this.room.removeRestrictedPos(this.name)
             if (
                 this.room.storage &&
                 this.room.storage.store[RESOURCE_ENERGY] > 0

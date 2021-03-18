@@ -6,6 +6,7 @@ export class builder extends Creep implements creepExt {
     /** @param {Creep} this **/
     work() {
         if (this.memory['building'] && this.store[RESOURCE_ENERGY] == 0) {
+            this.room.removeRestrictedPos(this.name)
             this.memory['building'] = false;
             this.say('🔄 harvest');
         }

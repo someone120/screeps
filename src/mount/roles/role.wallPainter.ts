@@ -6,6 +6,7 @@ export class WallPainter extends Creep implements creepExt {
     type: Number = 11;
     work() {
         if (this.store.getUsedCapacity() == 0) {
+            this.room.removeRestrictedPos(this.name)
             let target:
                 | StructureContainer
                 | StructureStorage
@@ -25,7 +26,7 @@ export class WallPainter extends Creep implements creepExt {
                     }
                 }) as StructureContainer) ||
                 (this.room.storage &&
-                this.room.storage.store[RESOURCE_ENERGY] > 0
+                    this.room.storage.store[RESOURCE_ENERGY] > 0
                     ? this.room.storage
                     : undefined);
             // console.log(target);
@@ -82,15 +83,15 @@ export class WallPainter extends Creep implements creepExt {
                 return a.hits - b.hits;
             });
             if (!Memory.lessWallId) {
-                
+
                 Memory.lessWallId = {};
             }
             Memory.lessWallId[this.memory['roomID']] = {
                 id: wall[0].id,
                 ttl: Game.time + 300
             };
-        }else{
-            this.memory.type=1
+        } else {
+            this.memory.type = 1
         }
     }
 }
