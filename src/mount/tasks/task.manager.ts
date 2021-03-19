@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { isContainer, isStorage } from 'utils';
+import { isContainer, isStorage } from '../../utils';
 /**
  * 向任务列表中推送任务
  * @param task 任务

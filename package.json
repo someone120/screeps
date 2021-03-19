@@ -9,7 +9,7 @@
     "build": "rollup -cw",
     "once": "rollup -c --environment DEST:main&&rollup -c --environment DEST:small",
     "test": "npm run test-unit",
-    "test-unit": "rollup -c rollup.test-unit-config.ts && mocha dist/test-unit.bundle.js"
+    "test-unit": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -23,6 +23,7 @@
     "@types/lodash": "^3.10.2",
     "@types/mocha": "^8.2.0",
     "@types/node": "^14.0.24",
+    "@types/screeps": "^3.2.2",
     "@typescript-eslint/eslint-plugin": "^4.4.0",
     "@typescript-eslint/parser": "^4.4.0",
     "chai": "^4.2.0",
