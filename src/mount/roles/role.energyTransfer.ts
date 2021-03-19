@@ -1,4 +1,5 @@
 import { creepExt } from 'base';
+//@ts-ignore
 import _ from 'lodash';
 import { pushSpawnTask } from 'mount/tasks/task.manager';
 import { getStorageLink } from 'utils';
