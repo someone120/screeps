@@ -12,6 +12,7 @@ import { Mineraler } from 'mount/roles/role.mineral';
 import { Scort } from 'mount/roles/role.scout';
 import { WallPainter } from 'mount/roles/role.wallPainter';
 import { attacker } from 'mount/war/Attacker';
+import { Stealer } from 'mount/roles/roleStealer';
 export const roles = [
     harvester,
     builder,
@@ -26,5 +27,6 @@ export const roles = [
     Mineraler,
     WallPainter,
     remoteProtector,
-    attacker
+    attacker,
+    Stealer
 ];

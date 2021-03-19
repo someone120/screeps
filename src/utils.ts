@@ -1,5 +1,5 @@
 import { encode } from 'js-base64';
-import { pushCarrierTask } from 'mount/tasks/task.manager';
+import { pushCarrierTask } from './mount/tasks/task.manager';
 export const WHITE_LIST = ['RaskVann'];
 
 const quote: string[] = [
@@ -218,14 +218,12 @@ export function getSourceLink(
         }
     })[0] as StructureLink;
 }
-export function getStorageLink(RoomName: string): StructureLink | null {
-    return Game.rooms[RoomName].storage
-        ? (Game.rooms[RoomName].storage!.pos.findInRange(FIND_STRUCTURES, 1, {
+export function getStorageLink(RoomName: string): StructureLink | null|undefined {
+    return Game.rooms[RoomName].storage?.pos.findInRange(FIND_STRUCTURES, 2, {
               filter: (it) => {
                   return it.structureType == STRUCTURE_LINK;
               }
-          })[0] as StructureLink)
-        : null;
+          })[0] as StructureLink;
 }
 
 export function argCpu(

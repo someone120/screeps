@@ -16,7 +16,7 @@ const KeeperNumber = 4;
 /**
  * 按照creep数量发送生成任务
  */
-export default function(spawn: StructureSpawn) {
+export default function (spawn: StructureSpawn) {
     if (!Memory.type) {
         Memory.type = {};
     }
@@ -27,24 +27,6 @@ export default function(spawn: StructureSpawn) {
         Memory.type[spawn.room.name] = Array(12).fill(0);
     }
     if (!spawn.spawning) {
-        let available = spawn.room.energyCapacityAvailable;
-        if (available >= 10000) {
-            available = 10000;
-        } else if (available >= 5600) {
-            available = 5600;
-        } else if (available >= 2300) {
-            available = 2300;
-        } else if (available >= 1800) {
-            available = 1800;
-        } else if (available >= 1300) {
-            available = 1300;
-        } else if (available >= 800) {
-            available = 800;
-        } else if (available >= 550) {
-            available = 550;
-        } else if (available >= 300) {
-            available = 300;
-        }
         const miners = Memory.type[spawn.room.name][0];
         const builder = Memory.type[spawn.room.name][1];
         const Porter = Memory.type[spawn.room.name][2];
@@ -59,9 +41,25 @@ export default function(spawn: StructureSpawn) {
         const wallPainter = Memory.type[spawn.room.name][11];
         const Protectors = Memory.type[spawn.room.name][12];
 
-        if (Porter == 0 || miners == 0) {
+        let available = (Porter == 0 || miners == 0) ? spawn.room.energyAvailable : spawn.room.energyCapacityAvailable;
+        if (available >= 10000) {
+            available = 10000;
+        } else if (available >= 5600) {
+            available = 5600;
+        } else if (available >= 2300) {
+            available = 2300;
+        } else if (available >= 1800) {
+            available = 1800;
+        } else if (available >= 1300) {
+            available = 1300;
+        } else if (available >= 800) {
+            available = 800;
+        } else if (available >= 550) {
+            available = 550;
+        } else {
             available = 300;
         }
+
 
         if (Porter < PorterNumber) {
             pushCarrier(available, spawn);

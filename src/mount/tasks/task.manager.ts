@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { isContainer, isStorage } from 'utils';
+import { isContainer, isStorage } from '../../utils';
 /**
  * 向任务列表中推送任务
  * @param task 任务
@@ -141,27 +141,24 @@ export function supply(creep: Creep): boolean {
             | StructureContainer
             | StructureStorage
             | Resource
-            | undefined =
-            Memory.towerStat[creep.room.name] == 'normal' ||
-            !Memory.towerStat[creep.room.name]
-                ? creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {
-                      filter: (it) => {
-                          return it.resourceType == RESOURCE_ENERGY;
-                      }
-                  }) ||
-                  (creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                      filter: (it) => {
-                          return (
-                              it.structureType == STRUCTURE_CONTAINER &&
-                              it.store[RESOURCE_ENERGY] > 0
-                          );
-                      }
-                  }) as StructureContainer) ||
-                  (creep.room.storage &&
-                  creep.room.storage.store[RESOURCE_ENERGY] > 0
-                      ? creep.room.storage
-                      : undefined)
-                : creep.room.storage;
+            | undefined =  (creep.room.storage &&
+                creep.room.storage.store[RESOURCE_ENERGY] > 0
+                ? creep.room.storage
+                : undefined)||creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {
+                filter: (it) => {
+                    return it.resourceType == RESOURCE_ENERGY;
+                }
+            }) ||
+            (creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                filter: (it) => {
+                    return (
+                        it.structureType == STRUCTURE_CONTAINER &&
+                        it.store[RESOURCE_ENERGY] > 0
+                    );
+                }
+            }) as StructureContainer)
+           
+
 
         if (target) {
             let result: ScreepsReturnCode;
@@ -179,6 +176,10 @@ export function supply(creep: Creep): boolean {
                 result = creep.pickup(target);
             }
             creep.goTo(target.pos);
+            target.room?.visual.circle(target.pos.x, target.pos.y, {
+                radius: 0.5,
+                fill: '#FF9800'
+            })
         }
         return false;
     }
@@ -190,6 +191,11 @@ export function supply(creep: Creep): boolean {
     );
     if (result == ERR_NOT_IN_RANGE) {
         creep.goTo(target.pos);
+        target.room?.visual.circle(target.pos.x, target.pos.y, {
+            radius: 0.5,
+            fill: '#8BC34A'
+        })
+
         return false;
     }
     // console.log(result);

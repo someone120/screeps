@@ -4,6 +4,8 @@ export class Upgrader extends Creep implements creepExt {
     type: Number = 3;
     work() {
         if (this.memory['building'] && this.store[RESOURCE_ENERGY] == 0) {
+            
+            this.room.removeRestrictedPos(this.name)
             this.memory['building'] = false;
             this.say('🔄 harvest');
         }

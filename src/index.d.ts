@@ -6,7 +6,7 @@ interface Memory {
     destoryNext?: string;
     bypassRooms: string[];
     lockSource: string[];
-    towerStat: {[room:string]:string};
+    towerStat: { [room: string]: string };
     freeSpaceCount: any;
     porterTasker: { [name: string]: string[] };
     spawnTask: { [name: string]: string[] };
@@ -16,8 +16,19 @@ interface Memory {
     lessWallId?: { [roomName: string]: { id: Id<StructureWall>; ttl: number } };
     type: { [name: string]: number[] };
     beScoutRoom: string[];
-    argCpu:{argCpu:number,ticks:number}
+    argCpu: { argCpu: number, ticks: number }
     WHITE_LIST: string[];
+}
+
+interface RoomPosition {
+    isOnEdge(i?: number): boolean
+    directionToPos(
+        direction: DirectionConstant
+    ): RoomPosition | undefined
+    getFreeSpace(): RoomPosition[]
+    intersection(...p: RoomPosition[][]): RoomPosition[]
+    serializePos(): string
+
 }
 
 interface posExt {
@@ -28,7 +39,7 @@ interface posExt {
 
 interface Room {
     mineral: Mineral;
-    findUnlockSource(id: Id<Source>[]): Id<Source>|undefined;
+    findUnlockSource(id: Id<Source>[]): Id<Source> | undefined;
     unlockSource(id: Id<Source>): void;
     lockSource(id: Id<Source>): void;
     addRestrictedPos(creepName: string, pos: RoomPosition): void;
@@ -39,14 +50,21 @@ interface Room {
     sources: Source[];
 }
 
+interface RoomMemory{
+    isLockByProtect?:boolean;
+    center?:[number,number]
+    restrictedPos?:{[CreepName:string]:string}
+}
+
 interface Structure {
+    store: any;
     work(): void;
 }
 
 interface CreepMemory {
     parentTaskRaw?: string;
     sourceID?: string;
-    building?:boolean
+    building?: boolean
     protectRoomId?: string;
     type: number;
     remoteSource?: boolean;
@@ -59,7 +77,7 @@ interface CreepMemory {
     prePos?: string;
     farMove?: {
         // 序列化之后的路径信息
-        path?: string|null;
+        path?: string | null;
         // 移动索引，标志 creep 现在走到的第几个位置
         index?: number;
         // 上一个位置信息，形如"14/4"，用于在 creep.move 返回 OK 时检查有没有撞墙
@@ -94,14 +112,14 @@ type BodyConfigs = {
 
 type BodyConfig = {
     [energyLevel in
-        | 300
-        | 550
-        | 800
-        | 1300
-        | 1800
-        | 2300
-        | 5600
-        | 10000]: BodyPartConstant[];
+    | 300
+    | 550
+    | 800
+    | 1300
+    | 1800
+    | 2300
+    | 5600
+    | 10000]: BodyPartConstant[];
 };
 
 interface BodySet {
@@ -116,17 +134,51 @@ interface BodySet {
 }
 
 interface Creep {
+    _move: any;
+    goTo(
+        target: RoomPosition,
+        opts?: MoveToOpts
+    ): CreepMoveReturnCode | ERR_NO_PATH | ERR_INVALID_TARGET | ERR_NOT_FOUND
     requireCross(direction: DirectionConstant): Boolean;
+    farMoveTo(
+        target: RoomPosition,
+        range?: number
+    ):
+        | CreepMoveReturnCode
+        | ERR_NO_PATH
+        | ERR_NOT_IN_RANGE
+        | ERR_INVALID_TARGET
+    findPath(target: RoomPosition, range: number): string | null
+    serializeFarPath(positions: RoomPosition[]): string
+    goByCache():
+        | CreepMoveReturnCode
+        | ERR_NO_PATH
+        | ERR_NOT_IN_RANGE
+        | ERR_INVALID_TARGET
+    move(
+        target: DirectionConstant | Creep
+    ): CreepMoveReturnCode | ERR_INVALID_TARGET | ERR_NOT_IN_RANGE
+    mutualCross(
+        direction: DirectionConstant
+    ): OK | ERR_BUSY | ERR_NOT_FOUND
+    directionToPos(
+        pos: RoomPosition,
+        direction: DirectionConstant
+    ): RoomPosition | undefined
 }
 
 interface PowerCreep {
     requireCross(direction: DirectionConstant): Boolean;
 }
 
+interface Source{
+    _freeSpaceCount:number
+}
+
 declare module NodeJS {
     // 全局对象
     interface Global {
-        RemoteFlag?: {name:string[],ttl:number};
+        RemoteFlag?: { name: string[], ttl: number };
         spawnTask?: { [spawnName: string]: string | undefined };
         porterTasksTaken: String[];
         // 是否已经挂载拓展
@@ -144,4 +196,7 @@ declare module NodeJS {
             [resourceKey: string]: number;
         };
     }
+}
+interface SpawnMemory{
+    time?:number
 }

@@ -93,9 +93,10 @@ function loop() {
             ? new roles[creep.memory.type]!(creep.id)
             : null;
 
-        if (t) {
-            t.work();
 
+
+        if (t) {
+            t!.work();
             drawType(creep);
         }
     }
@@ -110,8 +111,8 @@ function loop() {
     });
     if (
         Game.cpu.bucket == 10000 &&
-        Object.values(Memory['towerStat']).find((it) => {
-            it == 'normal';
+        !Object.values(Memory['towerStat']).find((it) => {
+            it != 'normal';
         })
     ) {
         Game.cpu.generatePixel();
@@ -122,33 +123,34 @@ function loop() {
     stateScanner();
 
     Memory.argCpu = argCpu(Memory.argCpu, Game.cpu.getUsed());
-}
 
-/**
- * 自动清理死亡的creep内存
- */
-function autoClean() {
-    if (Game.time % 20 != 0) {
-        return;
-    }
-    for (let name in Memory.creeps) {
-        if (!Game.creeps[name]) {
-            delete Memory.creeps[name];
+
+    /**
+     * 自动清理死亡的creep内存
+     */
+    function autoClean() {
+        if (Game.time % 20 != 0) {
+            return;
         }
+        for (let name in Memory.creeps) {
+            if (!Game.creeps[name]) {
+                delete Memory.creeps[name];
+            }
 
-        for (const flagName in Memory.flags) {
-            if (!Game.flags[flagName]) {
-                delete Memory.flags[flagName];
+            for (const flagName in Memory.flags) {
+                if (!Game.flags[flagName]) {
+                    delete Memory.flags[flagName];
+                }
             }
         }
     }
-}
-function drawType(creep: Creep) {
-    let text = roles[creep.memory.type]!.name || '我也不懂';
-    creep.room.visual.text(text, creep.pos.x, creep.pos.y + 0.5, {
-        color: '#2196F3',
-        font: 0.3,
-        stroke: '#000000',
-        strokeWidth: 0.05
-    });
+    function drawType(creep: Creep) {
+        let text = roles[creep.memory.type]!.name || '我也不懂';
+        creep.room.visual.text(text, creep.pos.x, creep.pos.y + 0.5, {
+            color: '#2196F3',
+            font: 0.3,
+            stroke: '#000000',
+            strokeWidth: 0.05
+        });
+    }
 }
