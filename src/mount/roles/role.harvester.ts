@@ -3,7 +3,8 @@ import { pushSpawnTask } from 'mount/tasks/task.manager';
 import { getSourceLink, getStorageLink } from 'utils';
 // import { getSourceLink } from 'utils';
 //获取energy
-export class harvester extends Creep implements creepExt {;
+export class harvester extends Creep implements creepExt {
+    ;
     type: Number = 0;
     work() {
         if (!this.memory.sourceID) {
@@ -21,7 +22,7 @@ export class harvester extends Creep implements creepExt {;
             this.room.addRestrictedPos(this.name, this.pos);
             if (
                 this.room.controller!.level >= 5 &&
-                getSourceLink(this.room.name, this.pos)&&
+                getSourceLink(this.room.name, this.pos) &&
                 getStorageLink(this.room.name)
             ) {
                 if (
@@ -32,8 +33,7 @@ export class harvester extends Creep implements creepExt {;
                 ) {
                     this.transfer(
                         getSourceLink(this.room.name, this.pos),
-                        RESOURCE_ENERGY
-                    );
+                        RESOURCE_ENERGY)
                 }
                 const container = this.pos
                     .lookFor(LOOK_STRUCTURES)
@@ -56,7 +56,7 @@ export class harvester extends Creep implements creepExt {;
                     if (container) {
                         if (
                             this.store[RESOURCE_ENERGY] >
-                                this.getActiveBodyparts(WORK) * 2 &&
+                            this.getActiveBodyparts(WORK) * 2 &&
                             container.hitsMax - container.hits > 0
                         ) {
                             this.repair(container);
@@ -72,7 +72,7 @@ export class harvester extends Creep implements creepExt {;
                 }
             }
         }
-        if (this.ticksToLive&&this.ticksToLive < 300) {
+        if (this.ticksToLive && this.ticksToLive < 300) {
             this.room.removeRestrictedPos(this.name);
             let available = this.room.energyCapacityAvailable;
             if (available >= 10000) {
@@ -111,7 +111,7 @@ export class harvester extends Creep implements creepExt {;
             Memory.spawnTask[this.room.name].unshift(task);
             this.memory.isSend = true;
         }
-        if (this.ticksToLive&&this.ticksToLive < 10) {
+        if (this.ticksToLive && this.ticksToLive < 10) {
             this.room.unlockSource(
                 this.memory.sourceID as Id<Source>
             );

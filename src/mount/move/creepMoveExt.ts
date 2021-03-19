@@ -224,7 +224,7 @@ export class creepMoveExt extends Creep {
         const goResult = this.move(direction);
 
         // 移动成功，更新下次移动索引
-        if (goResult == OK&&this.pos.serializePos()==this.memory.prePos) this.memory.farMove.index++;
+        if (goResult == OK&&this.pos.serializePos()!=this.memory.prePos) this.memory.farMove.index++;
 
         return goResult;
     }
