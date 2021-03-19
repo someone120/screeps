@@ -40,7 +40,7 @@ export class Manager extends Creep implements creepExt {
                 return;
             }
 
-            if (this.ticksToLive && this.ticksToLive < 500) {
+            if (this.ticksToLive && this.ticksToLive < 500&&!this.memory.isSend) {
 
                 let available = Game.rooms[this.memory.roomID].energyCapacityAvailable;
                 if (available >= 10000) {
@@ -60,7 +60,8 @@ export class Manager extends Creep implements creepExt {
                 } else if (available >= 300) {
                     available = 300;
                 }
-                pushSpawnTask(`energyTransfer ${available}`, this.memory.roomID, false);
+                pushSpawnTask(`energyTransfer ${available}`, this.memory.roomID, true);
+                this.memory.isSend=true;
             }
         }
     }
