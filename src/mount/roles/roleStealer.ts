@@ -15,7 +15,7 @@ export class Stealer extends Creep implements creepExt {
             return
         }
         if (this.pos.isNearTo(flag.pos)) {
-            console.log(this.withdraw(flag.pos.lookFor(LOOK_STRUCTURES)!.find((it)=>{return !!it.store})!, RESOURCE_ENERGY))
+            this.withdraw(flag.pos.lookFor(LOOK_STRUCTURES)!.find((it)=>{return !!it.store})!, RESOURCE_ENERGY)
             return
         }
         this.goTo(flag.pos)

@@ -78,23 +78,7 @@ export default function (spawn: StructureSpawn) {
         }
         if (energyTransfer < 1 && spawn.room.controller!.level >= 5) {
             let task = `energyTransfer ${available}`;
-            if (!Memory.spawnTask[spawn.room.name]) {
-                Memory.spawnTask[spawn.room.name] = [];
-            }
-            if (!global['spawnTask']) {
-                global['spawnTask'] = {};
-            }
-            if (
-                !(
-                    Memory.spawnTask[spawn.room.name].includes(task) ||
-                    global.spawnTask[spawn.name] == task
-                )
-            ) {
-                console.log(
-                    `<p style="color: #8BC34A;">[${spawn.room.name}]发布了任务：${task}</p>`
-                );
-                Memory.spawnTask[spawn.room.name].unshift(task);
-            }
+            pushSpawnTask(task,spawn.room.name,true)
         }
         if (getSourceFlags() && remoteMiners < getSourceFlags().length) {
             let flag = getMinerFirstAvailableFlag();

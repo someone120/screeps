@@ -17,6 +17,7 @@ export default class RoomExtension extends Room {
         if (!this.memory.restrictedPos) this.memory.restrictedPos = {};
 
         this.memory.restrictedPos[creepName] = this.serializePos(pos);
+        
     }
     public removeRestrictedPos(creepName: string): void {
         if (!this.memory.restrictedPos) this.memory.restrictedPos = {};

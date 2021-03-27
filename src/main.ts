@@ -27,9 +27,6 @@ function loop() {
         // console.log(name);
 
         let creep = Game.creeps[name];
-        if (creep.spawning) {
-            continue;
-        }
         if (
             !Memory.type[creep.memory.roomID] ||
             Memory.type[creep.memory.roomID].length <= 0
@@ -37,6 +34,9 @@ function loop() {
             Memory.type[creep.memory.roomID] = Array(roles.length).fill(0);
         }
         Memory.type[creep.memory.roomID][creep.memory.type]++;
+        if (creep.spawning) {
+            continue;
+        }
         if (creep.memory.flagName) {
             switch (creep.memory.type) {
                 case 5:
@@ -92,9 +92,6 @@ function loop() {
         let t: creepExt | null = roles[creep.memory.type]
             ? new roles[creep.memory.type]!(creep.id)
             : null;
-
-
-
         if (t) {
             t!.work();
             drawType(creep);
