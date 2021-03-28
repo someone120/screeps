@@ -4,7 +4,7 @@ import {
     setMinerAvailableFlag,
     setMinerUnavailableFlag
 } from 'flag';
-import { creepExt } from 'base';
+import { creepExt } from 'ScreepsBase';
 export class remoteMiner extends creepExt {
     
     type: Number = 5;

@@ -1,4 +1,4 @@
-import { structure } from 'base';
+import { structure } from 'ScreepsBase';
 import { bodyConfigs as bodySet } from 'setting';
 import { pushCarrierTask } from 'mount/tasks/task.manager';
 import { assignPrototype } from 'utils';

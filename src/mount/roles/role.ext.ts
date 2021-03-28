@@ -1,4 +1,4 @@
-import { structure } from 'base';
+import { structure } from 'ScreepsBase';
 import { assignPrototype, requestEnergy } from 'utils';
 export class extensionExt extends StructureExtension implements structure {
     work() {

@@ -1,4 +1,4 @@
-import { structure } from 'base';
+import { structure } from 'ScreepsBase';
 import { assignPrototype, getStorageLink } from 'utils';
 export class extensionLink extends StructureLink implements structure {
     work() {

@@ -1,4 +1,4 @@
-import { creepExt } from 'base';
+import { creepExt } from 'ScreepsBase';
 //@ts-ignore
 import _ from 'lodash';
 import { pushSpawnTask } from 'mount/tasks/task.manager';

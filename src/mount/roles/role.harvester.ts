@@ -1,4 +1,4 @@
-import { creepExt } from 'base';
+import { creepExt } from 'ScreepsBase';
 import { pushSpawnTask } from 'mount/tasks/task.manager';
 import { getSourceLink, getStorageLink } from 'utils';
 // import { getSourceLink } from 'utils';

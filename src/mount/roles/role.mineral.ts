@@ -1,4 +1,4 @@
-import { creepExt } from 'base';
+import { creepExt } from 'ScreepsBase';
 
 export class Mineraler extends creepExt {
     type: Number = 10;

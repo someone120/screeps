@@ -1,4 +1,4 @@
-import { creepExt } from 'base';
+import { creepExt } from 'ScreepsBase';
 import { isContainer, isStorage } from 'utils';
 
 export class WallPainter extends creepExt {

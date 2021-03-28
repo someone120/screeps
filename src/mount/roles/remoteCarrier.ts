@@ -1,5 +1,5 @@
 //@ts-nocheck
-import { creepExt } from 'base';
+import { creepExt } from 'ScreepsBase';
 import { getSourceFlags } from 'utils';
 export class RemoteCarrier extends creepExt {
     

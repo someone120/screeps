@@ -1,5 +1,5 @@
 //@ts-nocheck
-import { creepExt } from 'base';
+import { creepExt } from 'ScreepsBase';
 import { setScoutAvailableFlag } from 'flag';
 import { random } from 'lodash';
 import { encodee } from 'utils';

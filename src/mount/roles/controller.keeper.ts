@@ -1,5 +1,5 @@
 import { getQuote, isContainer, isStorage } from 'utils';
-import { creepExt } from 'base';
+import { creepExt } from 'ScreepsBase';
 export class Upgrader extends creepExt {
     type: Number = 3;
     work() {

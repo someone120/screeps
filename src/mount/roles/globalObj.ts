@@ -5,7 +5,7 @@ import { random } from 'lodash';
 import { pushCarrierTask, pushSpawnTask } from 'mount/tasks/task.manager';
 import { find } from './role.tower';
 import { add, remove } from 'whiteList';
-import {findBaseCenterPos} from 'autoPlan/planBasePos'
+import {findScreepsBaseCenterPos} from 'autoPlan/planBasePos'
 export default {
     buildRoadd(from: RoomPosition, to: RoomPosition) {
         buildRoad(from, to);
@@ -75,5 +75,5 @@ export default {
         add: add,
         remove: remove
     },
-    findBaseCenterPos
+    findScreepsBaseCenterPos
 };

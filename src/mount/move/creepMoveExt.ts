@@ -7,7 +7,7 @@ export class creepMoveExt extends Creep {
         target: RoomPosition,
         opts?: MoveToOpts
     ): CreepMoveReturnCode | ERR_NO_PATH | ERR_INVALID_TARGET | ERR_NOT_FOUND {
-        // const baseCost = Game.cpu.getUsed()
+        // const ScreepsBaseCost = Game.cpu.getUsed()
         const moveResult = this.moveTo(
             target,
             _.assign(
@@ -233,7 +233,7 @@ export class creepMoveExt extends Creep {
         target: DirectionConstant | Creep,
         isCross?:boolean=false
     ): CreepMoveReturnCode | ERR_INVALID_TARGET | ERR_NOT_IN_RANGE {
-        // const baseCost = Game.cpu.getUsed()
+        // const ScreepsBaseCost = Game.cpu.getUsed()
         // 进行移动，并分析其移动结果，OK 时才有可能发生撞停
         if (isCross&&this.memory.haveMove) {
             return OK;

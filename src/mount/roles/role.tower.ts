@@ -1,4 +1,4 @@
-import { structure } from 'base';
+import { structure } from 'ScreepsBase';
 import globalObj from './globalObj';
 import { filter as filte } from 'whiteList';
 import { assignPrototype, requestEnergy } from '../../utils';

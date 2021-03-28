@@ -1,5 +1,5 @@
 import { getQuote } from 'utils';
-import { creepExt } from 'base';
+import { creepExt } from 'ScreepsBase';
 import { getReserverFirstAvailableFlag, setReserverAvailableFlag } from 'flag';
 import { pushSpawnTask } from 'mount/tasks/task.manager';
 export class reserve extends creepExt {
