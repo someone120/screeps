@@ -3,8 +3,9 @@ import { filter } from 'whiteList';
 import { creepExt } from 'base';
 import { unlockRoom } from '../cache/room/protect';
 
-export class remoteProtector extends Creep implements creepExt {
+export class remoteProtector extends creepExt {
     work(): void {
+        super.work()
         this.say('🤺',true)
         this.room.addRestrictedPos(this.name,this.pos)
 

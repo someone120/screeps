@@ -1,10 +1,11 @@
 import { creepExt } from 'base';
 import { isContainer, isStorage } from 'utils';
 
-export class WallPainter extends Creep implements creepExt {
+export class WallPainter extends creepExt {
     task: string | undefined;
     type: Number = 11;
     work() {
+        super.work()
         if (this.store.getUsedCapacity() == 0) {
             this.room.removeRestrictedPos(this.name)
             let target:

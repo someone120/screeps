@@ -5,10 +5,11 @@ import {
     setMinerUnavailableFlag
 } from 'flag';
 import { creepExt } from 'base';
-export class remoteMiner extends Creep implements creepExt {
+export class remoteMiner extends creepExt {
     
     type: Number = 5;
     work(): void {
+        super.work()
         let source = Game.flags[this.memory.flagName];
         if (!source) {
             setMinerAvailableFlag(this.memory.flagName);

@@ -3,10 +3,11 @@ import { pushSpawnTask } from 'mount/tasks/task.manager';
 import { getSourceLink, getStorageLink } from 'utils';
 // import { getSourceLink } from 'utils';
 //获取energy
-export class harvester extends Creep implements creepExt {
+export class harvester extends creepExt {
     ;
     type: Number = 0;
     work() {
+        super.work()
         if (!this.memory.sourceID) {
             this.memory.sourceID = this.room.sources[0].id;
         }

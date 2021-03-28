@@ -1,8 +1,11 @@
 export interface base{
     work():void
 }
-export interface creepExt extends base{
-    type:Number
+export class creepExt extends Creep implements base{
+    work(): void {
+        this.memory.haveMove=false;
+    }
+    type:Number=-1;
 }
 export interface structure extends base{
 }

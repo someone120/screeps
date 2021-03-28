@@ -1,8 +1,9 @@
 import { creepExt } from "base";
 
-export class Stealer extends Creep implements creepExt {
+export class Stealer extends creepExt {
     type: Number = 14;
     work(): void {
+        super.work()
         let flag = Game.flags['Steal'];
         if (!flag) {
             this.say("🎏❓")

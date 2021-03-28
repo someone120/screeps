@@ -14,9 +14,10 @@ function getTask(roomName: string): string | undefined{
     }
     return task;
 }
-export class Carrier extends Creep implements creepExt {
+export class Carrier extends creepExt {
     type: Number = 2;
     work() {
+        super.work()
         if (this.memory.parentTaskRaw || this.memory.parentTask) {
             doing(this);
             return;

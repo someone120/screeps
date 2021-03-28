@@ -1,5 +1,5 @@
 import { creepExt } from '../../base';
-class healer extends Creep implements creepExt {
+class healer extends creepExt {
     
     type: Number = 11;
     work() {

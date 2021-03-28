@@ -2,9 +2,10 @@ import { getQuote } from 'utils';
 import { creepExt } from 'base';
 import { getReserverFirstAvailableFlag, setReserverAvailableFlag } from 'flag';
 import { pushSpawnTask } from 'mount/tasks/task.manager';
-export class reserve extends Creep implements creepExt {
+export class reserve extends creepExt {
     type: Number = 6;
     work(): void {
+        super.work()
         let source = Game.flags[this.memory.flagName!];
         if (!source) {
             setReserverAvailableFlag(this.memory.flagName!);
