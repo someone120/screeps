@@ -92,6 +92,7 @@ interface CreepMemory {
         p: string[];
     };
     parentTask?: string;
+    haveMove?:boolean;
 }
 
 type BodyAutoConfigConstant =

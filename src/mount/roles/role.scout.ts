@@ -3,9 +3,10 @@ import { creepExt } from 'base';
 import { setScoutAvailableFlag } from 'flag';
 import { random } from 'lodash';
 import { encodee } from 'utils';
-export class Scort extends Creep implements creepExt {
+export class Scort extends creepExt {
     type: Number = 9;
     work(): void {
+        super.work()
         if (!Memory.rooms[this.room.name]) Memory.rooms[this.room.name] = {};
 
         if (Memory.rooms[this.room.name].source) {

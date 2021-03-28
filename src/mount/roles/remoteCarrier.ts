@@ -1,10 +1,11 @@
 //@ts-nocheck
 import { creepExt } from 'base';
 import { getSourceFlags } from 'utils';
-export class RemoteCarrier extends Creep implements creepExt {
+export class RemoteCarrier extends creepExt {
     
     type: Number = 7;
     work(): void {
+        super.work()
         let flags = getSourceFlags();
         if (this.store.getFreeCapacity() == 0) {
             const targets = Game.rooms[this.memory['roomID']].storage;

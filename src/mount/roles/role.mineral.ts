@@ -1,8 +1,9 @@
 import { creepExt } from 'base';
 
-export class Mineraler extends Creep implements creepExt {
+export class Mineraler extends creepExt {
     type: Number = 10;
     work(): void {
+        super.work()
         if (
             Game.rooms[this.memory.roomID].controller &&
             Game.rooms[this.memory.roomID].controller!.level >= 6

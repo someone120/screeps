@@ -1,5 +1,5 @@
 import { creepExt } from '../../base';
-export class attacker extends Creep implements creepExt {
+export class attacker extends creepExt {
     type: Number = 13;
     work() {
         let flag =

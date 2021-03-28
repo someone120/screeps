@@ -1,8 +1,9 @@
 import { creepExt } from "base";
 
-export class Stealer extends Creep implements creepExt {
+export class Stealer extends creepExt {
     type: Number = 14;
     work(): void {
+        super.work()
         let flag = Game.flags['Steal'];
         if (!flag) {
             this.say("🎏❓")
@@ -15,7 +16,7 @@ export class Stealer extends Creep implements creepExt {
             return
         }
         if (this.pos.isNearTo(flag.pos)) {
-            console.log(this.withdraw(flag.pos.lookFor(LOOK_STRUCTURES)!.find((it)=>{return !!it.store})!, RESOURCE_ENERGY))
+            this.withdraw(flag.pos.lookFor(LOOK_STRUCTURES)!.find((it)=>{return !!it.store})!, RESOURCE_ENERGY)
             return
         }
         this.goTo(flag.pos)

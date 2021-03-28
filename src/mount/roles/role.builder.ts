@@ -1,10 +1,11 @@
 import { getSourceFlags } from 'utils';
 import { creepExt } from 'base';
 import { object } from 'lodash';
-export class builder extends Creep implements creepExt {
+export class builder extends creepExt {
     type: Number = 1;
     /** @param {Creep} this **/
     work() {
+        super.work()
         if (this.memory['building'] && this.store[RESOURCE_ENERGY] == 0) {
             this.room.removeRestrictedPos(this.name)
             this.memory['building'] = false;

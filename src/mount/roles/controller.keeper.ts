@@ -1,8 +1,9 @@
 import { getQuote, isContainer, isStorage } from 'utils';
 import { creepExt } from 'base';
-export class Upgrader extends Creep implements creepExt {
+export class Upgrader extends creepExt {
     type: Number = 3;
     work() {
+        super.work()
         if (this.memory['building'] && this.store[RESOURCE_ENERGY] == 0) {
             
             this.room.removeRestrictedPos(this.name)

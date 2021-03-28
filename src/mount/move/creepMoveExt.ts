@@ -225,14 +225,19 @@ export class creepMoveExt extends Creep {
 
         // 移动成功，更新下次移动索引
         if (goResult == OK&&this.pos.serializePos()!=this.memory.prePos) this.memory.farMove.index++;
+        if(this.pos.serializePos()==this.memory.prePos&&this.fatigue==0) delete this.memory.farMove.path;
 
         return goResult;
     }
     public move(
-        target: DirectionConstant | Creep
+        target: DirectionConstant | Creep,
+        isCross?:boolean=false
     ): CreepMoveReturnCode | ERR_INVALID_TARGET | ERR_NOT_IN_RANGE {
         // const baseCost = Game.cpu.getUsed()
         // 进行移动，并分析其移动结果，OK 时才有可能发生撞停
+        if (isCross&&this.memory.haveMove) {
+            return OK;
+        }
         const moveResult = this._move(target);
 
         if (moveResult != OK || target instanceof Creep) return moveResult;
@@ -254,7 +259,7 @@ export class creepMoveExt extends Creep {
 
         // 没有之前的位置或者没重复就正常返回 OK 和更新之前位置
         this.memory.prePos = currentPos;
-
+        this.memory.haveMove = true;
         return OK;
     }
     public mutualCross(
@@ -288,7 +293,7 @@ export class creepMoveExt extends Creep {
 
         // 同意对穿
         this.say('👌');
-        this._move(direction);
+        this.move(direction,true);
         return true;
     }
 

@@ -1,8 +1,9 @@
 import { creepExt } from 'base';
 import { getSourceFlags } from 'utils';
-export class Repairer extends Creep implements creepExt {
+export class Repairer extends creepExt {
     type: Number = 4;
     work() {
+        super.work()
         let flag = getSourceFlags();
         if (this.store.getUsedCapacity(RESOURCE_ENERGY) == 0) {
             this.room.removeRestrictedPos(this.name)

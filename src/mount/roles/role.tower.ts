@@ -34,7 +34,6 @@ export default class towerExt extends StructureTower implements structure {
                     ? global.TowerTarget[this.room.name]
                     : ('' as Id<Creep>)
             ) || find(tower);
-        console.log(creeps);
 
         if (!creeps) {
             Memory.towerStat[tower.room.name] = 'normal';
@@ -101,10 +100,8 @@ export function find(tower: StructureTower): Creep | undefined | null {
     if (!global.TowerTarget) {
         global.TowerTarget = {};
     }
-    console.log(tower.room.name);
     
     const target = Game.getObjectById(global.TowerTarget[tower.room.name]);
-    console.log(global.TowerTarget[tower.room.name],target);
     
     if (
         global.TowerTarget[tower.room.name] &&

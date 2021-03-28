@@ -1,4 +1,4 @@
-import { encode } from 'js-base64';
+
 import { pushCarrierTask } from './mount/tasks/task.manager';
 export const WHITE_LIST = ['RaskVann'];
 
@@ -172,9 +172,6 @@ export function buildRoad(from: RoomPosition, to: RoomPosition) {
     }
 }
 
-export function encodee(text: string): string {
-    return encode(text);
-}
 
 export function getSourceFlags(): Flag[] {
     let result = [];
