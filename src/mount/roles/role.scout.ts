@@ -15,6 +15,7 @@ export class Scort extends creepExt {
                 Memory.beScoutRoom.push(this.room.name);
             }
             return;
+            return;
         }
         if (!Memory.rooms[this.room.name].source)
             Memory.rooms[this.room.name].source = [];
