@@ -22,26 +22,31 @@ export default function (spawn: StructureSpawn) {
         Memory.type[spawn.room.name] = Array(12).fill(0);
     }
     if (!spawn.spawning) {
-        let available = spawn.room.energyCapacityAvailable;
-        if (available >= 10000) {
-            available = 10000;
-        } else if (available >= 5600) {
-            available = 5600;
-        } else if (available >= 2300) {
-            available = 2300;
-        } else if (available >= 1800) {
-            available = 1800;
-        } else if (available >= 1300) {
-            available = 1300;
-        } else if (available >= 800) {
-            available = 800;
-        } else if (available >= 550) {
-            available = 550;
-        } else if (available >= 300) {
-            available = 300;
-        }
+        let available = getAvailable(spawn);
         doing(spawn.room, available, functions);
     }
+}
+
+function getAvailable(spawn: StructureSpawn) {
+    let available = spawn.room.energyCapacityAvailable;
+    if (available >= 10000) {
+        available = 10000;
+    } else if (available >= 5600) {
+        available = 5600;
+    } else if (available >= 2300) {
+        available = 2300;
+    } else if (available >= 1800) {
+        available = 1800;
+    } else if (available >= 1300) {
+        available = 1300;
+    } else if (available >= 800) {
+        available = 800;
+    } else if (available >= 550) {
+        available = 550;
+    } else if (available >= 300) {
+        available = 300;
+    }
+    return available;
 }
 
 function doing(
