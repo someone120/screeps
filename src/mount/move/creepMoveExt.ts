@@ -13,7 +13,10 @@ export class creepMoveExt extends Creep {
             _.assign(
                 {
                     reusePath: 20,
-                    costCallback: (roomName:string, costMatrix:CostMatrix) => {
+                    costCallback: (
+                        roomName: string,
+                        costMatrix: CostMatrix
+                    ) => {
                         if (roomName === this.room.name) {
                             // 避开房间中的禁止通行点
                             const restrictedPos = this.room.getRestrictedPos();
@@ -28,9 +31,9 @@ export class creepMoveExt extends Creep {
                                     restrictedPos[creepName]
                                 )!;
                                 costMatrix.set(pos.x, pos.y, 0xff);
-                                this.room.find(FIND_MY_CREEPS).forEach((it)=>{
+                                this.room.find(FIND_MY_CREEPS).forEach((it) => {
                                     costMatrix.set(it.pos.x, it.pos.y, 0xff);
-                                })
+                                });
                             }
                         }
                         // for (let i = 0; i <= 49; i++) {
@@ -40,7 +43,7 @@ export class creepMoveExt extends Creep {
                         //     costMatrix.set(i, 49, 0xff);
                         // }
                         return costMatrix;
-                    },
+                    }
                 },
                 opts
             )
@@ -143,7 +146,6 @@ export class creepMoveExt extends Creep {
                                 !struct.my)
                         )
                             costs.set(struct.pos.x, struct.pos.y, 0xff);
-                            
                     });
 
                     // 避开房间中的禁止通行点
@@ -162,7 +164,7 @@ export class creepMoveExt extends Creep {
                     }
 
                     return costs;
-                },
+                }
             }
         );
 
@@ -224,19 +226,25 @@ export class creepMoveExt extends Creep {
         const goResult = this.move(direction);
 
         // 移动成功，更新下次移动索引
-        if (goResult == OK&&this.pos.serializePos()!=this.memory.prePos) this.memory.farMove.index++;
-        if(this.pos.serializePos()==this.memory.prePos&&this.fatigue==0) delete this.memory.farMove.path;
+        if (goResult == OK && this.pos.serializePos() != this.memory.prePos)
+            this.memory.farMove.index++;
+        if (this.pos.serializePos() == this.memory.prePos && this.fatigue == 0)
+            delete this.memory.farMove.path;
 
         return goResult;
     }
     public move(
         target: DirectionConstant | Creep,
-        isCross?:boolean=false
+        isCross?: boolean = false
     ): CreepMoveReturnCode | ERR_INVALID_TARGET | ERR_NOT_IN_RANGE {
         // const ScreepsBaseCost = Game.cpu.getUsed()
         // 进行移动，并分析其移动结果，OK 时才有可能发生撞停
-        if (isCross&&this.memory.haveMove) {
-            return OK;
+        if (isCross) {
+            if (this.memory.haveMove) {
+                return OK;
+            } else {
+                this._move(target);
+            }
         }
         const moveResult = this._move(target);
 
@@ -293,7 +301,7 @@ export class creepMoveExt extends Creep {
 
         // 同意对穿
         this.say('👌');
-        this.move(direction,true);
+        this.move(direction, true);
         return true;
     }
 

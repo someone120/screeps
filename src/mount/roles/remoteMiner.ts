@@ -1,24 +1,25 @@
-//@ts-nocheck
 import {
     getMinerFirstAvailableFlag,
     setMinerAvailableFlag,
     setMinerUnavailableFlag
 } from 'flag';
 import { creepExt } from 'ScreepsBase';
+import { buildRoad } from 'utils';
 export class remoteMiner extends creepExt {
-    
+
     type: Number = 5;
     work(): void {
         super.work()
-        let source = Game.flags[this.memory.flagName];
+        let source = Game.flags[this.memory.flagName!];
         if (!source) {
-            setMinerAvailableFlag(this.memory.flagName);
+            setMinerAvailableFlag(this.memory.flagName!);
             let flag = getMinerFirstAvailableFlag();
+            if(!flag) return
             this.memory.flagName = flag;
             setMinerUnavailableFlag(flag);
             return;
         }
-        if (this.ticksToLive <= 10 && this.memory['flagName']) {
+        if ((this.ticksToLive||1500) <= 10 && this.memory['flagName']) {
             setMinerAvailableFlag(this.memory['flagName']);
             this.suicide();
         }
@@ -70,14 +71,23 @@ export class remoteMiner extends creepExt {
         if (source && this.pos.roomName == source.pos.roomName) {
             const result = this.harvest(source.pos.lookFor(LOOK_SOURCES)[0]);
             if (result == ERR_NOT_IN_RANGE) {
-                this.farMoveTo(source.pos,1);
+                this.farMoveTo(source.pos, 1);
             }
             if (result == OK) {
                 this.memory.standed = true;
                 this.room.addRestrictedPos(this.name, this.pos);
             }
         } else {
-            if (source) this.farMoveTo(source.pos,1);
+            if (source) this.farMoveTo(source.pos, 1);
+        }
+        if (source.color == COLOR_ORANGE) {
+            try {
+
+                buildRoad(Game.rooms[this.memory.roomID].storage!.pos, source.pos)
+                source.setColor(COLOR_WHITE)
+            } catch (error) {
+
+            }
         }
     }
 }
