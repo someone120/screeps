@@ -2,11 +2,17 @@
 import { creepExt } from 'ScreepsBase';
 import { getSourceFlags } from 'utils';
 export class RemoteCarrier extends creepExt {
-    
     type: Number = 7;
     work(): void {
-        super.work()
+        super.work();
         let flags = getSourceFlags();
+        if (this.memory.farMove?.path?.length * 2.5 > this.ticksToLive) {
+            const spawn = Game.rooms[this.memory.roomID].find(
+                FIND_MY_SPAWNS
+            )[0];
+            this.goTo(spawn);
+            spawn.renewCreep(this);
+        }
         if (this.store.getFreeCapacity() == 0) {
             const targets = Game.rooms[this.memory['roomID']].storage;
             if (targets) {
