@@ -15,18 +15,19 @@ export class Mineraler extends creepExt {
                 | ERR_NOT_ENOUGH_RESOURCES = 0;
             if (!this.pos.isNearTo(mineral[0])) {
                 this.goTo(mineral[0].pos);
-            }
-            let container = this.pos
-                .lookFor(LOOK_STRUCTURES)
-                .find(
-                    (it) => it.structureType == STRUCTURE_CONTAINER
-                ) as StructureContainer;
-            if (container) {
-                container.work();
-                if (container.store.getFreeCapacity() > 0)
-                    result = this.harvest(mineral[0]);
             } else {
-                this.pos.createConstructionSite(STRUCTURE_CONTAINER);
+                let container = this.pos
+                    .lookFor(LOOK_STRUCTURES)
+                    .find(
+                        (it) => it.structureType == STRUCTURE_CONTAINER
+                    ) as StructureContainer;
+                if (container) {
+                    container.work();
+                    if (container.store.getFreeCapacity() > 0)
+                        result = this.harvest(mineral[0]);
+                } else {
+                    this.pos.createConstructionSite(STRUCTURE_CONTAINER);
+                }
             }
             if (result == ERR_NOT_ENOUGH_RESOURCES) {
                 this.memory.type = 3;
