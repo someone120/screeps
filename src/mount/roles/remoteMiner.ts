@@ -67,19 +67,21 @@ export class remoteMiner extends creepExt {
         if (container && container.store.energy > 0) {
             this.withdraw(container, RESOURCE_ENERGY);
         }
-        if (
-            container &&
-            container.store.getFreeCapacity(RESOURCE_ENERGY) > 0 &&
-            source &&
-            this.pos.roomName == source.pos.roomName
-        ) {
-            const result = this.harvest(source.pos.lookFor(LOOK_SOURCES)[0]);
-            if (result == ERR_NOT_IN_RANGE) {
-                this.farMoveTo(source.pos, 1);
-            }
-            if (result == OK) {
-                this.memory.standed = true;
-                this.room.addRestrictedPos(this.name, this.pos);
+        if (source && this.pos.roomName == source.pos.roomName) {
+            if (
+                (container && container.store.getFreeCapacity() > 0) ||
+                !container
+            ) {
+                const result = this.harvest(
+                    source.pos.lookFor(LOOK_SOURCES)[0]
+                );
+                if (result == ERR_NOT_IN_RANGE) {
+                    this.farMoveTo(source.pos, 1);
+                }
+                if (result == OK) {
+                    this.memory.standed = true;
+                    this.room.addRestrictedPos(this.name, this.pos);
+                }
             }
         } else {
             if (source) this.farMoveTo(source.pos, 1);
