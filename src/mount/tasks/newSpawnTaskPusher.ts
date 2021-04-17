@@ -85,8 +85,7 @@ function checkCarrier(Room: Room, available: number): boolean {
 }
 function checkWorker(Room: Room, available: number): boolean {
     if (
-        Memory.type[Room.name][1] < 2 &&
-        Room.find(FIND_CONSTRUCTION_SITES).length > 0
+        Memory.type[Room.name][1]+Memory.type[Room.name][3]+Memory.type[Room.name][10]+Memory.type[Room.name][11]+Memory.type[Room.name][4] < 4
     ) {
         pushSpawnTask(`Worker ${available}`, Room.name, true);
         return true;
