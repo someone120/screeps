@@ -11,7 +11,7 @@ const functions: ((Room: Room, available: number) => boolean)[] = [
     checkCarrier,
     checkWorker,
     checkRemoteWorkers,
-checkWallPainter
+    checkWallPainter
 ];
 
 export default function(spawn: StructureSpawn) {
@@ -31,7 +31,11 @@ export default function(spawn: StructureSpawn) {
 }
 
 function getAvailable(spawn: StructureSpawn) {
-        let available = (Memory.type[spawn.room.name][2] == 0 || Memory.type[spawn.room.name][0] == 0) ? spawn.room.energyAvailable : spawn.room.energyCapacityAvailable;
+    let available =
+        Memory.type[spawn.room.name][2] == 0 ||
+        Memory.type[spawn.room.name][0] == 0
+            ? spawn.room.energyAvailable
+            : spawn.room.energyCapacityAvailable;
     if (available >= 10000) {
         available = 10000;
     } else if (available >= 5600) {
@@ -46,7 +50,7 @@ function getAvailable(spawn: StructureSpawn) {
         available = 800;
     } else if (available >= 550) {
         available = 550;
-    } else if (available >= 300) {
+    } else {
         available = 300;
     }
     return available;
@@ -105,7 +109,7 @@ function checkRemoteWorkers(Room: Room, available: number): boolean {
     return true;
 }
 
-function checkWallPainter(Room: Room, available: number):boolean {
+function checkWallPainter(Room: Room, available: number): boolean {
     if (Memory.type[Room.name][11] < 2) {
         pushSpawnTask(`WallPainter ${available}`, Room.name);
         return true;
