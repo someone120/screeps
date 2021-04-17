@@ -1,7 +1,8 @@
-import { creepExt } from 'base';
+import roleSpawn from 'mount/roles/role.spawn';
+import { creepExt } from 'ScreepsBase';
 import { ErrorMapper } from 'errorMapping';
 import mount from 'mount/roles/mount';
-import { argCpu, stateScanner } from 'GameUtils';
+import { argCpu, stateScanner } from 'utils';
 import { Visualizer } from 'Visualizer';
 import { roles } from 'classes';
 import _ from 'lodash';

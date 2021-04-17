@@ -1,6 +1,6 @@
 //@ts-nocheck
 import { filter } from 'whiteList';
-import { creepExt } from 'base';
+import { creepExt } from 'ScreepsBase';
 import { unlockRoom } from '../cache/room/protect';
 
 export class remoteProtector extends creepExt {

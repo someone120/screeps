@@ -1,5 +1,5 @@
-import { getSourceFlags } from 'GameUtils';
-import { creepExt } from 'base';
+import { getSourceFlags } from 'utils';
+import { creepExt } from 'ScreepsBase';
 import { object } from 'lodash';
 export class builder extends creepExt {
     type: Number = 1;

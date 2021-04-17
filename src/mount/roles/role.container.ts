@@ -1,8 +1,8 @@
 import { pushCarrierTask } from 'mount/tasks/task.manager';
-import { assignPrototype } from 'GameUtils';
-import { base, structure } from 'base';
+import { assignPrototype } from 'utils';
+import {structure } from 'ScreepsBase';
 
-export default class containerExt extends StructureContainer implements base {
+export default class containerExt extends StructureContainer implements structure {
     work() {
         if (this.store.getUsedCapacity() > 400) {
             for (const res in this.store) {

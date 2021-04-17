@@ -7,7 +7,7 @@ import {
     setScoutUnavailableFlag
 } from 'flag';
 import { pushCarrierTask, pushSpawnTask } from '../tasks/task.manager';
-import { getSourceFlags, requestEnergy } from 'GameUtils';
+import { buildRoad, getSourceFlags, requestEnergy } from 'utils';
 import { lockRoom, roomStat } from '../cache/room/protect';
 import _ from 'lodash';
 import { log } from 'util';
@@ -67,18 +67,13 @@ export default function (spawn: StructureSpawn) {
         if (miners < spawn.room.sources.length) {
             pushHarvester(available, spawn);
         }
-        if (builder < 2) {
+        if (builder + Keeper + healer < 8) {
             pushBuilder(available, spawn);
         }
-        if (healer < 2) {
-            pushRepairer(available, spawn);
-        }
-        if (Keeper < KeeperNumber) {
-            pushUpgrader(available, spawn);
-        }
+
         if (energyTransfer < 1 && spawn.room.controller!.level >= 5) {
             let task = `energyTransfer ${available}`;
-            pushSpawnTask(task,spawn.room.name,true)
+            pushSpawnTask(task, spawn.room.name, true)
         }
         if (getSourceFlags() && remoteMiners < getSourceFlags().length) {
             let flag = getMinerFirstAvailableFlag();
@@ -86,6 +81,7 @@ export default function (spawn: StructureSpawn) {
                 pushRemoteMiner(available, flag, spawn);
 
                 setMinerUnavailableFlag(flag);
+                
             }
         }
         if (wallPainter < 3) {

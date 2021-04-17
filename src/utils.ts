@@ -184,8 +184,10 @@ export function getSourceFlags(): Flag[] {
             if (Object.prototype.hasOwnProperty.call(Game.flags, key)) {
                 const element = Game.flags[key];
                 if (element.name.split('_')[0] == 'RemoteSource') {
+
                     global.RemoteFlag.name.push(key);
                     result.push(element);
+                    
                 }
             }
         }

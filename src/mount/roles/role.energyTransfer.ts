@@ -1,8 +1,8 @@
-import { creepExt } from 'base';
+import { creepExt } from 'ScreepsBase';
 //@ts-ignore
 import _ from 'lodash';
 import { pushSpawnTask } from 'mount/tasks/task.manager';
-import { getStorageLink } from 'GameUtils';
+import { getStorageLink } from 'utils';
 
 export class Manager extends creepExt {
 

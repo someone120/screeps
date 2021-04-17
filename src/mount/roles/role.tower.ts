@@ -1,7 +1,7 @@
-import { structure } from 'base';
+import { structure } from 'ScreepsBase';
 import globalObj from './globalObj';
 import { filter as filte } from 'whiteList';
-import { assignPrototype, requestEnergy } from '../../GameUtils';
+import { assignPrototype, requestEnergy } from '../../utils';
 export default class towerExt extends StructureTower implements structure {
     public work(): void {
         this.check(this);

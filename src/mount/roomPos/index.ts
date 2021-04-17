@@ -1,5 +1,5 @@
 import RoomPostionExtension from './ext'
-import { assignPrototype } from 'GameUtils'
+import { assignPrototype } from 'utils'
 
 /**
  * 挂载 RoomPosition 拓展

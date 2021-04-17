@@ -1,4 +1,4 @@
-import { creepExt } from '../../base';
+import { creepExt } from '../../ScreepsScreepsBase';
 class healer extends creepExt {
     
     type: Number = 11;

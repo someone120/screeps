@@ -1,5 +1,5 @@
-import { creepExt } from 'base';
-import { isContainer, isStorage } from 'GameUtils';
+import { creepExt } from 'ScreepsBase';
+import { isContainer, isStorage } from 'utils';
 
 export class WallPainter extends creepExt {
     task: string | undefined;

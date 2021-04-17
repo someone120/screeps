@@ -1,4 +1,4 @@
-import { assignPrototype } from "GameUtils";
+import { assignPrototype } from "utils";
 import { creepMoveExt } from "./creepMoveExt";
 
 export function mountMove(){

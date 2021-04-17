@@ -20,10 +20,10 @@ const ROOM_MAX_SIZE = 50
  * 会尽可能的挑选沼泽数量少的区域
  * 
  * @param roomName 运行规划的房间名
- * @param baseSize 正方形基地的尺寸
+ * @param ScreepsBaseSize 正方形基地的尺寸
  * @returns 所有满足条件的房间位置
  */
-export function findBaseCenterPos(roomName: string, baseSize: number = 11): RoomPosition[] {
+export function findScreepsBaseCenterPos(roomName: string, ScreepsBaseSize: number = 11): RoomPosition[] {
     const terrain = new Room.Terrain(roomName)
 
     let dp: DpNode[][] = Array(ROOM_MAX_SIZE).fill(undefined).map(_ => [])
@@ -46,16 +46,16 @@ export function findBaseCenterPos(roomName: string, baseSize: number = 11): Room
             }
 
             // 发现该正方形已经可以满足要求了
-            if (dp[i][j].len >= baseSize) {
+            if (dp[i][j].len >= ScreepsBaseSize) {
                 // 获取正方形右上侧的三个区域
-                const { topLeft, top, left } = getOtherArea(dp, i, j, baseSize)
+                const { topLeft, top, left } = getOtherArea(dp, i, j, ScreepsBaseSize)
                 // 计算出当前区域内的沼泽数量
                 const currentSwamp = dp[i][j].swamp - top.swamp - left.swamp + topLeft.swamp
 
                 // 沼泽数量不是最小的
                 if (currentSwamp > minSwamp) continue
 
-                const pos = getCenterBybottomRight(i, j, baseSize)
+                const pos = getCenterBybottomRight(i, j, ScreepsBaseSize)
                 const centerPos = new RoomPosition(pos[1], pos[0], roomName)
 
                 // 对比沼泽数量并更新结果
@@ -112,7 +112,7 @@ const getCenterBybottomRight = function(i: number, j: number, len: number): [ nu
  * @param targetPos 待选的中心点数组
  * @returns 基地中心点
  */
-export const confirmBasePos = function(room: Room, targetPos: RoomPosition[]): RoomPosition|undefined {
+export const confirmScreepsBasePos = function(room: Room, targetPos: RoomPosition[]): RoomPosition|undefined {
     if (!targetPos || targetPos.length <= 0) return undefined
 
     const controller = room.controller
@@ -136,7 +136,7 @@ export const confirmBasePos = function(room: Room, targetPos: RoomPosition[]): R
  * @param room 要设置中心点的房间
  * @param centerPos 中心点坐标
  */
-export const setBaseCenter = function(room: Room, centerPos: RoomPosition): OK | ERR_INVALID_ARGS {
+export const setScreepsBaseCenter = function(room: Room, centerPos: RoomPosition): OK | ERR_INVALID_ARGS {
     if (!centerPos) return ERR_INVALID_ARGS
 
     room.memory.center = [ centerPos.x, centerPos.y ]

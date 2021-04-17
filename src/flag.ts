@@ -1,4 +1,4 @@
-import { getSourceFlags } from 'GameUtils';
+import { getSourceFlags } from 'utils';
 
 export function getReserverFirstAvailableFlag(): string|undefined {
     if (!Memory.ReserverRemoteSource) {
