@@ -2,6 +2,7 @@ import { calcBodyPart, getBodyConfig } from 'utils';
 
 
 
+export const workList=[3,1,10,11,4]
 /**
  * 不同角色在 1 - 8 级时对应的的身体部件配置
  * spawn 在孵化时会根据所处房间的可用能量自动调整身体部件

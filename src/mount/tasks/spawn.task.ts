@@ -163,6 +163,25 @@ function spawnNewBuilder(
     );
     return result;
 }
+
+
+function spawnNewWorker(
+    i: Number,
+    spawn: StructureSpawn,
+    roomID: string
+): Number {
+    let result = spawn.spawnCreep(
+        bodySet.worker[
+            i as 300 | 550 | 800 | 1300 | 1800 | 2300 | 5600 | 10000
+        ],
+        `Worker@${Game.time}`,
+        {
+            memory: { type: -3, roomID: roomID }
+        }
+    );
+    return result;
+}
+
 function spawnNewCarrier(
     i: Number,
     spawn: StructureSpawn,
@@ -380,6 +399,10 @@ function parseTask(
                     }
                 );
                 break;
+            case 'Worker':
+                spawnNewBuilder(parseInt(split[1]), spawn, roomID)
+                break;
+
         }
     } else {
         result = ERR_BUSY;

@@ -6,7 +6,8 @@ import { argCpu, stateScanner } from 'utils';
 import { Visualizer } from 'Visualizer';
 import { roles } from 'classes';
 import _ from 'lodash';
-import { memory } from 'console';
+import { workList } from 'setting';
+import newSpawnTaskPusher from 'mount/tasks/newSpawnTaskPusher';
 const saying = 'Open the skylight and speak brightly.'.split(' ');
 module.exports.loop = ErrorMapper.wrapLoop(() => {
     loop();
@@ -81,13 +82,17 @@ function loop() {
             delete Memory['destoryNext'];
             continue;
         }
-        if (creep.memory.type == -1) {
-            continue;
-        }
-        if (creep.memory.type == -2) {
-            creep.say(saying[Game.time % saying.length], true);
-
-            continue;
+        if (creep.memory.type <= -1) {
+            if (creep.memory.type == -2) {
+                creep.say(saying[Game.time % saying.length], true);
+            }
+            if (creep.memory.type == -3) {
+                for (const n of workList) {
+                    if (Memory.type[creep.memory.roomID][n] < 2) {
+                        creep.memory.type = n;
+                    }
+                }
+            }
         }
         let t: creepExt | null = roles[creep.memory.type]
             ? new roles[creep.memory.type]!(creep.id)
@@ -103,7 +108,7 @@ function loop() {
             v.work();
         }
         if (v.structureType == STRUCTURE_SPAWN) {
-            roleSpawn(v as StructureSpawn);
+            newSpawnTaskPusher(v as StructureSpawn);
         }
     });
     if (
@@ -120,7 +125,6 @@ function loop() {
     stateScanner();
 
     Memory.argCpu = argCpu(Memory.argCpu, Game.cpu.getUsed());
-
 
     /**
      * 自动清理死亡的creep内存

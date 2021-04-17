@@ -1,4 +1,7 @@
-import { getMinerFirstAvailableFlag, getReserverFirstAvailableFlag } from 'flag';
+import {
+    getMinerFirstAvailableFlag,
+    getReserverFirstAvailableFlag
+} from 'flag';
 import { pushSpawnTask } from 'mount/tasks/task.manager';
 import { getSourceFlags } from 'utils';
 
@@ -6,12 +9,12 @@ import { getSourceFlags } from 'utils';
 const functions: ((Room: Room, available: number) => boolean)[] = [
     checkHarvester,
     checkCarrier,
-    checkBuilder,
-    checkUpgrader,
-    checkRemoteWorkers
+    checkWorker,
+    checkRemoteWorkers,
+checkWallPainter
 ];
 
-export default function (spawn: StructureSpawn) {
+export default function(spawn: StructureSpawn) {
     if (!Memory.type) {
         Memory.type = {};
     }
@@ -70,34 +73,37 @@ function checkCarrier(Room: Room, available: number): boolean {
     }
     return false;
 }
-function checkBuilder(Room: Room, available: number): boolean {
-    if (Memory.type[Room.name][1] < 2 && Room.find(FIND_CONSTRUCTION_SITES).length > 0) {
-        pushSpawnTask(`Builder ${available}`, Room.name, true);
-        return true;
-    }
-    return false;
-}
-
-function checkUpgrader(Room: Room, available: number): boolean {
-    if (Memory.type[Room.name][1] + Memory.type[Room.name][3] + Memory.type[Room.name][4] < 2 && Room.find(FIND_CONSTRUCTION_SITES).length > 0) {
-        pushSpawnTask(`Builder ${available}`, Room.name);
+function checkWorker(Room: Room, available: number): boolean {
+    if (
+        Memory.type[Room.name][1] < 2 &&
+        Room.find(FIND_CONSTRUCTION_SITES).length > 0
+    ) {
+        pushSpawnTask(`Worker ${available}`, Room.name, true);
         return true;
     }
     return false;
 }
 
 function checkRemoteWorkers(Room: Room, available: number): boolean {
-    let flag = getMinerFirstAvailableFlag()
+    let flag = getMinerFirstAvailableFlag();
     if (flag) {
         pushSpawnTask(`RemoteMiner ${available}`, Room.name);
     }
-    flag = getReserverFirstAvailableFlag()
+    flag = getReserverFirstAvailableFlag();
     if (flag) {
         pushSpawnTask(`Reserver ${available}`, Room.name);
     }
-    let flags = getSourceFlags()
+    let flags = getSourceFlags();
     if (flags.length * 2 < Memory.type[Room.name][7]) {
         pushSpawnTask(`RemoteCarrier ${available}`, Room.name);
     }
     return true;
+}
+
+function checkWallPainter(Room: Room, available: number):boolean {
+    if (Memory.type[Room.name][11] < 2) {
+        pushSpawnTask(`WallPainter ${available}`, Room.name);
+        return true;
+    }
+    return false;
 }
