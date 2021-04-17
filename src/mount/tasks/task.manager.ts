@@ -47,14 +47,7 @@ export function pushSpawnTask(
     if (!global.spawnTask) {
         global.spawnTask = {};
     }
-    if (
-        !(
-            Memory.spawnTask[RoomName].includes(task) ||
-            Object.keys(global.spawnTask).find((it) => {
-                return Game.spawns[it] && Game.spawns[it].room.name == RoomName;
-            })
-        )
-    ) {
+    if (!Memory.spawnTask[RoomName].includes(task)) {
         console.log(
             `<p style="color: #8BC34A;">[${RoomName}]发布了任务：${task}</p>`
         );
@@ -141,10 +134,11 @@ export function supply(creep: Creep): boolean {
             | StructureContainer
             | StructureStorage
             | Resource
-            | undefined =  (creep.room.storage &&
-                creep.room.storage.store[RESOURCE_ENERGY] > 0
+            | undefined =
+            (creep.room.storage && creep.room.storage.store[RESOURCE_ENERGY] > 0
                 ? creep.room.storage
-                : undefined)||creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {
+                : undefined) ||
+            creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {
                 filter: (it) => {
                     return it.resourceType == RESOURCE_ENERGY;
                 }
@@ -156,9 +150,7 @@ export function supply(creep: Creep): boolean {
                         it.store[RESOURCE_ENERGY] > 0
                     );
                 }
-            }) as StructureContainer)
-           
-
+            }) as StructureContainer);
 
         if (target) {
             let result: ScreepsReturnCode;
@@ -179,7 +171,7 @@ export function supply(creep: Creep): boolean {
             target.room?.visual.circle(target.pos.x, target.pos.y, {
                 radius: 0.5,
                 fill: '#FF9800'
-            })
+            });
         }
         return false;
     }
@@ -194,7 +186,7 @@ export function supply(creep: Creep): boolean {
         target.room?.visual.circle(target.pos.x, target.pos.y, {
             radius: 0.5,
             fill: '#8BC34A'
-        })
+        });
 
         return false;
     }

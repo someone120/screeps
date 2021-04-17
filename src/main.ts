@@ -102,12 +102,10 @@ function loop() {
             drawType(creep);
         }
     }
+    
     autoClean();
     Object.values(Game.structures).forEach((v) => {
-if (
-            !Memory.type[v.room.name] ||
-            Memory.type[v.room.name].length <= 0
-        ) {
+        if (!Memory.type[v.room.name] || Memory.type[v.room.name].length <= 0) {
             Memory.type[v.room.name] = Array(roles.length).fill(0);
         }
         if (v.work) {
