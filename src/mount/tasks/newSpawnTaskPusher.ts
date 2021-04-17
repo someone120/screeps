@@ -11,7 +11,8 @@ const functions: ((Room: Room, available: number) => boolean)[] = [
     checkCarrier,
     checkWorker,
     checkRemoteWorkers,
-    checkWallPainter
+    checkWallPainter,
+    checkManager
 ];
 
 export default function(spawn: StructureSpawn) {
@@ -116,3 +117,11 @@ function checkWallPainter(Room: Room, available: number): boolean {
     }
     return false;
 }
+function checkManager(Room: Room, available: number): boolean {
+    if (Memory.type[Room.name][8] < 1&&(Room.controller?.level||0)>=5) {
+        pushSpawnTask(`energyTransfer ${available}`, Room.name);
+        return true;
+    }
+    return false;
+}
+
