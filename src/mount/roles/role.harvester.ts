@@ -1,7 +1,7 @@
 import { creepExt } from 'base';
 import { pushSpawnTask } from 'mount/tasks/task.manager';
-import { getSourceLink, getStorageLink } from 'utils';
-// import { getSourceLink } from 'utils';
+import { getSourceLink, getStorageLink } from 'GameUtils';
+// import { getSourceLink } from 'GameUtils';
 //获取energy
 export class harvester extends creepExt {
     ;

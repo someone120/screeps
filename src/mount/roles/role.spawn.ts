@@ -7,7 +7,7 @@ import {
     setScoutUnavailableFlag
 } from 'flag';
 import { pushCarrierTask, pushSpawnTask } from '../tasks/task.manager';
-import { getSourceFlags, requestEnergy } from 'utils';
+import { getSourceFlags, requestEnergy } from 'GameUtils';
 import { lockRoom, roomStat } from '../cache/room/protect';
 import _ from 'lodash';
 import { log } from 'util';

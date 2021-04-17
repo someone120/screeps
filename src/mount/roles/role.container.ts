@@ -1,5 +1,5 @@
 import { pushCarrierTask } from 'mount/tasks/task.manager';
-import { assignPrototype } from 'utils';
+import { assignPrototype } from 'GameUtils';
 import { base, structure } from 'base';
 
 export default class containerExt extends StructureContainer implements base {

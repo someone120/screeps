@@ -3,7 +3,7 @@ import {
     getReserverFirstAvailableFlag
 } from 'flag';
 import { pushSpawnTask } from 'mount/tasks/task.manager';
-import { getSourceFlags } from 'utils';
+import { getSourceFlags } from 'GameUtils';
 
 //TODO
 const functions: ((Room: Room, available: number) => boolean)[] = [

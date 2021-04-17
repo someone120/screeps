@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { assignPrototype } from 'utils';
+import { assignPrototype } from 'GameUtils';
 class RoomExt extends Room {
     freeSpaceCount(source: Source): number {
         if (source._freeSpaceCount == undefined) {

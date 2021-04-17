@@ -1,6 +1,6 @@
 //@ts-nocheck
 import _ from 'lodash';
-import { getOppositeDirection } from 'utils';
+import { getOppositeDirection } from 'GameUtils';
 
 export class creepMoveExt extends Creep {
     public goTo(

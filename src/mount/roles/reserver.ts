@@ -1,4 +1,4 @@
-import { getQuote } from 'utils';
+import { getQuote } from 'GameUtils';
 import { creepExt } from 'base';
 import { getReserverFirstAvailableFlag, setReserverAvailableFlag } from 'flag';
 import { pushSpawnTask } from 'mount/tasks/task.manager';

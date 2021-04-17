@@ -1,4 +1,4 @@
-import { calcBodyPart, getBodyConfig } from 'utils';
+import { calcBodyPart, getBodyConfig } from 'GameUtils';
 
 
 

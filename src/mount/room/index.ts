@@ -1,4 +1,4 @@
-import { assignPrototype } from 'utils';
+import { assignPrototype } from 'GameUtils';
 import RoomExtension from './ext';
 
 export function mountRoom() {

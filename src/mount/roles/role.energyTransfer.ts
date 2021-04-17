@@ -2,7 +2,7 @@ import { creepExt } from 'base';
 //@ts-ignore
 import _ from 'lodash';
 import { pushSpawnTask } from 'mount/tasks/task.manager';
-import { getStorageLink } from 'utils';
+import { getStorageLink } from 'GameUtils';
 
 export class Manager extends creepExt {
 

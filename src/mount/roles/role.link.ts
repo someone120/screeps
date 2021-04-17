@@ -1,5 +1,5 @@
 import { structure } from 'base';
-import { assignPrototype, getStorageLink } from 'utils';
+import { assignPrototype, getStorageLink } from 'GameUtils';
 export class extensionLink extends StructureLink implements structure {
     work() {
         if (

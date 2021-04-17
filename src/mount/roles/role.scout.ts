@@ -2,7 +2,7 @@
 import { creepExt } from 'base';
 import { setScoutAvailableFlag } from 'flag';
 import { random } from 'lodash';
-import { encodee } from 'utils';
+import { encodee } from 'GameUtils';
 export class Scort extends creepExt {
     type: Number = 9;
     work(): void {

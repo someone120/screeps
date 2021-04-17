@@ -1,7 +1,7 @@
 import { structure } from 'base';
 import { bodyConfigs as bodySet } from 'setting';
 import { pushCarrierTask } from 'mount/tasks/task.manager';
-import { assignPrototype } from 'utils';
+import { assignPrototype } from 'GameUtils';
 export default class spawnExt extends StructureSpawn implements structure {
     work() {
         if (this.store.getFreeCapacity(RESOURCE_ENERGY) > 0) {

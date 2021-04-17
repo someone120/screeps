@@ -1,4 +1,4 @@
-import { getQuote, isContainer, isStorage } from 'utils';
+import { getQuote, isContainer, isStorage } from 'GameUtils';
 import { creepExt } from 'base';
 export class Upgrader extends creepExt {
     type: Number = 3;

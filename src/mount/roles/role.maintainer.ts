@@ -1,5 +1,5 @@
 import { creepExt } from 'base';
-import { getSourceFlags } from 'utils';
+import { getSourceFlags } from 'GameUtils';
 export class Repairer extends creepExt {
     type: Number = 4;
     work() {

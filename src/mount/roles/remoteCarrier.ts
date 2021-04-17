@@ -1,6 +1,6 @@
 //@ts-nocheck
 import { creepExt } from 'base';
-import { getSourceFlags } from 'utils';
+import { getSourceFlags } from 'GameUtils';
 export class RemoteCarrier extends creepExt {
     
     type: Number = 7;

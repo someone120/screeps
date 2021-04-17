@@ -1,6 +1,5 @@
 
 import { pushCarrierTask } from './mount/tasks/task.manager';
-export const WHITE_LIST = ['RaskVann'];
 
 const quote: string[] = [
     '隐患险于明火，防范胜于救灾，责任重于泰山。',

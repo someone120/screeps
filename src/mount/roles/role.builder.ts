@@ -1,4 +1,4 @@
-import { getSourceFlags } from 'utils';
+import { getSourceFlags } from 'GameUtils';
 import { creepExt } from 'base';
 import { object } from 'lodash';
 export class builder extends creepExt {

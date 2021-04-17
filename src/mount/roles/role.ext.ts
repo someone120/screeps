@@ -1,5 +1,5 @@
 import { structure } from 'base';
-import { assignPrototype, requestEnergy } from 'utils';
+import { assignPrototype, requestEnergy } from 'GameUtils';
 export class extensionExt extends StructureExtension implements structure {
     work() {
         if (this.store.getFreeCapacity(RESOURCE_ENERGY) > 0) {
