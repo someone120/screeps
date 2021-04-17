@@ -119,7 +119,7 @@ function checkWallPainter(Room: Room, available: number): boolean {
 }
 function checkManager(Room: Room, available: number): boolean {
     if (Memory.type[Room.name][8] < 1&&(Room.controller?.level||0)>=5) {
-        pushSpawnTask(`energyTransfer ${available}`, Room.name);
+        pushSpawnTask(`energyTransfer ${available}`, Room.name,true);
         return true;
     }
     return false;
