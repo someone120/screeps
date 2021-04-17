@@ -31,7 +31,7 @@ export default function(spawn: StructureSpawn) {
 }
 
 function getAvailable(spawn: StructureSpawn) {
-    let available = spawn.room.energyCapacityAvailable;
+        let available = (Memory.type[spawn.room.name][2] == 0 || Memory.type[spawn.room.name][0] == 0) ? spawn.room.energyAvailable : spawn.room.energyCapacityAvailable;
     if (available >= 10000) {
         available = 10000;
     } else if (available >= 5600) {
