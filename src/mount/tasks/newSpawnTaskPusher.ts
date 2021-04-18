@@ -96,7 +96,7 @@ function checkWorker(Room: Room, available: number): boolean {
             Memory.type[Room.name][4] <
         4
     ) {
-        pushSpawnTask(`Worker ${available}`, Room.name, true);
+        pushSpawnTask(`Worker ${available}`, Room.name);
         return true;
     }
     return false;
