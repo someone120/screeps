@@ -400,7 +400,7 @@ function parseTask(
                 );
                 break;
             case 'Worker':
-                spawnNewBuilder(parseInt(split[1]), spawn, roomID)
+                spawnNewWorker(parseInt(split[1]), spawn, roomID)
                 break;
 
         }
