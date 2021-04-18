@@ -68,12 +68,16 @@ function doing(
 }
 
 function checkHarvester(Room: Room, available: number): boolean {
-    let sources = Room.sources;
-    if (sources.length > Memory.type[Room.name][0]) {
-        pushSpawnTask(`Harvester ${available}`, Room.name, true);
-        return true;
+    const freeSource = Room.findUnlockSource(
+        Room.sources.map((it) => {
+            return it.id;
+        })
+    );
+    if (!freeSource) {
+        return false;
     }
-    return false;
+    pushSpawnTask(`Harvester ${available} ${freeSource}`, Room.name, true);
+    return true;
 }
 
 function checkCarrier(Room: Room, available: number): boolean {
@@ -85,7 +89,12 @@ function checkCarrier(Room: Room, available: number): boolean {
 }
 function checkWorker(Room: Room, available: number): boolean {
     if (
-        Memory.type[Room.name][1]+Memory.type[Room.name][3]+Memory.type[Room.name][10]+Memory.type[Room.name][11]+Memory.type[Room.name][4] < 4
+        Memory.type[Room.name][1] +
+            Memory.type[Room.name][3] +
+            Memory.type[Room.name][10] +
+            Memory.type[Room.name][11] +
+            Memory.type[Room.name][4] <
+        4
     ) {
         pushSpawnTask(`Worker ${available}`, Room.name, true);
         return true;
@@ -117,10 +126,9 @@ function checkWallPainter(Room: Room, available: number): boolean {
     return false;
 }
 function checkManager(Room: Room, available: number): boolean {
-    if (Memory.type[Room.name][8] < 1&&(Room.controller?.level||0)>=5) {
-        pushSpawnTask(`energyTransfer ${available}`, Room.name,true);
+    if (Memory.type[Room.name][8] < 1 && (Room.controller?.level || 0) >= 5) {
+        pushSpawnTask(`energyTransfer ${available}`, Room.name, true);
         return true;
     }
     return false;
 }
-
