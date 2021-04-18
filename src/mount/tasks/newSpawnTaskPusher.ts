@@ -105,11 +105,11 @@ function checkWorker(Room: Room, available: number): boolean {
 function checkRemoteWorkers(Room: Room, available: number): boolean {
     let flag = getMinerFirstAvailableFlag();
     if (flag) {
-        pushSpawnTask(`RemoteMiner ${available}`, Room.name);
+        pushSpawnTask(`RemoteMiner ${available} ${flag}`, Room.name);
     }
     flag = getReserverFirstAvailableFlag();
     if (flag) {
-        pushSpawnTask(`Reserver ${available}`, Room.name);
+        pushSpawnTask(`Reserver ${available} ${flag}`, Room.name);
     }
     let flags = getSourceFlags();
     if (flags.length * 2 > Memory.type[Room.name][7]) {
