@@ -112,7 +112,7 @@ function checkRemoteWorkers(Room: Room, available: number): boolean {
         pushSpawnTask(`Reserver ${available}`, Room.name);
     }
     let flags = getSourceFlags();
-    if (flags.length * 2 < Memory.type[Room.name][7]) {
+    if (flags.length * 2 > Memory.type[Room.name][7]) {
         pushSpawnTask(`RemoteCarrier ${available}`, Room.name);
     }
     return true;
