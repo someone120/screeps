@@ -228,7 +228,12 @@ export class creepMoveExt extends Creep {
         // 移动成功，更新下次移动索引
         if (goResult == OK && this.pos.serializePos() != this.memory.prePos)
             this.memory.farMove.index++;
-        if (this.pos.serializePos() == this.memory.prePos && this.fatigue == 0)
+        //查看是因为什么原因撞停的
+        if (
+            this.pos.serializePos() == this.memory.prePos &&
+            this.fatigue == 0 &&
+            this.pos.directionToPos(direction)?.lookFor(LOOK_CREEPS).length == 0
+        )
             delete this.memory.farMove.path;
 
         return goResult;
