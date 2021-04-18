@@ -13,7 +13,7 @@ export class reserve extends creepExt {
             this.memory.flagName = flag;
             setReserverAvailableFlag(flag!);
         }
-        if (source.room) {
+        if (source&&source.room) {
             let controller = source.room.controller;
             if (!controller) {
                 this.farMoveTo(source.pos, 1);
@@ -44,8 +44,10 @@ export class reserve extends creepExt {
                     this.room.addRestrictedPos(this.name, this.pos);
                 }
             }
-        } else {
+        } else if(source) {
             this.farMoveTo(source.pos, 1);
+        }else{
+            this.pos.findClosestByRange(FIND_MY_SPAWNS)?.recycleCreep(this)
         }
         if ( (this.ticksToLive|| 1500 )<= 100) {
 
