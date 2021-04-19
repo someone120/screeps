@@ -1,6 +1,6 @@
 //@ts-nocheck
 import _ from 'lodash';
-import { getOppositeDirection } from 'utils';
+import {getOppositeDirection} from 'utils';
 
 export class creepMoveExt extends Creep {
     public goTo(
@@ -8,7 +8,9 @@ export class creepMoveExt extends Creep {
         opts?: MoveToOpts
     ): CreepMoveReturnCode | ERR_NO_PATH | ERR_INVALID_TARGET | ERR_NOT_FOUND {
         // const ScreepsBaseCost = Game.cpu.getUsed()
-        const moveResult = this.moveTo(
+
+
+        return this.moveTo(
             target,
             _.assign(
                 {
@@ -48,9 +50,8 @@ export class creepMoveExt extends Creep {
                 opts
             )
         );
-
-        return moveResult;
     }
+
     /**
      * 远程寻路
      * 包含对穿功能，会自动躲避 bypass 中配置的绕过房间
@@ -97,6 +98,7 @@ export class creepMoveExt extends Creep {
 
         return goResult;
     }
+
     public findPath(target: RoomPosition, range: number): string | null {
         if (!this.memory.farMove) this.memory.farMove = {};
         this.memory.farMove.index = 0;
@@ -116,7 +118,7 @@ export class creepMoveExt extends Creep {
 
         const result = PathFinder.search(
             this.pos,
-            { pos: target, range },
+            {pos: target, range},
             {
                 plainCost: 2,
                 swampCost: 10,
@@ -189,6 +191,7 @@ export class creepMoveExt extends Creep {
 
         return route;
     }
+
     public serializeFarPath(positions: RoomPosition[]): string {
         if (positions.length == 0) return '';
         // 确保路径的第一个位置是自己的当前位置
@@ -205,6 +208,7 @@ export class creepMoveExt extends Creep {
             })
             .join('');
     }
+
     public goByCache():
         | CreepMoveReturnCode
         | ERR_NO_PATH
@@ -230,14 +234,15 @@ export class creepMoveExt extends Creep {
             this.memory.farMove.index++;
         //查看是因为什么原因撞停的
         if (
-            this.pos.serializePos() == this.memory.prePos &&
-            this.fatigue == 0 &&
-            this.pos.directionToPos(direction)?.lookFor(LOOK_CREEPS).length == 0
+            (this.pos.serializePos() == this.memory.prePos &&
+                this.fatigue == 0) ||
+            goResult == ERR_INVALID_TARGET
         )
             delete this.memory.farMove.path;
 
         return goResult;
     }
+
     public move(
         target: DirectionConstant | Creep,
         isCross?: boolean = false
@@ -276,6 +281,7 @@ export class creepMoveExt extends Creep {
         this.memory.haveMove = true;
         return OK;
     }
+
     public mutualCross(
         direction: DirectionConstant
     ): OK | ERR_BUSY | ERR_NOT_FOUND {
@@ -295,6 +301,7 @@ export class creepMoveExt extends Creep {
 
         return OK;
     }
+
     public requireCross(direction: DirectionConstant): Boolean {
         // this 下没有 memory 说明 creep 已经凉了，直接移动即可
         if (!this.memory) return true;
