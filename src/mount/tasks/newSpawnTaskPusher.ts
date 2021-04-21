@@ -4,6 +4,7 @@ import {
 } from 'flag';
 import { pushSpawnTask } from 'mount/tasks/task.manager';
 import { getSourceFlags } from 'utils';
+import {lockRoom, roomStat} from "../cache/room/protect";
 
 //TODO
 const functions: ((Room: Room, available: number) => boolean)[] = [
@@ -114,6 +115,17 @@ function checkRemoteWorkers(Room: Room, available: number): boolean {
     let flags = getSourceFlags();
     if (flags.length * 2 > Memory.type[Room.name][7]) {
         pushSpawnTask(`RemoteCarrier ${available}`, Room.name);
+    }
+    if (flag && Memory.type[Room.name][12] < getSourceFlags().length) {
+        flags.forEach((it) => {
+            if (it.room && !roomStat(Room.name)) {
+                pushSpawnTask(
+                    `Protector ${available} ${Room.name}`,
+                    Room.name
+                );
+                lockRoom(Room.name);
+            }
+        });
     }
     return true;
 }
