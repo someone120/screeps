@@ -19,7 +19,7 @@ interface Memory {
     argCpu: { argCpu: number, ticks: number }
     WHITE_LIST: string[];
 }
-
+type Colors = 'green' | 'blue' | 'yellow' | 'red'| undefined
 interface RoomPosition {
     isOnEdge(i?: number): boolean
 
