@@ -3,6 +3,9 @@ import { isContainer, isStorage } from '../../utils';
 /**
  * 向任务列表中推送任务
  * @param task 任务
+ * @param roomName
+ * @param name
+ * @param isTop
  */
 export function pushCarrierTask(
     task: string,
@@ -10,28 +13,33 @@ export function pushCarrierTask(
     name: string,
     isTop: boolean = false
 ) {
-    if (!Memory.porterTasker) {
-        Memory.porterTasker = {};
+    if (!Memory.rooms) {
+        Memory.rooms = {};
     }
-    if (!Memory.porterTasker[roomName]) {
-        Memory.porterTasker[roomName] = [];
+    if (!Memory.rooms[roomName]) {
+        Memory.rooms[roomName] = {};
+    }
+    if(!Memory.rooms[roomName].CarrierTask){
+        Memory.rooms[roomName].CarrierTask=[]
     }
     if (
         !(
-            Memory.porterTasker[roomName].includes(task) ||
+            Memory.rooms[roomName].CarrierTask!.includes(task) ||
             global.porterTasksTaken.includes(task)
         )
     ) {
         console.log(
             `<p style="color: #8BC34A;">[${name}]发布了任务：${task}</p>`
         );
-        if (isTop) Memory.porterTasker[roomName].unshift(task);
-        else Memory.porterTasker[roomName].push(task);
+        if (isTop) Memory.rooms[roomName].CarrierTask!.unshift(task);
+        else Memory.rooms[roomName].CarrierTask!.push(task);
     }
 }
 /**
  * 向任务列表中推送任务
  * @param task 任务
+ * @param RoomName
+ * @param isTop
  */
 export function pushSpawnTask(
     task: string,
