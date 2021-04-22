@@ -232,13 +232,6 @@ export class creepMoveExt extends Creep {
         // 移动成功，更新下次移动索引
         if (goResult == OK && this.pos.serializePos() != this.memory.prePos)
             this.memory.farMove.index++;
-        //查看是因为什么原因撞停的
-        if (
-            (this.pos.serializePos() == this.memory.prePos &&
-                this.fatigue == 0) ||
-            goResult == ERR_INVALID_TARGET
-        )
-            delete this.memory.farMove.path;
 
         return goResult;
     }
