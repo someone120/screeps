@@ -22,11 +22,15 @@ interface Memory {
 
 interface RoomPosition {
     isOnEdge(i?: number): boolean
+
     directionToPos(
         direction: DirectionConstant
     ): RoomPosition | undefined
+
     getFreeSpace(): RoomPosition[]
+
     intersection(...p: RoomPosition[][]): RoomPosition[]
+
     serializePos(): string
 
 }
@@ -39,25 +43,36 @@ interface posExt {
 
 interface Room {
     mineral: Mineral;
+
     findUnlockSource(id: Id<Source>[]): Id<Source> | undefined;
+
     unlockSource(id: Id<Source>): void;
+
     lockSource(id: Id<Source>): void;
+
     addRestrictedPos(creepName: string, pos: RoomPosition): void;
+
     removeRestrictedPos(creepName: string): void;
+
     unserializePos(posStr: string): RoomPosition | undefined;
+
     getRestrictedPos(): { [creepName: string]: string };
+
     serializePos(pos: RoomPosition): string;
+
     sources: Source[];
 }
 
-interface RoomMemory{
-    isLockByProtect?:boolean;
-    center?:[number,number]
-    restrictedPos?:{[CreepName:string]:string}
+interface RoomMemory {
+    isLockByProtect?: boolean;
+    center?: [number, number]
+    restrictedPos?: { [CreepName: string]: string }
+    CarrierTask?:string[]
 }
 
 interface Structure {
     store: any;
+
     work(): void;
 }
 
@@ -92,7 +107,7 @@ interface CreepMemory {
         p: string[];
     };
     parentTask?: string;
-    haveMove?:boolean;
+    haveMove?: boolean;
 }
 
 type BodyAutoConfigConstant =
@@ -112,15 +127,14 @@ type BodyConfigs = {
 };
 
 type BodyConfig = {
-    [energyLevel in
-    | 300
-    | 550
-    | 800
-    | 1300
-    | 1800
-    | 2300
-    | 5600
-    | 10000]: BodyPartConstant[];
+    [energyLevel in | 300
+        | 550
+        | 800
+        | 1300
+        | 1800
+        | 2300
+        | 5600
+        | 10000]: BodyPartConstant[];
 };
 
 interface BodySet {
@@ -136,11 +150,14 @@ interface BodySet {
 
 interface Creep {
     _move: any;
+
     goTo(
         target: RoomPosition,
         opts?: MoveToOpts
     ): CreepMoveReturnCode | ERR_NO_PATH | ERR_INVALID_TARGET | ERR_NOT_FOUND
+
     requireCross(direction: DirectionConstant): Boolean;
+
     farMoveTo(
         target: RoomPosition,
         range?: number
@@ -149,19 +166,25 @@ interface Creep {
         | ERR_NO_PATH
         | ERR_NOT_IN_RANGE
         | ERR_INVALID_TARGET
+
     findPath(target: RoomPosition, range: number): string | null
+
     serializeFarPath(positions: RoomPosition[]): string
+
     goByCache():
         | CreepMoveReturnCode
         | ERR_NO_PATH
         | ERR_NOT_IN_RANGE
         | ERR_INVALID_TARGET
+
     move(
         target: DirectionConstant | Creep
     ): CreepMoveReturnCode | ERR_INVALID_TARGET | ERR_NOT_IN_RANGE
+
     mutualCross(
         direction: DirectionConstant
     ): OK | ERR_BUSY | ERR_NOT_FOUND
+
     directionToPos(
         pos: RoomPosition,
         direction: DirectionConstant
@@ -172,8 +195,8 @@ interface PowerCreep {
     requireCross(direction: DirectionConstant): Boolean;
 }
 
-interface Source{
-    _freeSpaceCount:number
+interface Source {
+    _freeSpaceCount: number
 }
 
 declare module NodeJS {
@@ -198,6 +221,7 @@ declare module NodeJS {
         };
     }
 }
-interface SpawnMemory{
-    time?:number
+
+interface SpawnMemory {
+    time?: number
 }
