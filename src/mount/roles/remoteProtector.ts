@@ -9,7 +9,7 @@ export class remoteProtector extends creepExt {
         this.say('🤺',true)
         this.room.addRestrictedPos(this.name,this.pos)
 
-        if (this.ticksToLive < 10) {
+        if (this.ticksToLive < 10||this.hitsMax-this.hits<=100) {
             unlockRoom(this.memory.protectRoomId);
 
         }
