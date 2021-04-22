@@ -118,12 +118,12 @@ function checkRemoteWorkers(Room: Room, available: number): boolean {
     }
     if (flag && Memory.type[Room.name][12] < getSourceFlags().length) {
         flags.forEach((it) => {
-            if (it.room && !roomStat(Room.name)) {
+            if (it.room && !roomStat(it.room.name)) {
                 pushSpawnTask(
-                    `Protector ${available} ${Room.name}`,
-                    Room.name
+                    `Protector ${available} ${it.room.name}`,
+                    it.room.name
                 );
-                lockRoom(Room.name);
+                lockRoom(it.room.name);
             }
         });
     }
