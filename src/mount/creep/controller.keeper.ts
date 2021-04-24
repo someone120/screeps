@@ -78,14 +78,5 @@ export class Upgrader extends creepExt {
                 }
             }
         });
-        if (
-            ~~(targets.length * 2.5) > Memory.type[this.memory.roomID][1] &&
-            Memory.type[this.memory.roomID][3] > 1
-        ) {
-            Memory.type[this.memory.roomID][1]++;
-            Memory.type[this.memory.roomID][3]--;
-            this.memory.type = 1;
-            return;
-        }
     }
 }

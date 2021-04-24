@@ -1,9 +1,9 @@
 import globalObj from './globalObj';
 import _ from 'lodash';
-import { mountLink } from './role.link';
-import { mountSpawn } from '../tasks/spawn.task';
-import { mountExtension } from './role.ext';
-import { mountTower } from 'mount/roles/role.tower';
+import { mountLink } from '../structure/role.link';
+import { mountSpawn } from '../structure/spawn.task';
+import { mountExtension } from '../structure/role.ext';
+import { mountTower } from 'mount/structure/role.tower';
 import { mountSource } from '../cache/room/source';
 import { mountMove } from '../move';
 import { mountRoom } from '../room';

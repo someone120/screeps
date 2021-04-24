@@ -1,18 +1,14 @@
 import {
     getMinerFirstAvailableFlag,
     getReserverFirstAvailableFlag,
-    getScoutFirstAvailableFlag,
     setMinerUnavailableFlag,
     setReserverUnavailableFlag,
-    setScoutUnavailableFlag
 } from 'flag';
-import { pushCarrierTask, pushSpawnTask } from '../tasks/task.manager';
-import { buildRoad, getSourceFlags, requestEnergy } from 'utils';
+import { pushSpawnTask } from '../tasks/task.manager';
+import { getSourceFlags, requestEnergy } from 'utils';
 import { lockRoom, roomStat } from '../cache/room/protect';
 import _ from 'lodash';
-import { log } from 'util';
 const PorterNumber = 2;
-const KeeperNumber = 4;
 /**
  * 按照creep数量发送生成任务
  */
@@ -36,7 +32,6 @@ export default function (spawn: StructureSpawn) {
         const Reserver = Memory.type[spawn.room.name][6];
         const remoteCarrier = Memory.type[spawn.room.name][7];
         const energyTransfer = Memory.type[spawn.room.name][8];
-        const scout = Memory.type[spawn.room.name][9];
         const MineralCreep = Memory.type[spawn.room.name][10];
         const wallPainter = Memory.type[spawn.room.name][11];
         const Protectors = Memory.type[spawn.room.name][12];
@@ -194,14 +189,8 @@ function pushCarrier(i: Number, spawn: StructureSpawn) {
     );
     Memory.spawnTask[spawn.room.name].unshift(task);
 }
-function pushRepairer(i: Number, spawn: StructureSpawn) {
-    pushSpawnTask(`Repairer ${i}`, spawn.room.name);
-}
 function pushBuilder(i: Number, spawn: StructureSpawn) {
     pushSpawnTask(`Builder ${i}`, spawn.room.name);
-}
-function pushUpgrader(i: Number, spawn: StructureSpawn) {
-    pushSpawnTask(`Upgrader ${i}`, spawn.room.name);
 }
 function pushRemoteMiner(i: Number, flagName: string, spawn: StructureSpawn) {
     pushSpawnTask(`RemoteMiner ${i} ${flagName}`, spawn.room.name);

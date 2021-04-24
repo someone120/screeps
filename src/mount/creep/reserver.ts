@@ -1,9 +1,11 @@
-import { getQuote } from 'utils';
-import { creepExt } from 'ScreepsBase';
-import { getReserverFirstAvailableFlag, setReserverAvailableFlag } from 'flag';
-import { pushSpawnTask } from 'mount/tasks/task.manager';
+import {getQuote} from 'utils';
+import {creepExt} from 'ScreepsBase';
+import {getReserverFirstAvailableFlag, setReserverAvailableFlag} from 'flag';
+import {pushSpawnTask} from 'mount/tasks/task.manager';
+
 export class reserve extends creepExt {
     type: Number = 6;
+
     work(): void {
         super.work()
         let source = Game.flags[this.memory.flagName!];
@@ -14,7 +16,7 @@ export class reserve extends creepExt {
             setReserverAvailableFlag(flag!);
             return
         }
-        if (source&&source.room) {
+        if (source && source.room) {
             let controller = source.room.controller;
             if (!controller) {
                 this.farMoveTo(source.pos, 1);
@@ -45,12 +47,12 @@ export class reserve extends creepExt {
                     this.room.addRestrictedPos(this.name, this.pos);
                 }
             }
-        } else if(source) {
+        } else if (source) {
             this.farMoveTo(source.pos, 1);
-        }else{
+        } else {
             this.pos.findClosestByRange(FIND_MY_SPAWNS)?.recycleCreep(this)
         }
-        if ( (this.ticksToLive|| 1500 )<= 100) {
+        if ((this.ticksToLive || 1500) <= 100) {
 
             let available = Game.rooms[this.memory.roomID].energyCapacityAvailable;
             if (available >= 10000) {

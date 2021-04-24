@@ -1,7 +1,8 @@
-import { structure } from 'ScreepsBase';
-import { bodyConfigs as bodySet } from 'setting';
-import { pushCarrierTask } from 'mount/tasks/task.manager';
-import { assignPrototype } from 'utils';
+import {bodyConfigs as bodySet} from 'setting';
+import {assignPrototype} from "../../utils";
+import {pushCarrierTask} from "../tasks/task.manager";
+import {structure} from "../../ScreepsBase";
+
 export default class spawnExt extends StructureSpawn implements structure {
     work() {
         if (this.store.getFreeCapacity(RESOURCE_ENERGY) > 0) {
@@ -60,8 +61,7 @@ export default class spawnExt extends StructureSpawn implements structure {
             global.spawnTask = {};
         }
         if (!global.spawnTask[this.name]) {
-            const newLocal = getTask(Memory.spawnTask[this.room.name]);
-            global.spawnTask[this.name] = newLocal;
+            global.spawnTask[this.name] = getTask(Memory.spawnTask[this.room.name]);
         } else {
             const type = global.spawnTask[this.name]!.split(' ');
             if (
@@ -152,16 +152,15 @@ function spawnNewBuilder(
     spawn: StructureSpawn,
     roomID: string
 ): Number {
-    let result = spawn.spawnCreep(
+    return spawn.spawnCreep(
         bodySet.worker[
             i as 300 | 550 | 800 | 1300 | 1800 | 2300 | 5600 | 10000
-        ],
+            ],
         `Builder@${Game.time}`,
         {
-            memory: { type: 4, roomID: roomID }
+            memory: {type: 4, roomID: roomID}
         }
     );
-    return result;
 }
 
 
@@ -170,16 +169,15 @@ function spawnNewWorker(
     spawn: StructureSpawn,
     roomID: string
 ): Number {
-    let result = spawn.spawnCreep(
+    return spawn.spawnCreep(
         bodySet.worker[
             i as 300 | 550 | 800 | 1300 | 1800 | 2300 | 5600 | 10000
-        ],
+            ],
         `Worker@${Game.time}`,
         {
-            memory: { type: -3, roomID: roomID }
+            memory: {type: -3, roomID: roomID}
         }
     );
-    return result;
 }
 
 function spawnNewCarrier(
@@ -187,16 +185,15 @@ function spawnNewCarrier(
     spawn: StructureSpawn,
     roomID: string
 ): Number {
-    let result = spawn.spawnCreep(
+    return spawn.spawnCreep(
         bodySet.manager[
             i as 300 | 550 | 800 | 1300 | 1800 | 2300 | 5600 | 10000
-        ],
+            ],
         `Carrier@${Game.time}`,
         {
-            memory: { type: 2, roomID: roomID }
+            memory: {type: 2, roomID: roomID}
         }
     );
-    return result;
 }
 function spawnNewReserver(
     i: Number,
@@ -204,16 +201,15 @@ function spawnNewReserver(
     roomID: string,
     flagName: string
 ): Number {
-    let result = spawn.spawnCreep(
+    return spawn.spawnCreep(
         bodySet.reserver[
             i as 300 | 550 | 800 | 1300 | 1800 | 2300 | 5600 | 10000
-        ],
+            ],
         `reserver@${Game.time}`,
         {
-            memory: { type: 6, roomID: roomID, flagName: flagName }
+            memory: {type: 6, roomID: roomID, flagName: flagName}
         }
     );
-    return result;
 }
 function spawnNewRemoteMiner(
     i: Number,
@@ -221,48 +217,45 @@ function spawnNewRemoteMiner(
     roomID: string,
     flagName: string
 ): Number {
-    let result = spawn.spawnCreep(
+    return spawn.spawnCreep(
         bodySet.remoteHarvester[
             i as 300 | 550 | 800 | 1300 | 1800 | 2300 | 5600 | 10000
-        ],
+            ],
         `RemoteMiner@${Game.time}`,
         {
-            memory: { type: 5, roomID: roomID, flagName: flagName }
+            memory: {type: 5, roomID: roomID, flagName: flagName}
         }
     );
-    return result;
 }
 function spawnNewRemoteCarrier(
     i: Number,
     spawn: StructureSpawn,
     roomID: string
 ): Number {
-    let result = spawn.spawnCreep(
+    return spawn.spawnCreep(
         bodySet.manager[
             i as 300 | 550 | 800 | 1300 | 1800 | 2300 | 5600 | 10000
-        ],
+            ],
         `RemoteCarrier@${Game.time}`,
         {
-            memory: { type: 7, roomID: roomID }
+            memory: {type: 7, roomID: roomID}
         }
     );
-    return result;
 }
 function spawnNewUpgrader(
     i: Number,
     spawn: StructureSpawn,
     roomID: string
 ): Number {
-    let result = spawn.spawnCreep(
+    return spawn.spawnCreep(
         bodySet.upgrader[
             i as 300 | 550 | 800 | 1300 | 1800 | 2300 | 5600 | 10000
-        ],
+            ],
         `Upgrader@${Game.time}`,
         {
-            memory: { type: 3, roomID: roomID }
+            memory: {type: 3, roomID: roomID}
         }
     );
-    return result;
 }
 function getTask(tasks: string[]): string | undefined {
     return tasks.shift();

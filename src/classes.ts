@@ -1,18 +1,18 @@
-import { Carrier } from 'mount/roles/role.porter';
-import { Upgrader } from 'mount/roles/controller.keeper';
-import { RemoteCarrier } from 'mount/roles/remoteCarrier';
-import { remoteMiner } from 'mount/roles/remoteMiner';
-import { remoteProtector } from 'mount/roles/remoteProtector';
-import { reserve } from 'mount/roles/reserver';
-import { builder } from 'mount/roles/role.builder';
-import { Manager } from 'mount/roles/role.energyTransfer';
-import { harvester } from 'mount/roles/role.harvester';
-import { Repairer } from 'mount/roles/role.maintainer';
-import { Mineraler } from 'mount/roles/role.mineral';
-import { Scort } from 'mount/roles/role.scout';
-import { WallPainter } from 'mount/roles/role.wallPainter';
+import { Carrier } from 'mount/creep/role.porter';
+import { Upgrader } from 'mount/creep/controller.keeper';
+import { RemoteCarrier } from 'mount/creep/remoteCarrier';
+import { remoteMiner } from 'mount/creep/remoteMiner';
+import { remoteProtector } from 'mount/creep/remoteProtector';
+import { reserve } from 'mount/creep/reserver';
+import { builder } from 'mount/creep/role.builder';
+import { Manager } from 'mount/creep/role.energyTransfer';
+import { harvester } from 'mount/creep/role.harvester';
+import { Repairer } from 'mount/creep/role.maintainer';
+import { Mineraler } from 'mount/creep/role.mineral';
+import { Scort } from 'mount/creep/role.scout';
+import { WallPainter } from 'mount/creep/role.wallPainter';
 import { attacker } from 'mount/war/Attacker';
-import { Stealer } from 'mount/roles/roleStealer';
+import { Stealer } from 'mount/creep/roleStealer';
 export const roles = [
     harvester,
     builder,

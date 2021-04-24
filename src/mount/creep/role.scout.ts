@@ -1,8 +1,5 @@
 //@ts-nocheck
 import { creepExt } from 'ScreepsBase';
-import { setScoutAvailableFlag } from 'flag';
-import { random } from 'lodash';
-import { encodee } from 'utils';
 export class Scort extends creepExt {
     type: Number = 9;
     work(): void {

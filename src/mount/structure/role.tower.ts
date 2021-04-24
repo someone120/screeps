@@ -1,5 +1,4 @@
 import { structure } from 'ScreepsBase';
-import globalObj from './globalObj';
 import { filter as filte } from 'whiteList';
 import { assignPrototype, requestEnergy } from '../../utils';
 export default class towerExt extends StructureTower implements structure {
@@ -10,16 +9,16 @@ export default class towerExt extends StructureTower implements structure {
         }
         switch (Memory.towerStat[this.room.name]) {
             case 'beAttack':
-                this.more(this);
+                towerExt.more(this);
                 break;
             case 'less':
-                this.less(this);
+                towerExt.less(this);
                 break;
             //falls through
             case 'normal':
             case undefined:
             default:
-                this.normal(this);
+                towerExt.normal(this);
                 break;
         }
     }
@@ -63,7 +62,7 @@ export default class towerExt extends StructureTower implements structure {
             requestEnergy(this.id, this.room.name, true);
         }
     }
-    private normal(tower: StructureTower) {
+    private static normal(tower: StructureTower) {
         let hurtCreep = tower.room.find(FIND_MY_CREEPS, {
             filter: (creep) => {
                 return creep.hitsMax - creep.hits > 0;
@@ -85,12 +84,12 @@ export default class towerExt extends StructureTower implements structure {
             tower.repair(hurtBuild[0]);
         }
     }
-    private less(tower: StructureTower) {
+    private static less(tower: StructureTower) {
         let target = find(tower);
         if (target) tower.attack(target);
     }
-    private more(tower: StructureTower) {
-        this.less(tower);
+    private static more(tower: StructureTower) {
+        towerExt.less(tower);
     }
 }
 export function mountTower() {

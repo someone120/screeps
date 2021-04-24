@@ -1,14 +1,20 @@
 //@ts-nocheck
-import { creepExt } from 'ScreepsBase';
-import { getSourceFlags } from 'utils';
+import {creepExt} from 'ScreepsBase';
+import {getSourceFlags} from 'utils';
+
 export class RemoteCarrier extends creepExt {
     type: Number = 7;
+
     work(): void {
         super.work();
         let flags = getSourceFlags();
-        if (this.memory.farMove?.path?.length * 2.5 > this.ticksToLive) {
+        if (this.memory.farMove?.path?.length * 3 > this.ticksToLive) {
             const spawn = Game.rooms[this.memory.roomID].find(
-                FIND_MY_SPAWNS
+                FIND_MY_SPAWNS, {
+                    filter: (spawn) => {
+                        return !spawn.spawning
+                    }
+                }
             )[0];
             this.goTo(spawn);
             spawn.renewCreep(this);
@@ -31,7 +37,7 @@ export class RemoteCarrier extends creepExt {
                             filter: (structure) => {
                                 return (
                                     structure.structureType ==
-                                        STRUCTURE_CONTAINER &&
+                                    STRUCTURE_CONTAINER &&
                                     structure.store.energy > 0
                                 );
                             }

@@ -1,9 +1,6 @@
-import { getSourceFlags } from 'utils';
 import { creepExt } from 'ScreepsBase';
-import { object } from 'lodash';
 export class builder extends creepExt {
     type: Number = 1;
-    /** @param {Creep} this **/
     work() {
         super.work()
         if (this.memory['building'] && this.store[RESOURCE_ENERGY] == 0) {

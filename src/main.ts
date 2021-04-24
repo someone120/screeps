@@ -1,13 +1,13 @@
-import roleSpawn from 'mount/roles/role.spawn';
-import { creepExt } from 'ScreepsBase';
-import { ErrorMapper } from 'errorMapping';
-import mount from 'mount/roles/mount';
-import { argCpu, stateScanner } from 'utils';
-import { Visualizer } from 'Visualizer';
-import { roles } from 'classes';
+import {creepExt} from 'ScreepsBase';
+import {ErrorMapper} from 'errorMapping';
+import {argCpu, stateScanner} from 'utils';
+import {Visualizer} from 'Visualizer';
+import {roles} from 'classes';
 import _ from 'lodash';
-import { workList } from 'setting';
+import {workList} from 'setting';
 import newSpawnTaskPusher from 'mount/tasks/newSpawnTaskPusher';
+import mount from "./mount/creep/mount";
+
 const saying = 'Open the skylight and speak brightly.'.split(' ');
 module.exports.loop = ErrorMapper.wrapLoop(() => {
     loop();
@@ -21,7 +21,7 @@ function loop() {
     Memory.MinerRemoteSource = [];
     global.porterTasksTaken = [];
     if (!Memory.argCpu) {
-        Memory.argCpu = { argCpu: 0, ticks: 0 };
+        Memory.argCpu = {argCpu: 0, ticks: 0};
     }
     mount();
     for (let name in Game.creeps) {
@@ -102,7 +102,7 @@ function loop() {
             drawType(creep);
         }
     }
-    
+
     autoClean();
     Object.values(Game.structures).forEach((v) => {
         if (!Memory.type[v.room.name] || Memory.type[v.room.name].length <= 0) {
@@ -111,7 +111,7 @@ function loop() {
         if (v.work) {
             v.work();
         }
-        if (v.structureType == STRUCTURE_SPAWN) {
+        if (v.structureType == STRUCTURE_SPAWN && Game.time % 5 == 0) {
             newSpawnTaskPusher(v as StructureSpawn);
         }
     });
@@ -149,6 +149,7 @@ function loop() {
             }
         }
     }
+
     function drawType(creep: Creep) {
         let text = roles[creep.memory.type]!.name || '我也不懂';
         creep.room.visual.text(text, creep.pos.x, creep.pos.y + 0.5, {

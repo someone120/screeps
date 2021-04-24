@@ -1,9 +1,8 @@
 //@ts-nocheck
 
 import _ from 'lodash';
-import { random } from 'lodash';
 import { pushCarrierTask, pushSpawnTask } from 'mount/tasks/task.manager';
-import { find } from './role.tower';
+import { find } from '../structure/role.tower';
 import { add, remove } from 'whiteList';
 import {findScreepsBaseCenterPos} from 'autoPlan/planBasePos'
 export default {
