@@ -15,6 +15,10 @@ export class creepMoveExt extends Creep {
             _.assign(
                 {
                     reusePath: 20,
+                    visualizePathStyle: {
+                        stroke:"#F44336",
+                        opacity:0.8
+                    },
                     costCallback: (
                         roomName: string,
                         costMatrix: CostMatrix
