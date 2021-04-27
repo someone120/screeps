@@ -1,5 +1,4 @@
 import * as _ from 'lodash'
-import constants from './contask'
 
 /**
  * 伪造的全局 Game 类
@@ -54,5 +53,5 @@ export const refreshGlobalMock = function () {
     global.Game = getMockGame()
     global.Memory = getMockMemory()
     global._ = _
-    Object.assign(global, constants)
+    Object.assign(global, require("@screeps/common/lib/constants"))
 }

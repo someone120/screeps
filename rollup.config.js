@@ -54,7 +54,7 @@ export default {
         // 模块化依赖
         commonjs(),
         // 编译 ts
-        typescript({ tsconfig: './tsconfig.json' }),
+        typescript({ tsconfig: 'tsconfig.json' }),
         // 执行上传或者复制L
         pluginBeforeBuild,
     ],

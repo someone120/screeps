@@ -68,6 +68,7 @@ interface RoomMemory {
     center?: [number, number]
     restrictedPos?: { [CreepName: string]: string }
     CarrierTask?:string[]
+    hasSend?:boolean
 }
 
 interface Structure {
