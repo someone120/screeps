@@ -124,6 +124,7 @@ function checkRemoteWorkers(Room: Room, available: number): boolean {
                     it.room.name
                 );
                 lockRoom(it.room.name);
+                it.room.memory.hasSend=false;
             }
         });
     }

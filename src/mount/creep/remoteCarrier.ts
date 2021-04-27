@@ -15,9 +15,11 @@ export class RemoteCarrier extends creepExt {
                         return !spawn.spawning
                     }
                 }
-            )[0];
-            this.goTo(spawn);
-            spawn.renewCreep(this);
+            );
+            if (spawn.length > 0) {
+                this.goTo(spawn[0]);
+                spawn[0].renewCreep(this);
+            }
         }
         if (this.store.getFreeCapacity() == 0) {
             const targets = Game.rooms[this.memory['roomID']].storage;

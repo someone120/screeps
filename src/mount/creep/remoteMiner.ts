@@ -3,12 +3,22 @@ import {
     setMinerAvailableFlag,
     setMinerUnavailableFlag
 } from 'flag';
-import { creepExt } from 'ScreepsBase';
-import { buildRoad } from 'utils';
+import {creepExt} from 'ScreepsBase';
+import {buildRoad} from 'utils';
+
+export function check(creep:Creep) {
+    let hostile = creep.room.find(FIND_HOSTILE_CREEPS);
+    if (hostile.length > 0 && !creep.room.memory.hasSend) {
+        creep.room.memory.isLockByProtect = false
+        creep.room.memory.hasSend = true;
+    }
+}
+
 export class remoteMiner extends creepExt {
     type: Number = 5;
+
     work(): void {
-        super.work();
+        check(this);
         let source = Game.flags[this.memory.flagName!];
         if (!source) {
             setMinerAvailableFlag(this.memory.flagName!);
@@ -93,7 +103,8 @@ export class remoteMiner extends creepExt {
                     source.pos
                 );
                 source.setColor(COLOR_WHITE);
-            } catch (error) {}
+            } catch (error) {
+            }
         }
     }
 }

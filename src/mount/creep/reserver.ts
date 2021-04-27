@@ -2,12 +2,14 @@ import {getQuote} from 'utils';
 import {creepExt} from 'ScreepsBase';
 import {getReserverFirstAvailableFlag, setReserverAvailableFlag} from 'flag';
 import {pushSpawnTask} from 'mount/tasks/task.manager';
+import {check} from "./remoteMiner";
 
 export class reserve extends creepExt {
     type: Number = 6;
 
     work(): void {
         super.work()
+        check(this)
         let source = Game.flags[this.memory.flagName!];
         if (!source) {
             setReserverAvailableFlag(this.memory.flagName!);
