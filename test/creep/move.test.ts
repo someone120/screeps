@@ -1,6 +1,6 @@
 import {refreshGlobalMock} from "../unit/utils/mock/game";
 import * as _ from "lodash";
-import {pushCarrierTask} from "mount/tasks/task.manager";
+import {pushCarrierTask} from "../../src/mount/tasks/task.manager";
 
 refreshGlobalMock()
 beforeEach(refreshGlobalMock)

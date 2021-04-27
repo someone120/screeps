@@ -22,6 +22,9 @@ export function pushCarrierTask(
     if(!Memory.rooms[roomName].CarrierTask){
         Memory.rooms[roomName].CarrierTask=[]
     }
+    if(!global.porterTasksTaken){
+        global.porterTasksTaken=[]
+    }
     if (
         !(
             Memory.rooms[roomName].CarrierTask!.includes(task) ||
