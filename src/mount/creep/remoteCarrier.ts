@@ -1,12 +1,14 @@
 //@ts-nocheck
 import {creepExt} from 'ScreepsBase';
 import {getSourceFlags} from 'utils';
+import {check} from "./remoteMiner";
 
 export class RemoteCarrier extends creepExt {
     type: Number = 7;
 
     work(): void {
         super.work();
+        check()
         let flags = getSourceFlags();
         if (this.memory.farMove?.path?.length * 3 > this.ticksToLive) {
             const spawn = Game.rooms[this.memory.roomID].find(
