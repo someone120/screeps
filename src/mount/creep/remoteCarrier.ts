@@ -8,7 +8,7 @@ export class RemoteCarrier extends creepExt {
 
     work(): void {
         super.work();
-        check()
+        check(this)
         let flags = getSourceFlags();
         if (this.memory.farMove?.path?.length * 3 > this.ticksToLive) {
             const spawn = Game.rooms[this.memory.roomID].find(
