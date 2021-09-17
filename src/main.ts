@@ -117,7 +117,7 @@ function loop() {
     });
     if (
         Game.cpu.bucket == 10000 &&
-        !Object.values(Memory['towerStat']).find((it) => {
+        !Object.values(Memory['towerStat']||'normal').find((it) => {
             it != 'normal';
         })
     ) {
