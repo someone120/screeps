@@ -93,7 +93,7 @@ function checkWorker(Room: Room, available: number): boolean {
       Memory.type[Room.name][10] +
       Memory.type[Room.name][11] +
       Memory.type[Room.name][4] <
-    4
+    6
   ) {
     pushSpawnTask(`Worker ${available}`, Room.name);
     return true;

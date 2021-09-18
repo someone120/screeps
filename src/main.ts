@@ -87,9 +87,9 @@ function loop() {
                 creep.say(saying[Game.time % saying.length], true);
             }
             if (creep.memory.type == -3) {
-                for (const n of workList) {
-                    if (Memory.type[creep.memory.roomID][n] < 2) {
-                        creep.memory.type = n;
+                for (const n in Object.keys(workList)) {
+                    if (Memory.type[creep.memory.roomID][n] < workList[Number(n) as 3,1,10,11,4]) {
+                        creep.memory.type = Number(n);
                     }
                 }
             }
