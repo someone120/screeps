@@ -22,14 +22,14 @@ export class remoteMiner extends creepExt {
             setMinerAvailableFlag(this.memory['flagName']);
             this.suicide();
         }
-        let container = this.pos.lookFor(LOOK_STRUCTURES).find((it) => {
+        let container = this.pos.findInRange(FIND_STRUCTURES,1).find((it) => {
             return it.structureType == STRUCTURE_CONTAINER;
         }) as StructureContainer;
 
         if (
             this.pos.isNearTo(source.pos) &&
             !container &&
-            !this.pos.lookFor(LOOK_CONSTRUCTION_SITES).find((it) => {
+            !this.pos.findInRange(FIND_CONSTRUCTION_SITES,1).find((it) => {
                 return it.structureType == STRUCTURE_CONTAINER;
             })
         ) {
@@ -47,7 +47,7 @@ export class remoteMiner extends creepExt {
         }
 
         const constructionSite = this.pos
-            .lookFor(LOOK_CONSTRUCTION_SITES)
+            .findInRange(FIND_CONSTRUCTION_SITES,1)
             .find((it) => {
                 return (
                     it.structureType == STRUCTURE_CONTAINER ||
@@ -73,7 +73,7 @@ export class remoteMiner extends creepExt {
                 !container
             ) {
                 const result = this.harvest(
-                    source.pos.lookFor(LOOK_SOURCES)[0]
+                    source.pos.findInRange(FIND_SOURCES,1)[0]
                 );
                 if (result == ERR_NOT_IN_RANGE) {
                     this.farMoveTo(source.pos, 1);
