@@ -140,7 +140,7 @@ export function supply(creep: Creep): boolean {
                 : undefined) ||
             creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {
                 filter: (it) => {
-                    return it.resourceType == RESOURCE_ENERGY;
+                    return it.resourceType == RESOURCE_ENERGY&&it.amount>=creep.store.getFreeCapacity();
                 }
             }) ||
             (creep.pos.findClosestByRange(FIND_STRUCTURES, {
