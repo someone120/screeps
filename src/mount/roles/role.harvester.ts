@@ -37,7 +37,7 @@ export class harvester extends creepExt {
                         RESOURCE_ENERGY)
                 }
                 const container = this.pos
-                    .lookFor(LOOK_STRUCTURES)
+                    .findInRange(FIND_STRUCTURES,1)
                     .find((it) => {
                         return it.structureType == STRUCTURE_CONTAINER;
                     });
@@ -46,11 +46,11 @@ export class harvester extends creepExt {
                 }
             } else {
                 const container = this.pos
-                    .lookFor(LOOK_STRUCTURES)
+                    .findInRange(FIND_STRUCTURES,1)
                     .find((it) => {
                         return it.structureType == STRUCTURE_CONTAINER;
                     });
-                const construct = this.pos.lookFor(LOOK_CONSTRUCTION_SITES);
+                const construct = this.pos.findInRange(FIND_CONSTRUCTION_SITES,1);
                 if (!container && !construct) {
                     this.pos.createConstructionSite(STRUCTURE_CONTAINER);
                 } else {
