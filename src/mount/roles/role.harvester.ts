@@ -18,7 +18,6 @@ export class harvester extends creepExt {
     const container = this.pos.findInRange(FIND_STRUCTURES, 2).find((it) => {
       return it.structureType == STRUCTURE_CONTAINER;
     });
-    console.log(container);
 
     if (mine == ERR_NOT_IN_RANGE) {
       this.goTo(target.pos, { range: 1 });
