@@ -73,7 +73,10 @@ export class harvester extends creepExt {
                 }
             }
         }
-        if (this.ticksToLive && this.ticksToLive < 300) {
+        if(this.memory.spentTime==undefined){
+            this.memory.spentTime=PathFinder.search(this.pos,this.pos.findClosestByRange(FIND_MY_SPAWNS)?.pos||this.pos).cost+this.body.length*3+30
+        }
+        if (this.ticksToLive && this.ticksToLive < this.memory.spentTime) {
             this.room.removeRestrictedPos(this.name);
             let available = this.room.energyCapacityAvailable;
             if (available >= 10000) {

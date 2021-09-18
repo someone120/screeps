@@ -62,6 +62,7 @@ interface Structure {
 }
 
 interface CreepMemory {
+    spentTime?:number;
     parentTaskRaw?: string;
     sourceID?: string;
     building?: boolean
