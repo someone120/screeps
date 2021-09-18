@@ -10,7 +10,6 @@ const functions: ((Room: Room, available: number) => boolean)[] = [
   checkCarrier,
   checkWorker,
   checkRemoteWorkers,
-  checkWallPainter,
   checkManager,
   checkHarvester,
 ];
@@ -117,13 +116,6 @@ function checkRemoteWorkers(Room: Room, available: number): boolean {
   return true;
 }
 
-function checkWallPainter(Room: Room, available: number): boolean {
-  if (Memory.type[Room.name][11] < 2) {
-    pushSpawnTask(`WallPainter ${available}`, Room.name);
-    return true;
-  }
-  return false;
-}
 function checkManager(Room: Room, available: number): boolean {
   if (Memory.type[Room.name][8] < 1 && (Room.controller?.level || 0) >= 5) {
     pushSpawnTask(`energyTransfer ${available}`, Room.name, true);
