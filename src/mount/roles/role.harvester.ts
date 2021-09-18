@@ -15,9 +15,10 @@ export class harvester extends creepExt {
       return;
     }
     const mine = this.harvest(target);
-    const container = this.pos.findInRange(FIND_STRUCTURES, 1).find((it) => {
+    const container = this.pos.findInRange(FIND_STRUCTURES, 2).find((it) => {
       return it.structureType == STRUCTURE_CONTAINER;
     });
+    console.log(container);
 
     if (mine == ERR_NOT_IN_RANGE) {
       this.goTo(target.pos, { range: 1 });
@@ -116,10 +117,12 @@ export class harvester extends creepExt {
     if (this.ticksToLive && this.ticksToLive < 10) {
       this.room.unlockSource(this.memory.sourceID as Id<Source>);
     }
-    if (this.store.getFreeCapacity(RESOURCE_ENERGY) == 0 && container) {
-      this.transfer(container, RESOURCE_ENERGY);
-    } else {
-      this.drop(RESOURCE_ENERGY);
+    if (this.store.getFreeCapacity(RESOURCE_ENERGY) == 0) {
+      if (container) {
+        this.transfer(container, RESOURCE_ENERGY);
+      } else {
+        this.drop(RESOURCE_ENERGY);
+      }
     }
   }
 }
