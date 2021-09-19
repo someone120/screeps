@@ -9,7 +9,7 @@ import { add, remove } from 'whiteList';
 import {findScreepsBaseCenterPos} from 'autoPlan/planBasePos'
 export default {
     addRestrictedPos(pos:string){
-        keys(Game.rooms)[0].unserializePos(pos)
+         Object.keys(Game.rooms)[0].addRestrictedPos(Object.keys(Game.rooms)[0].unserializePos(pos))
     },
     buildRoadd(from: RoomPosition, to: RoomPosition) {
         buildRoad(from, to);
