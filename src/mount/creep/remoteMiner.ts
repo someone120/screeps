@@ -74,9 +74,6 @@ export class remoteMiner extends creepExt {
         if (eng) {
             this.pickup(eng);
         }
-        if (container && container.store.energy > 0) {
-            this.withdraw(container, RESOURCE_ENERGY);
-        }
         if (source && this.pos.roomName == source.pos.roomName) {
             if (
                 (container && container.store.getFreeCapacity() > 0) ||
@@ -92,6 +89,7 @@ export class remoteMiner extends creepExt {
                     this.memory.standed = true;
                     this.room.addRestrictedPos(this.name, this.pos);
                 }
+                this.transfer(container,RESOURCE_ENERGY)
             }
         } else {
             if (source) this.farMoveTo(source.pos, 1);
