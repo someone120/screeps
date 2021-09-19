@@ -25,7 +25,7 @@ export class creepMoveExt extends Creep {
                             for (const creepName in restrictedPos) {
                                 // 自己注册的禁止通行点位自己可以走
                                 if (creepName === this.name) continue;
-                                if (!Game.creeps[creepName]) {
+                                if (!Game.creeps[creepName] && !creepName.startsWith("restrictedPos_")) {
                                     this.room.removeRestrictedPos(creepName);
                                     continue;
                                 }

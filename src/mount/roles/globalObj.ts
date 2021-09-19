@@ -1,12 +1,15 @@
 //@ts-nocheck
 
-import _ from 'lodash';
+import _, { keys } from 'lodash';
 import { random } from 'lodash';
 import { pushCarrierTask, pushSpawnTask } from 'mount/tasks/task.manager';
 import { find } from './role.tower';
 import { add, remove } from 'whiteList';
 import {findScreepsBaseCenterPos} from 'autoPlan/planBasePos'
 export default {
+    addRestrictedPos(pos:string){
+        keys(Game.rooms)[0].unserializePos(pos)
+    },
     buildRoadd(from: RoomPosition, to: RoomPosition) {
         buildRoad(from, to);
     },
