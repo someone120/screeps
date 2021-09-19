@@ -59,7 +59,7 @@ export class builder extends creepExt {
                 FIND_DROPPED_RESOURCES,
                 {
                     filter: (it) => {
-                        return it.resourceType == RESOURCE_ENERGY;
+                        return it.resourceType == RESOURCE_ENERGY&&it.amount>=this.store.getFreeCapacity();
                     }
                 }
             );
