@@ -11,7 +11,6 @@ export class remoteProtector extends creepExt {
 
         if (this.ticksToLive < 10||this.hitsMax-this.hits<=100) {
             unlockRoom(this.memory.protectRoomId);
-
         }
         const protectRoom: Room = Game.rooms[this.memory.protectRoomId];
         if (!protectRoom) {
