@@ -102,31 +102,34 @@ function checkWorker(Room: Room, available: number): boolean {
 }
 
 function checkRemoteWorkers(Room: Room, available: number): boolean {
-    let flag = getMinerFirstAvailableFlag();
-    if (flag) {
-        pushSpawnTask(`RemoteMiner ${available} ${flag}`, Room.name);
-    }
-    flag = getReserverFirstAvailableFlag();
-    if (flag) {
-        pushSpawnTask(`Reserver ${available} ${flag}`, Room.name);
-    }
-    let flags = getSourceFlags();
-    if (flags.length * 2 > Memory.type[Room.name][7]) {
-        pushSpawnTask(`RemoteCarrier ${available}`, Room.name);
-    }
-    if (flag && Memory.type[Room.name][12] < getSourceFlags().length) {
-        flags.forEach((it) => {
-            if (it.room && !roomStat(it.room.name)) {
-                pushSpawnTask(
-                    `Protector ${available} ${it.room.name}`,
-                    it.room.name
-                );
-                lockRoom(it.room.name);
-                it.room.memory.hasSend=false;
-            }
-        });
-    }
-    return true;
+  let flag = getMinerFirstAvailableFlag();
+  if (flag) {
+    pushSpawnTask(`RemoteMiner ${available} ${flag}`, Room.name);
+  }
+  flag = getReserverFirstAvailableFlag();
+  if (
+    flag &&
+    (!Game.flags[flag].room ||
+      (Game.flags[flag].room?.controller!.reservation &&
+        Game.flags[flag].room?.controller!.reservation!.ticksToEnd) ||
+        0 < 4000)
+  ) {
+    pushSpawnTask(`Reserver ${available} ${flag}`, Room.name);
+  }
+  let flags = getSourceFlags();
+  if (flags.length * 2 > Memory.type[Room.name][7]) {
+    pushSpawnTask(`RemoteCarrier ${available}`, Room.name);
+  }
+  if (flag && Memory.type[Room.name][12] < getSourceFlags().length) {
+    flags.forEach((it) => {
+      if (it.room && !roomStat(it.room.name)) {
+        pushSpawnTask(`Protector ${available} ${it.room.name}`, it.room.name);
+        lockRoom(it.room.name);
+        it.room.memory.hasSend = false;
+      }
+    });
+  }
+  return true;
 }
 
 function checkManager(Room: Room, available: number): boolean {
