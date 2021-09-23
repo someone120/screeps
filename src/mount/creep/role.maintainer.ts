@@ -126,28 +126,5 @@ export class Repairer extends creepExt {
                 }
             }
         });
-        if (
-            ~~(targets.length * 2.5) > Memory.type[this.memory.roomID][1]
-        ) {
-            Memory.type[this.memory.roomID][1]++;
-            Memory.type[this.memory.roomID][4]--;
-            this.memory.type = 1;
-            return;
-        }
-        let needRepair = this.room.find(FIND_STRUCTURES, {
-            filter: (it) => {
-                return (
-                    it.hits < 100000 &&
-                    it.hitsMax - it.hits > 0 &&
-                    it.structureType != STRUCTURE_WALL
-                );
-            }
-        });
-        if (needRepair.length <= 1) {
-            Memory.type[this.memory.roomID][4]--;
-            Memory.type[this.memory.roomID][3]++;
-            this.memory.type = 3;
-            return;
-        }
     }
 }

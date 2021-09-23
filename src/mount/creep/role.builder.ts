@@ -86,10 +86,5 @@ export class builder extends creepExt {
                 }
             }
         }
-        if (~~(targets.length * 2.5) < Memory.type[this.memory.roomID][1]) {
-            Memory.type[this.memory.roomID][1]--;
-            Memory.type[this.memory.roomID][4]++;
-            this.memory.type = 4;
-        }
     }
 }
