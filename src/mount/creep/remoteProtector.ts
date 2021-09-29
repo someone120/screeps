@@ -21,7 +21,7 @@ export class remoteProtector extends creepExt {
             this.farMoveTo(new RoomPosition(20, 20, this.memory.protectRoomId),1);
             return;
         }
-        const enemyCreep = this.room.find(FIND_HOSTILE_CREEPS, {
+        const enemyCreep = protectRoom.find(FIND_HOSTILE_CREEPS, {
             filter: filter
         });
         if (enemyCreep.length > 0) {
@@ -30,7 +30,7 @@ export class remoteProtector extends creepExt {
             }
             return;
         }
-        const enemyStr = this.room.find(FIND_HOSTILE_STRUCTURES, {
+        const enemyStr = protectRoom.find(FIND_HOSTILE_STRUCTURES, {
             filter: filter
         });
         if (enemyStr.length > 0) {
