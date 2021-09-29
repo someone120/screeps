@@ -52,30 +52,5 @@ export class reserve extends creepExt {
     } else {
       this.pos.findClosestByRange(FIND_MY_SPAWNS)?.recycleCreep(this);
     }
-    if ((this.ticksToLive || 1500) <= 100 && !this.memory.isSend) {
-      let available = Game.rooms[this.memory.roomID].energyCapacityAvailable;
-      if (available >= 10000) {
-        available = 10000;
-      } else if (available >= 5600) {
-        available = 5600;
-      } else if (available >= 2300) {
-        available = 2300;
-      } else if (available >= 1800) {
-        available = 1800;
-      } else if (available >= 1300) {
-        available = 1300;
-      } else if (available >= 800) {
-        available = 800;
-      } else if (available >= 550) {
-        available = 550;
-      } else if (available >= 300) {
-        available = 300;
-      }
-      pushSpawnTask(
-        `Reserver ${available} ${this.memory.flagName}`,
-        this.memory.roomID
-      );
-      this.memory.isSend = true;
-    }
   }
 }
