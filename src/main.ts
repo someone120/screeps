@@ -6,28 +6,17 @@ import { roles } from "classes";
 import _ from "lodash";
 import newSpawnTaskPusher from "mount/tasks/newSpawnTaskPusher";
 import mount from "./mount/creep/mount";
+import { checkworkList, workList } from "workList";
 
-let workList = { 3: 3, 1: 2, 10: 1, 11: 1, 4: 1 };
 const saying = "Open the skylight and speak brightly.".split(" ");
 module.exports.loop = ErrorMapper.wrapLoop(() => {
   loop();
 });
-function checkWorkList() {
-  if (Game.time % 50 == 0) {
-    for (const key in Game.rooms) {
-      if (Object.prototype.hasOwnProperty.call(Game.rooms, key)) {
-        const it = Game.rooms[key];
 
-        if (!(it.controller && it.controller.my)) break;
-        workList[1]=Math.min(it.find(FIND_CONSTRUCTION_SITES).length,2)+workList[1]
-        workList[4]=Math.min(it.find(FIND_STRUCTURES,{filter:(filter)=>{
-            return (filter.hitsMax-filter.hits)/filter.hitsMax>0.2
-        }}).length,2)+workList[4]
-      }
-    }
-  }
-}
 function loop() {
+  checkworkList();
+  // console.log(JSON.stringify(workList));
+
   Memory.type = {};
   Memory.lockSource = [];
   Memory.ScoutRemoteSource = [];
@@ -101,10 +90,9 @@ function loop() {
         creep.say(saying[Game.time % saying.length], true);
       }
       if (creep.memory.type == -3) {
-        for (const n in Object.keys(workList)) {
+        for (const n of Object.keys(workList)) {
           if (
-            Memory.type[creep.memory.roomID][n] <
-            workList[(Number(n) as 3, 1, 10, 11, 4)]
+            Memory.type[creep.memory.roomID][Number(n)] < workList[Number(n)]
           ) {
             creep.memory.type = Number(n);
           }
@@ -146,7 +134,7 @@ function loop() {
   stateScanner();
 
   Memory.argCpu = argCpu(Memory.argCpu, Game.cpu.getUsed());
-
+  
   /**
    * 自动清理死亡的creep内存
    */

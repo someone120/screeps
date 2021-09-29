@@ -2,6 +2,7 @@ import {
   getMinerFirstAvailableFlag,
   getReserverFirstAvailableFlag,
 } from "flag";
+import { getWorkerCount } from "workList";
 import { lockRoom, roomStat } from "mount/cache/room/protect";
 import { pushSpawnTask } from "mount/tasks/task.manager";
 import { getSourceFlags } from "utils";
@@ -93,7 +94,7 @@ function checkWorker(Room: Room, available: number): boolean {
       Memory.type[Room.name][10] +
       Memory.type[Room.name][11] +
       Memory.type[Room.name][4] <
-    6
+    getWorkerCount()
   ) {
     pushSpawnTask(`Worker ${available}`, Room.name);
     return true;
@@ -112,7 +113,7 @@ function checkRemoteWorkers(Room: Room, available: number): boolean {
     (!Game.flags[flag].room ||
       (Game.flags[flag].room?.controller!.reservation &&
         Game.flags[flag].room?.controller!.reservation!.ticksToEnd) ||
-        0 < 4000)
+      0 < 4000)
   ) {
     pushSpawnTask(`Reserver ${available} ${flag}`, Room.name);
   }
