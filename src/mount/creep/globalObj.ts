@@ -1,15 +1,13 @@
-//@ts-nocheck
 
-import _ from 'lodash';
 import _, { keys } from 'lodash';
-import { random } from 'lodash';
 import { pushCarrierTask, pushSpawnTask } from 'mount/tasks/task.manager';
 import { find } from '../structure/role.tower';
 import { add, remove } from 'whiteList';
 import {findScreepsBaseCenterPos} from 'autoPlan/planBasePos'
+import { buildRoad } from 'utils';
 export default {
     addRestrictedPos(pos:string){
-         Object.values(Game.rooms)[0].addRestrictedPos(`restrictedPos_${Game.time}`,Object.values(Game.rooms)[0].unserializePos(pos))
+         Object.values(Game.rooms)[0].addRestrictedPos(`restrictedPos_${Game.time}`,Object.values(Game.rooms)[0].unserializePos(pos)!)
     },
     buildRoadd(from: RoomPosition, to: RoomPosition) {
         buildRoad(from, to);
@@ -19,7 +17,8 @@ export default {
             let task = `${type} ${body}`;
             if (
                 Memory.spawnTask['Spawn1'].includes(task) ||
-                global['spawnTask']['Spawn1'].includes(task)
+
+                global['spawnTask']!['Spawn1']!.includes(task)
             ) {
                 return;
             }
@@ -47,7 +46,7 @@ export default {
         scout(roomName: string) {
             if (Game.rooms[roomName]) {
                 Game.rooms[roomName].sources.forEach((it) => {
-                    it.pos.createFlag(`RemoteSource_${encodee(it.id)}`);
+                    it.pos.createFlag(`RemoteSource_${Game.time}`);
                 });
             } else {
                 let task = `Scout 1800 {"pos":{"x":20,"y":20,"name":"${roomName}"},"remoteSource":true}`;
@@ -61,7 +60,7 @@ export default {
                 if (
                     Memory.spawnTask['Spawn1'].includes(task) ||
                     Object.values(global['spawnTask']).find((it) =>
-                        it.includes(task)
+                        it!.includes(task)
                     )
                 ) {
                     return;
