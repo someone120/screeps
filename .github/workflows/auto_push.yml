@@ -1,6 +1,10 @@
 name: Node.js CI
 
-on: [push,workflow_dispatch]
+on: 
+    push:
+    workflow_dispatch:
+    schedule:
+    - cron: '0 21 * * *'
 
 jobs:
     build:
